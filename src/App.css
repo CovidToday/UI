@@ -1,0 +1,157 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.heading {
+	font-size: calc(24px);
+	font-weight: bold;
+}
+
+.subheading {
+	font-size: calc(20px);
+	text-decoration-color: grey;
+	padding-left: 80px;
+}
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+.strike > span {
+    position: relative;
+    display: inline-block;
+}
+
+.strike > span:before,
+.strike > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 300%;
+    height: 1px;
+    background: red;
+}
+
+.strike > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.table-div {
+	align-content: center;
+	text-align:center;
+}
+
+.ag-header-cell-label {
+   justify-content: center;
+   padding: 0px;
+}
+
+ag-header-cell ag-header-cell-sortable ag-column-hover {
+	padding: 0px;
+}
+
+.header-pic-container {
+	width: 100%;
+	text-align: center;
+}
+
+.header-pic {
+	display: inline-block;
+	width: inherit;
+}
+
+.footer-pic-container {
+	width: 100%;
+	text-align: center;
+}
+
+.footer-pic {
+	display: inline-block;
+	width: inherit;
+	max-width: 600px;
+	padding: 20px;
+}
+
+.nav-text {
+	font-weight: bold;
+	color: black;
+}
+
+.nav-tabs {
+	background-color: lightgray;
+}
+
+.header-bar-text {
+	color: crimson;
+	display: table-cell;
+	text-align: center;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.header-bar-dropdown {
+	display: table-cell;
+	text-align: center;
+}
+
+.sub-header-row {
+	display: table;
+	table-layout: fixed;
+	background-color: lavender;
+	width: 100%;
+	min-height: 35px;
+}
+
+.dropdown.btn-success.focus, .btn-success:focus {
+	box-shadow: black;
+}
+
+.ag-header-cell-label .ag-header-cell-text {
+ 	white-space: normal !important;
+}
+
+.ag-header-group-cell-label {
+ 	justify-content: center;
+}
