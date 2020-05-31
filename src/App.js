@@ -435,7 +435,7 @@ class App extends Component {
 				datasets: [],
 				labels: []
 			};
-			data.labels = dataFromApi.date;
+			data.labels = dataFromApi.dates;
 			// Horizontal line
 			// let horizontalLineData = [];
 			// for (let i = 0; i < dataFromApi.dates.length; i++) {
@@ -531,6 +531,8 @@ class App extends Component {
 		const selectedState = selectedRows[0].key;
 		this.getRtPointGraphData(this.state.rtDataFromApi[selectedState]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[selectedState]);
+		this.getMobilityGraphData(this.state.mobilityDataFromApi[this.getName(selectedState)]);
+		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[this.getName(selectedState)]);
 		const state = this.getName(selectedState);
 		this.setState({selectedState: state});
 	}
@@ -539,6 +541,8 @@ class App extends Component {
 		const stateName = this.getName(key);
 		this.setState({selectedState: stateName});
 		this.getRtPointGraphData(this.state.rtDataFromApi[key]);
+		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
+		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[key]);
 	}
 	
