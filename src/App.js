@@ -68,11 +68,15 @@ class App extends Component {
 			rowData: [],
 			rtDataFromApi: [],
 			cfrDataFromApi: [],
+			mobilityDataFromApi: [],
+			positivityRateDataFromApi: [],
 			minRtDataPoint: 0,
 			maxRtDataPoint: 0,
-			lockdownDates: ["03-25-2020", "04-15-2020","05-04-2020","05-18-2020"],
+			lockdownDates: ["03-25-2020", "04-15-2020", "05-04-2020", "05-18-2020"],
 			rtPointGraphData: { datasets: [], labels: [] },
 			cfrGraphData: { datasets: [], labels: [] },
+			mobilityGraphData: { datsets: [], lables: [] },
+			positivityRateGraphData: { datsets: [], lables: [] },
 			selectedState: 'India',
 			selectedView: 'Home'
 		}
@@ -116,6 +120,18 @@ class App extends Component {
 			.then(response => {
 				this.setState({ cfrDataFromApi: response.data });
 				this.getCfrGraphData(this.state.cfrDataFromApi.IN);
+			});
+			
+		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/india_mobility_indented.json?token=AK6PV6JES2TFKDHBAVRXFA26Z5E6G')
+			.then(response => {
+				this.setState({ mobilityDataFromApi: response.data });
+				this.getMobilityGraphData(this.state.mobilityDataFromApi.India);
+			});
+			
+		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/positivity_Rate.json')
+			.then(response => {
+				this.setState({ positivityRateDataFromApi: response.data });
+				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
 			});
 			
 		this.setRowData();
@@ -290,7 +306,7 @@ class App extends Component {
 			data.datasets.push({
 				label: 'fixed value',
 				data: horizontalLineData,
-				borderColor: 'yellow',
+				borderColor: 'green',
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -303,6 +319,7 @@ class App extends Component {
 				let obj = {
 					//type: 'line',
 					label: 'Lockdown ' + (j + 1),
+					backgroundColor: 'red',
 					borderColor: 'red',
 					radius: 0,
 					hoverRadius: 0,
@@ -321,33 +338,33 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Rt l95',
-				data: dataFromApi.rt_l95,
+				data: dataFromApi.rt_l95.slice(),
 				fill: '' + (verticalLineData.length + 2),
 				backgroundColor: 'lightblue',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
-				data: dataFromApi.rt_l50,
+				data: dataFromApi.rt_l50.slice(),
 				fill: '' + (verticalLineData.length + 3),
 				backgroundColor: 'blue',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt Point',
-				data: dataFromApi.rt_point,
+				data: dataFromApi.rt_point.slice(),
 				borderColor: 'black',
 				fill: false
 			}, {
 				label: 'Rt u50',
-				data: dataFromApi.rt_u50,
+				data: dataFromApi.rt_u50.slice(),
 				fill: '-2',
 				backgroundColor: 'blue',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
-				data: dataFromApi.rt_u95,
+				data: dataFromApi.rt_u95.slice(),
 				fill: '-4',
 				backgroundColor: 'lightblue',
 				radius: 0,
@@ -371,12 +388,61 @@ class App extends Component {
 			data.labels = dataFromApi.dates;
 
 			// Horizontal line
+			let horizontalLineData = [];
+			for (let i = 0; i < dataFromApi.dates.length; i++) {
+				horizontalLineData.push(10);
+			}
+			data.datasets.push({
+				label: 'upper limit',
+				data: horizontalLineData,
+				borderColor: 'red',
+				fill: false,
+				radius: 0,
+				hoverRadius: 0,
+			});
+			horizontalLineData = [];
+			for (let i = 0; i < dataFromApi.dates.length; i++) {
+				horizontalLineData.push(5);
+			}
+			data.datasets.push({
+				label: 'lower limit',
+				data: horizontalLineData,
+				borderColor: 'green',
+				fill: false,
+				radius: 0,
+				hoverRadius: 0,
+			});
+			const cfrDataSet = dataFromApi.cfr3_point.map(d => {
+				return d * 100;
+			});
+
+			// Main data
+			let mainData = [{
+				label: 'CFR',
+				data: cfrDataSet,
+				borderColor: 'black',
+				fill: false
+			},];
+			data.datasets.push(...mainData);
+			this.setState({
+				cfrGraphData: data,
+			});
+		}
+	}
+	getMobilityGraphData = (dataFromApi) => {
+		if (dataFromApi) {
+			let data = {
+				datasets: [],
+				labels: []
+			};
+			data.labels = dataFromApi.date;
+			// Horizontal line
 			// let horizontalLineData = [];
 			// for (let i = 0; i < dataFromApi.dates.length; i++) {
 			// 	horizontalLineData.push(6);
 			// }
 			// data.datasets.push({
-			// 	label: 'fixed value',
+			// 	label: 'upper limit',
 			// 	data: horizontalLineData,
 			// 	borderColor: 'red',
 			// 	fill: false,
@@ -388,24 +454,74 @@ class App extends Component {
 			// 	horizontalLineData.push(3);
 			// }
 			// data.datasets.push({
-			// 	label: 'fixed value',
+			// 	label: 'lower limit',
 			// 	data: horizontalLineData,
 			// 	borderColor: 'green',
 			// 	fill: false,
 			// 	radius: 0,
 			// 	hoverRadius: 0,
 			// });
+			const mobilityDataSet = dataFromApi.average_mobility.slice();
 
 			// Main data
 			let mainData = [{
-				label: 'Rt Point',
-				data: dataFromApi.cfr3_point,
+				label: 'Mobility',
+				data: mobilityDataSet,
 				borderColor: 'black',
 				fill: false
 			},];
 			data.datasets.push(...mainData);
 			this.setState({
-				cfrGraphData: data,
+				mobilityGraphData: data,
+			});
+		}
+	}
+	
+	getPositivityRateGraphData = (dataFromApi) => {
+		if (dataFromApi) {
+			let data = {
+				datasets: [],
+				labels: []
+			};
+			data.labels = dataFromApi.dates;
+
+			// Horizontal line
+			// let horizontalLineData = [];
+			// for (let i = 0; i < dataFromApi.dates.length; i++) {
+			// 	horizontalLineData.push(6);
+			// }
+			// data.datasets.push({
+			// 	label: 'upper limit',
+			// 	data: horizontalLineData,
+			// 	borderColor: 'red',
+			// 	fill: false,
+			// 	radius: 0,
+			// 	hoverRadius: 0,
+			// });
+			// horizontalLineData = [];
+			// for (let i = 0; i < dataFromApi.dates.length; i++) {
+			// 	horizontalLineData.push(3);
+			// }
+			// data.datasets.push({
+			// 	label: 'lower limit',
+			// 	data: horizontalLineData,
+			// 	borderColor: 'green',
+			// 	fill: false,
+			// 	radius: 0,
+			// 	hoverRadius: 0,
+			// });
+			const positivityRateDataSet = dataFromApi.daily_positivity_rate.slice();
+
+			// Main data
+			let mainData = [{
+				label: 'Positive Rate',
+				data: positivityRateDataSet,
+				borderColor: 'black',
+				fill: false
+			},];
+			data.datasets.push(...mainData);
+			this.setState({
+				positivityRateGraphData: data,
 			});
 		}
 	}
@@ -463,7 +579,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { minRtDataPoint, maxRtDataPoint, rtPointGraphData, cfrGraphData, selectedView } = this.state;
+		const { minRtDataPoint, maxRtDataPoint, rtPointGraphData, mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView } = this.state;
 		return (
 			<div>
 			<div className = "header-pic-container">
@@ -492,110 +608,144 @@ class App extends Component {
 			
 
 				<Container>
-					<Row>
-						<Col lg="6">
-							{/* RT Graph */}
 							<Row>
-								<Col>
-									<Line
-										data={rtPointGraphData}
-										height={300}
-										options={{
-											maintainAspectRatio: false,
-											legend: {
-												display: false,
-											},
-											title: {
-												display: true,
-												text: 'Rt Graph'
-											},
-											scales: {
-												yAxes: [{
-													display: true,
-													ticks: {
-														suggestedMin: minRtDataPoint,
-														suggestedMax: maxRtDataPoint,
-														stepSize: 1
+								<Col lg="6">
+									{/* RT Graph */}
+									<Row>
+										<Col>
+											<Line
+												data={rtPointGraphData}
+												height={300}
+												options={{
+													maintainAspectRatio: false,
+													legend: {
+														display: true,
+														labels: {
+															filter: function (item, chart) {
+																return item.text.includes('Lockdown');
+															}
+														}
 													},
-												}],
-												xAxes: [{
-													gridLines: {
-														display: false,
-													}
-												}]
-											},
-										}}
-									/>
-								</Col>
-							</Row>
-						</Col>
-						<Col>
-							{/* CFR Graph */}
-							<Row>
-								<Col>
-									<Line
-										data={cfrGraphData}
-										height={300}
-										options={{
-											maintainAspectRatio: false,
-											legend: {
-												display: false,
-											},
-											title: {
-												display: true,
-												text: 'CFR Graph'
-											},
-											scales: {
-												yAxes: [{
-													display: true,
-												}],
-												xAxes: [{
-													gridLines: {
-														display: false,
-													}
-												}]
-											},
-										}}
-									/>
-								</Col>
-							</Row>
-							{/* Pos Rate Graph */}
-							<Row>
-								<Col>
-									<Line
-										data={rtPointGraphData}
-										height={300}
-										options={{
-											maintainAspectRatio: false,
-											legend: {
-												display: false,
-											},
-											title: {
-												display: true,
-												text: 'POS Rate Graph'
-											},
-											scales: {
-												yAxes: [{
-													display: true,
-													ticks: {
-														suggestedMin: minRtDataPoint,
-														suggestedMax: maxRtDataPoint,
-														stepSize: 1
+													title: {
+														display: true,
+														text: 'Rt Graph'
 													},
-												}],
-												xAxes: [{
-													gridLines: {
+													scales: {
+														yAxes: [{
+															display: true,
+															ticks: {
+																suggestedMin: minRtDataPoint,
+																suggestedMax: maxRtDataPoint,
+																stepSize: 1
+															},
+														}],
+														xAxes: [{
+															gridLines: {
+																display: false,
+															},
+															// ticks: {
+															// 	type: 'time',
+															// 	maxTicksLimit: 53,
+															// 	sampleSize: 55,
+															// },
+														}]
+													},
+												}}
+											/>
+										</Col>
+									</Row>
+									{/* Mobility Graph */}
+									<Row>
+										<Col>
+											<Line
+												data={mobilityGraphData}
+												height={300}
+												options={{
+													maintainAspectRatio: false,
+													legend: {
 														display: false,
-													}
-												}]
-											},
-										}}
-									/>
+													},
+													title: {
+														display: true,
+														text: 'Mobility Graph'
+													},
+													scales: {
+														yAxes: [{
+															display: true,
+														}],
+														xAxes: [{
+															gridLines: {
+																display: false,
+															}
+														}]
+													},
+												}}
+											/>
+										</Col>
+									</Row>
+								</Col>
+								<Col>
+									{/* CFR Graph */}
+									<Row>
+										<Col>
+											<Line
+												data={cfrGraphData}
+												height={300}
+												options={{
+													maintainAspectRatio: false,
+													legend: {
+														display: false,
+													},
+													title: {
+														display: true,
+														text: 'CFR Graph'
+													},
+													scales: {
+														yAxes: [{
+															display: true,
+														}],
+														xAxes: [{
+															gridLines: {
+																display: false,
+															}
+														}]
+													},
+												}}
+											/>
+										</Col>
+									</Row>
+									{/* Pos Rate Graph */}
+									<Row>
+										<Col>
+											<Line
+												data={positivityRateGraphData}
+												height={300}
+												options={{
+													maintainAspectRatio: false,
+													legend: {
+														display: false,
+													},
+													title: {
+														display: true,
+														text: 'POS Rate Graph'
+													},
+													scales: {
+														yAxes: [{
+															display: true,
+														}],
+														xAxes: [{
+															gridLines: {
+																display: false,
+															}
+														}]
+													},
+												}}
+											/>
+										</Col>
+									</Row>
 								</Col>
 							</Row>
-						</Col>
-					</Row>
-				</Container>
+						</Container>
 
 
 				<div className="sub-header-row">
