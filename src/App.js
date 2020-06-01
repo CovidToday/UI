@@ -528,6 +528,7 @@ class App extends Component {
 			}, {
 				label: 'Rt Point',
 				data: dataFromApi.rt_point.slice(),
+				radius: 2,
 				borderColor: 'black',
 				fill: false
 			}, {
@@ -597,6 +598,7 @@ class App extends Component {
 				label: 'CFR',
 				data: cfrDataSet,
 				borderColor: 'black',
+				radius: 2,
 				fill: false
 			},];
 			data.datasets.push(...mainData);
@@ -619,6 +621,7 @@ class App extends Component {
 				label: 'Mobility',
 				data: mobilityDataSet,
 				borderColor: 'black',
+				radius: 2,
 				fill: false
 			},];
 			data.datasets.push(...mainData);
@@ -661,7 +664,7 @@ class App extends Component {
 				radius: 0,
 				hoverRadius: 0,
 			});
-			const positivityRateDataSet = dataFromApi.daily_positivity_rate.map(d => {
+			const positivityRateDataSet = dataFromApi.daily_positivity_rate_ma.map(d => {
 				return d * 100;
 			});
 
@@ -670,6 +673,7 @@ class App extends Component {
 				label: 'Positive Rate',
 				data: positivityRateDataSet,
 				borderColor: 'black',
+				radius: 2,
 				fill: false
 			},];
 			data.datasets.push(...mainData);
