@@ -564,14 +564,8 @@ class App extends Component {
 		const state = this.getName(selectedState);
 		this.getRtPointGraphData(this.state.rtDataFromApi[selectedState]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[selectedState]);
-<<<<<<< HEAD
-		this.getMobilityGraphData(this.state.mobilityDataFromApi[this.getName(selectedState)]);
-		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[this.getName(selectedState)]);
-		const state = this.getName(selectedState);
-=======
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[state]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[state]);
->>>>>>> refs/remotes/origin/master
 		this.setState({selectedState: state});
 	}
 	
