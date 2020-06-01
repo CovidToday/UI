@@ -6,7 +6,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
-import { Container, Row, Col, Dropdown, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Nav, Card, Button } from 'react-bootstrap';
 import Header from "./header.jpg"
 import Footer from "./footer.jpg"
 
@@ -14,6 +14,7 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
+		this.textDivRef = React.createRef()
 
 		this.state = {
 			columnDefs: [
@@ -293,7 +294,7 @@ class App extends Component {
 			case "mz":
 				name = "Mizoram";
 				break;
-			case "ng":
+			case "nl":
 				name = "Nagaland";
 				break;
 			case "or":
@@ -332,19 +333,19 @@ class App extends Component {
 			case "ch":
 				name = "Chandigarh";
 				break;
-			case "dd":
-				name = "Dadra and Nagar Haweli";
+			case "dn":
+				name = "Dadra and Nagar Haveli and Daman and Diu";
 				break;
 			case "dl":
 				name = "Delhi";
 				break;
 			case "jk":
-				name = "Jammu & Kashmir";
+				name = "Jammu and Kashmir";
 				break;
 			case "la":
 				name = "Ladakh";
 				break;
-			case "lk":
+			case "ld":
 				name = "Lakshadweep";
 				break;
 			case "py":
@@ -356,16 +357,19 @@ class App extends Component {
 	}
 
 	setRowData = () => {
-		const states = Object.keys(this.state.rtDataFromApi);
+		const allstates = [];
+		this.state.nationalDataFromApi && this.state.nationalDataFromApi.statewise.forEach(i => {
+			allstates.push(i.statecode.toLowerCase());
+		});
+		const states = allstates.filter(s => s !== "tt" && s !== "un");
 		const data = [];
 		const pinnedData = [];
-		states.shift();
 		if(this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
 			states && states.forEach(s => {
 				const name = this.getName(s);
-				if(this.state.rtDataFromApi[s] && this.state.cfrDataFromApi[name]) {
+
 					//rt
-					const rtIndex = this.state.rtDataFromApi[s].rt_point.length-1;
+					const rtIndex = this.state.rtDataFromApi[s] ? this.state.rtDataFromApi[s].rt_point.length-1 : -1;
 					const rtPoint = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_point[rtIndex]).toFixed(2) : "NA";
 					const rtl95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_l95[rtIndex]).toFixed(2) : "NA";
 					const rtu95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_u95[rtIndex]).toFixed(2) : "NA";
@@ -375,10 +379,10 @@ class App extends Component {
 							rtToCompare.push((this.state.rtDataFromApi[s].rt_point[i]).toFixed(2));
 						};
 					}
-					const rtData = `${rtPoint} (${rtl95}-${rtu95})`
+					const rtData = rtPoint === "NA" ? "NA" : `${rtPoint} (${rtl95}-${rtu95})`;
 					
 					//cfr
-					const cfrIndex = this.state.cfrDataFromApi[name].cfr3_point.length-1;
+					const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length-1 : -1;
 					const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex]*100).toFixed(2) : "NA";
 					
 					//national
@@ -404,7 +408,7 @@ class App extends Component {
 					
 					data.push({ key: s, state: name, rt: rtData, cumCases: confirmedCases, cumPosRate: cumulativePosRate, 
 						ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare});
-				}
+				
 			});
 			data.sort(function (a, b) {
 				return (a.rt > b.rt) ? 1 : -1
@@ -758,6 +762,15 @@ class App extends Component {
 			}}
 		/>
 	}
+	
+	handleDivScroll = (event) => {
+		if(this.textDivRef.current){
+			this.textDivRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest"
+			})
+		}
+	}
 
 	render() {
 		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView } = this.state;
@@ -785,6 +798,35 @@ class App extends Component {
 				<br />
 				{selectedView === "Home" && <>
 					<div className="App">
+					
+						<div className="home-text">
+							<Card>
+						  		<Card.Body>
+							    	<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Tracking India\'s Progress Through The Coronavirus Pandemic`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		{`The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards are useful, 
+										but can give deeper insights into the progress of the epidemic if analysed and interpreted into scientific outbreak 
+										indicators for each state in real-time. As lockdown is relaxed across India, it is essential to monitor these 
+										indicators and adapt the response accordingly. You need not be adept at epidemiology and statistics to grasp the 
+										data we present, and we will assist you along the way.`}
+							    	</Card.Text>
+								</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div>We do the hard work for you, so you can focus on what the data means. <br/>
+										Collating data from multiple sources <br/>
+										Analysing the data using robust statistical methods to estimate scientific indicators <br/>
+										Utilising latest scientific evidence and advisories to inform estimation and interpretation <br/>
+										Accounting for known biases in estimation to give a truer picture of the outbreak <br/>
+										Updated daily for all states of India (where data is available) <br/>
+										Enabling understanding of outbreak indicators through explanation and visualisation</div>
+							    	</Card.Text>
+									<Button variant="outline-primary" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
+							  	</Card.Body>
+							</Card>
+						</div>
+					
 						<this.DropdownRenderer />
 
 
@@ -913,6 +955,79 @@ class App extends Component {
 							</div>
 						</Container>
 					</div>
+					
+					<div className="home-text" ref={this.textDivRef}>
+							<Card>
+						  		<Card.Body>
+							    	<Card.Title className="top-text-title" style={{fontWeight: "bold", fontStyle: "italic"}}>{`How fast is the spread? (Transmission indicators)`}</Card.Title>
+								</Card.Body>
+								<Card.Body>
+								<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div><span style={{fontStyle: "italic"}}>Rt is the average number of people infected by a single case, at a particular time t during the outbreak.</span> It shows us 
+										the rate of spread of the virus. When Rt reaches below 1 (epidemic threshold), we can say that the outbreak has been brought 
+										under control. Serial monitoring of Rt for each state tells us the severity of the outbreak in an area, and guides administrators 
+										to fine-tune the level of control measures required to bring the Rt under 1. As changes in transmission correlate with 
+										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br/>
+										Red: Below 1 <br/>
+										Green: Above 1</div>
+							    	</Card.Text>
+								</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Mobility Index`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div><span style={{fontStyle: "italic"}}>This indicates the change in frequency and length of visits at different places compared to a baseline level from 
+										Jan 3 to Feb 6, 2020.</span> It shows us the effect of lockdown and behavioural change on the movement of people, reflecting the 
+										strictness and enforcement of social distancing in different states. We have introduced this parameter experimentally 
+										considering that mobility has a direct effect on disease spread, however there is no evidence yet that this specific mobility 
+										index is correlated with local transmission. <br/> Data Source: Google COVID19 Community Mobility Reports</div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body></Card.Body>
+								<Card.Body>
+							    	<Card.Title className="top-text-title" style={{fontWeight: "bold", fontStyle: "italic"}}>{`Are we testing enough? (Testing indicators)`}</Card.Title>
+								</Card.Body>
+								<Card.Body>
+								<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Test Positivity Rate`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div><span style={{fontStyle: "italic"}}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity rate may mean that testing levels 
+										are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to detect any resurgence. 
+										In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion of COVID-19 and 
+										may miss new chains of transmission in the community. Test Positivity Rate is a better indicator of testing adequacy than Tests 
+										Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
+										(https://coronavirus.jhu.edu/testing/international-comparison) The WHO has recommended that the daily positivity rate be below 
+										5% for atleast two weeks before relaxing public health measures. We report daily positivity rate (as 7-day moving averages) and 
+										cumulative positivity rate (which includes all tests done till date). <br/>
+										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% (based on WHO criteria)</div>
+							    	</Card.Text>
+								</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Corrected Case Fatality Rate (CFR)`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be 
+										biased in ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and 
+										the under-reporting of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, 
+										by adjusting the denominator to reflect the number of cases where death would have been reported if it had occurred, based on 
+										known estimates of delay from confirmation to death. The variation in Corrected CFR across states would then reflect the degree 
+										of under-reporting or testing adequacy in a particular state. <br/>
+										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% </div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Tests Per Million`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div style={{fontStyle: "italic"}}>It is the total number of tests done per 10,00,000 people.</div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`For The People, By The People`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders, 
+										and public health experts from institutes across India. <span style={{fontWeight: "bold", fontStyle: "italic"}}>Anyone can contribute to this project</span> - click here if you want to pitch in.</div>
+							    	</Card.Text>
+							  	</Card.Body>
+							</Card>
+						</div>
 				</>}
 				{selectedView === "Methods" && <div className="App">Methods</div>}
 				{selectedView === "Team" && <div className="App">ABOUT US</div>}

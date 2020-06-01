@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
 .App {
   text-align: center;
 }
@@ -154,4 +157,20 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .ag-header-group-cell-label {
  	justify-content: center;
+}
+
+.home-text {
+	width: 90%;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.top-text-title {
+	text-align: left;
+	font-family: Merriweather;
+}
+
+.top-text-body {
+	text-align: justify;
+	font-family: Titillium Web;
 }
