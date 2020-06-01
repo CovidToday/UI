@@ -173,4 +173,9 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .top-text-body {
 	text-align: justify;
 	font-family: Titillium Web;
+	}
+	
+.information-icon {
+  height: 16px;
+  width: 16px;
 }
