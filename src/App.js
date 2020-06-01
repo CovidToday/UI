@@ -151,7 +151,7 @@ class App extends Component {
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/cfr.json?token=AK6PV6JRLNUDIQKW5T2SMWS6Z5E2Y')
 			.then(response => {
 				this.setState({ cfrDataFromApi: response.data });
-				this.getCfrGraphData(this.state.cfrDataFromApi.IN);
+				this.getCfrGraphData(this.state.cfrDataFromApi.India);
 			});
 			
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/india_mobility_indented.json?token=AK6PV6JES2TFKDHBAVRXFA26Z5E6G')
@@ -542,7 +542,9 @@ class App extends Component {
 			// 	radius: 0,
 			// 	hoverRadius: 0,
 			// });
-			const positivityRateDataSet = dataFromApi.daily_positivity_rate.slice();
+			const positivityRateDataSet = dataFromApi.daily_positivity_rate.map(d => {
+				return d * 100;
+			});
 
 			// Main data
 			let mainData = [{
@@ -563,7 +565,7 @@ class App extends Component {
 		const selectedState = selectedRows[0].key;
 		const state = this.getName(selectedState);
 		this.getRtPointGraphData(this.state.rtDataFromApi[selectedState]);
-		this.getCfrGraphData(this.state.cfrDataFromApi[selectedState]);
+		this.getCfrGraphData(this.state.cfrDataFromApi[state]);
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[state]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[state]);
 		this.setState({selectedState: state});
@@ -575,9 +577,7 @@ class App extends Component {
 		this.getRtPointGraphData(this.state.rtDataFromApi[key]);
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
-		this.getCfrGraphData(this.state.cfrDataFromApi[key]);
-		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
-		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
+		this.getCfrGraphData(this.state.cfrDataFromApi[stateName]);
 	}
 	
 	DropdownItems(props) {
