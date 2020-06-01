@@ -9,6 +9,7 @@ import { Line, Chart } from 'react-chartjs-2';
 import { Container, Row, Col, Dropdown, Nav } from 'react-bootstrap';
 import Header from "./header.jpg"
 import Footer from "./footer.jpg"
+import informationIcon from "./information_icon.png";
 
 class App extends Component {
 
@@ -19,17 +20,18 @@ class App extends Component {
 			columnDefs: [
 				{
 					headerName: '', children: [
-						{headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true}
+						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true }
 					]
 				},
 				{
-			        headerName: 'TRANSMISSION', children: [
-			            {headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort, cellStyle: function(params) {
-							let style;
-							let a = true;
-							params.data.rtOld.forEach(rt => {
-								if(rt > 1) {
-									a = false;
+					headerName: 'TRANSMISSION', children: [
+						{
+							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort, cellStyle: function (params) {
+								let style;
+								let a = true;
+								params.data.rtOld.forEach(rt => {
+									if (rt > 1) {
+										a = false;
 									}
 								})
 								if (params.data.rtCurrent > 1) {
@@ -40,29 +42,32 @@ class App extends Component {
 									style = { backgroundColor: '#f7faa0' };
 								}
 								return style;
-						}},
-			            {headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort},
-			            {headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort}
-			        ]
-			    },
-			    {
-			        headerName: 'TESTING', children: [
-			            {headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort},
-			            {headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort},
-			            {headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function(params) {
-							let style;
-							if(params.data.ccfr > 10){
-								style = {backgroundColor: '#ff928a'};
-							} else if(params.data.ccfr < 5) {
-								style = {backgroundColor: '#a1ffa1'};
-							} else if(params.data.ccfr < 10 && params.data.ccfr > 5) {
-								style = {backgroundColor: '#f7faa0'};
 							}
-							return style;
-						}},
-			            {headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort}
-			        ]
-			    }
+						},
+						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
+						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort }
+					]
+				},
+				{
+					headerName: 'TESTING', children: [
+						{ headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort },
+						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
+						{
+							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
+								let style;
+								if (params.data.ccfr > 10) {
+									style = { backgroundColor: '#ff928a' };
+								} else if (params.data.ccfr < 5) {
+									style = { backgroundColor: '#a1ffa1' };
+								} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
+									style = { backgroundColor: '#f7faa0' };
+								}
+								return style;
+							}
+						},
+						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort }
+					]
+				}
 			],
 			rowData: [],
 			pinnedTopRowData: [],
@@ -86,54 +91,58 @@ class App extends Component {
 	}
 
 	columnDefMobile = [
-			    {
-					headerName: '', children: [
-						{headerName: "STATES", field: "state", sortable: true, suppressMovable: true}
-					]
-				},
+		{
+			headerName: '', children: [
+				{ headerName: "STATES", field: "state", sortable: true, suppressMovable: true }
+			]
+		},
+		{
+			headerName: 'TRANSMISSION', children: [
 				{
-					headerName: 'TRANSMISSION', children: [
-			            {headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort, 
-						cellStyle: function(params) {
-							let style;
-							let a = true;
-							params.data.rtOld.forEach(rt => {
-								if(rt > 1) {
-									a = false;
-								}
-							})
-							if(params.data.rtCurrent > 1){
-								style = {backgroundColor: '#ff928a', fontSize: "x-small"};
-							} else if(params.data.rtCurrent < 1 && a === true) {
-								style = {backgroundColor: '#a1ffa1', fontSize: "x-small"};
-							} else if(params.data.rtCurrent < 1 && a === false) {
-								style = {backgroundColor: '#f7faa0', fontSize: "x-small"};
+					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort,
+					cellStyle: function (params) {
+						let style;
+						let a = true;
+						params.data.rtOld.forEach(rt => {
+							if (rt > 1) {
+								a = false;
 							}
-							return style;
-						}},
-			            {headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: {fontSize: "x-small"}},
-			            {headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: {fontSize: "x-small"}}
-			        ]
-			    },
-			    {
-			        headerName: 'TESTING', children: [
-			            {headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: {fontSize: "x-small"}},
-			            {headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: {fontSize: "x-small"}},
-			            {headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function(params) {
-							let style;
-							if(params.data.ccfr > 10){
-								style = {backgroundColor: '#ff928a', fontSize: "x-small"};
-							} else if(params.data.ccfr < 5) {
-								style = {backgroundColor: '#a1ffa1', fontSize: "x-small"};
-							} else if(params.data.ccfr < 10 && params.data.ccfr > 5) {
-								style = {backgroundColor: '#f7faa0', fontSize: "x-small"};
-							}
-							return style;
-						}},
-			            {headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: {fontSize: "x-small"}}
-			        ]
-			    }
-			];
+						})
+						if (params.data.rtCurrent > 1) {
+							style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+						} else if (params.data.rtCurrent < 1 && a === true) {
+							style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+						} else if (params.data.rtCurrent < 1 && a === false) {
+							style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+						}
+						return style;
+					}
+				},
+				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+			]
+		},
+		{
+			headerName: 'TESTING', children: [
+				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{
+					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
+						let style;
+						if (params.data.ccfr > 10) {
+							style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+						} else if (params.data.ccfr < 5) {
+							style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+						} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
+							style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+						}
+						return style;
+					}
+				},
+				{ headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+			]
+		}
+	];
 
 	componentDidMount() {
 		this.setData();
@@ -174,30 +183,30 @@ class App extends Component {
 				this.setState({ positivityRateDataFromApi: response.data });
 				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
 			});
-			
+
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/national.json')
 			.then(response => {
 				this.setState({ nationalDataFromApi: response.data });
-			});	
-			
+			});
+
 		this.setRowData();
 	}
-	
+
 	numberSort(a, b) {
 		const numA = parseFloat(a);
 		const numB = parseFloat(b);
-		
+
 		if (numA === null && numB === null) {
-		    return 0;
-		  }
-		  if (numA === null) {
-		    return -1;
-		  }
-		  if (numB === null) {
-		    return 1;
-		  }
-		
-		  return numA - numB;
+			return 0;
+		}
+		if (numA === null) {
+			return -1;
+		}
+		if (numB === null) {
+			return 1;
+		}
+
+		return numA - numB;
 	}
 
 	configureVerticalLinesPlugin() {
@@ -360,12 +369,12 @@ class App extends Component {
 		const data = [];
 		const pinnedData = [];
 		states.shift();
-		if(this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
+		if (this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
 			states && states.forEach(s => {
 				const name = this.getName(s);
-				if(this.state.rtDataFromApi[s] && this.state.cfrDataFromApi[name]) {
+				if (this.state.rtDataFromApi[s] && this.state.cfrDataFromApi[name]) {
 					//rt
-					const rtIndex = this.state.rtDataFromApi[s].rt_point.length-1;
+					const rtIndex = this.state.rtDataFromApi[s].rt_point.length - 1;
 					const rtPoint = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_point[rtIndex]).toFixed(2) : "NA";
 					const rtl95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_l95[rtIndex]).toFixed(2) : "NA";
 					const rtu95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_u95[rtIndex]).toFixed(2) : "NA";
@@ -376,34 +385,36 @@ class App extends Component {
 						};
 					}
 					const rtData = `${rtPoint} (${rtl95}-${rtu95})`
-					
+
 					//cfr
-					const cfrIndex = this.state.cfrDataFromApi[name].cfr3_point.length-1;
-					const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex]*100).toFixed(2) : "NA";
-					
+					const cfrIndex = this.state.cfrDataFromApi[name].cfr3_point.length - 1;
+					const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
+
 					//national
 					let confirmedCases;
 					this.state.nationalDataFromApi.statewise.forEach(item => {
-						if(item.state === name){
+						if (item.state === name) {
 							confirmedCases = item.confirmed;
 						}
 					});
-					
+
 					//posRate
 					const posRateArr = Object.entries(this.state.positivityRateDataFromApi);
 					let cumulativePosRate;
 					posRateArr.forEach(data => {
-						if(data[0] === name) {
-							const index = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i!=="");
+						if (data[0] === name) {
+							const index = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
 							const count = data[1].positivity_rate_cumulative.length - 1;
 							const posRateIndex = index >= 0 ? count - index : index;
 							cumulativePosRate = data[1].positivity_rate_cumulative[posRateIndex];
 						}
 					});
-					
-					
-					data.push({ key: s, state: name, rt: rtData, cumCases: confirmedCases, cumPosRate: cumulativePosRate, 
-						ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare});
+
+
+					data.push({
+						key: s, state: name, rt: rtData, cumCases: confirmedCases, cumPosRate: cumulativePosRate,
+						ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare
+					});
 				}
 			});
 			data.sort(function (a, b) {
@@ -411,33 +422,35 @@ class App extends Component {
 			});
 			this.setState({ rowData: data })
 		}
-		
-		const rtIndexInd = this.state.rtDataFromApi["IN"].rt_point.length-1;
+
+		const rtIndexInd = this.state.rtDataFromApi["IN"].rt_point.length - 1;
 		const rtPointInd = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_point[rtIndexInd]).toFixed(2) : "NA";
-					const rtl95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_l95[rtIndexInd]).toFixed(2) : "NA";
-					const rtu95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_u95[rtIndexInd]).toFixed(2) : "NA";
-					const rtToCompareInd = [];
-					if(rtIndexInd>13){
-						for(let i=rtIndexInd-13; i<=rtIndexInd; i++){
-							rtToCompareInd.push((this.state.rtDataFromApi["IN"].rt_point[i]).toFixed(2));
-						};
-					}
-					const rtDataInd = `${rtPointInd} (${rtl95Ind}-${rtu95Ind})`
-		const cfrIndexInd = this.state.cfrDataFromApi["India"].cfr3_point.length-1;
-		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd]*100).toFixed(2) : "NA";			
-		
+		const rtl95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_l95[rtIndexInd]).toFixed(2) : "NA";
+		const rtu95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_u95[rtIndexInd]).toFixed(2) : "NA";
+		const rtToCompareInd = [];
+		if (rtIndexInd > 13) {
+			for (let i = rtIndexInd - 13; i <= rtIndexInd; i++) {
+				rtToCompareInd.push((this.state.rtDataFromApi["IN"].rt_point[i]).toFixed(2));
+			};
+		}
+		const rtDataInd = `${rtPointInd} (${rtl95Ind}-${rtu95Ind})`
+		const cfrIndexInd = this.state.cfrDataFromApi["India"].cfr3_point.length - 1;
+		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd] * 100).toFixed(2) : "NA";
+
 		const cumConfirmedIndIndex = this.state.nationalDataFromApi.cases_time_series.length - 1;
 		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
-								
+
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
-		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i!=="");
+		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
 		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
-		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd]*100).toFixed(2);
-											
-		pinnedData.push({key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, cumPosRate: cumulativePosRateInd, 
-			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd})
-		this.setState({pinnedTopRowData: pinnedData})		
+		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd] * 100).toFixed(2);
+
+		pinnedData.push({
+			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, cumPosRate: cumulativePosRateInd,
+			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd
+		})
+		this.setState({ pinnedTopRowData: pinnedData })
 	}
 
 	getRtPointGraphData = (dataFromApi) => {
@@ -538,7 +551,7 @@ class App extends Component {
 				maxRtDataPoint: maxRtDataPoint,
 				minRtDataPoint: minRtDataPoint,
 				lockdownDatesIndex: lockdownDatesIndex
-			},this.RtChartRender);
+			}, this.RtChartRender);
 		}
 	}
 
@@ -719,7 +732,7 @@ class App extends Component {
 			data={rtPointGraphData}
 			height={300}
 			plugins={{
-				verticalLineAtIndex: [3,24,43]//lockdownDatesIndex//[3, 24, 43]
+				verticalLineAtIndex: [3, 24, 43]//lockdownDatesIndex//[3, 24, 43]
 			}}
 			options={{
 				maintainAspectRatio: false,
@@ -733,7 +746,6 @@ class App extends Component {
 				},
 				title: {
 					display: true,
-					text: 'Rt Graph'
 				},
 				scales: {
 					yAxes: [{
@@ -794,36 +806,42 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<this.RtChartRender />
+											<h5 className="mb-0 mt-2">Effective Reproduction Number (Rt) <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<div className="rtgraph">
+												<this.RtChartRender />
+											</div>
 										</Col>
 									</Row>
+									<div className="mt-2"></div>
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<Line
-												data={mobilityGraphData}
-												height={300}
-												options={{
-													maintainAspectRatio: false,
-													legend: {
-														display: false,
-													},
-													title: {
-														display: true,
-														text: 'Mobility Graph'
-													},
-													scales: {
-														yAxes: [{
+											<h5 className="mb-0 mt-2">Mobility Index <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<div className="mobilityGraph">
+												<Line
+													data={mobilityGraphData}
+													height={300}
+													options={{
+														maintainAspectRatio: false,
+														legend: {
+															display: false,
+														},
+														title: {
 															display: true,
-														}],
-														xAxes: [{
-															gridLines: {
-																display: false,
-															}
-														}]
-													},
-												}}
-											/>
+														},
+														scales: {
+															yAxes: [{
+																display: true,
+															}],
+															xAxes: [{
+																gridLines: {
+																	display: false,
+																}
+															}]
+														},
+													}}
+												/>
+											</div>
 										</Col>
 									</Row>
 								</Col>
@@ -831,85 +849,90 @@ class App extends Component {
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-											<Line
-												data={cfrGraphData}
-												height={300}
-												options={{
-													maintainAspectRatio: false,
-													legend: {
-														display: false,
-													},
-													title: {
-														display: true,
-														text: 'CFR Graph'
-													},
-													scales: {
-														yAxes: [{
+											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (CFR) <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<div className="cfr-graph">
+												<Line
+													data={cfrGraphData}
+													height={300}
+													options={{
+														maintainAspectRatio: false,
+														legend: {
+															display: false,
+														},
+														title: {
 															display: true,
-														}],
-														xAxes: [{
-															gridLines: {
-																display: false,
-															}
-														}]
-													},
-												}}
-											/>
+														},
+														scales: {
+															yAxes: [{
+																display: true,
+															}],
+															xAxes: [{
+																gridLines: {
+																	display: false,
+																}
+															}]
+														},
+													}}
+												/>
+											</div>
 										</Col>
 									</Row>
+									<div className="mt-2"></div>
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<Line
-												data={positivityRateGraphData}
-												height={300}
-												options={{
-													maintainAspectRatio: false,
-													legend: {
-														display: false,
-													},
-													title: {
-														display: true,
-														text: 'POS Rate Graph'
-													},
-													scales: {
-														yAxes: [{
+											<h5 className="mb-0 mt-2">Positivity Rate <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<div className="positivityrate-graph">
+												<Line
+													data={positivityRateGraphData}
+													height={300}
+													options={{
+														maintainAspectRatio: false,
+														legend: {
+															display: false,
+														},
+														title: {
 															display: true,
-														}],
-														xAxes: [{
-															gridLines: {
-																display: false,
-															}
-														}]
-													},
-												}}
-											/>
+														},
+														scales: {
+															yAxes: [{
+																display: true,
+															}],
+															xAxes: [{
+																gridLines: {
+																	display: false,
+																}
+															}]
+														},
+													}}
+												/>
+											</div>
 										</Col>
 									</Row>
 								</Col>
 							</Row>
 						</Container>
 
-
-						<div className="sub-header-row">
+								
+						<div className="sub-header-row mt-4">
 							<span className="header-bar-text">LATEST STATEWISE DATA</span>
 						</div>
-				<Container>
-					<div
-						id="myTable"
-						className="ag-theme-balham"
-						style={!this.state.mobileView ? {
-							padding: '20px'
-						} : {paddingTop: '20px'}}
-					>
-						<AgGridReact
-							columnDefs={this.state.columnDefs}
-							rowData={this.state.rowData}
-							rowSelection={"single"}
-							headerHeight =  '48'
-							domLayout='autoHeight'
-							pinnedTopRowData={this.state.pinnedTopRowData}
-							onSelectionChanged={this.onSelectionChanged.bind(this)} />
+						<Container>
+							<div
+								id="myTable"
+								className="ag-theme-balham"
+								style={!this.state.mobileView ? {
+									padding: '20px'
+								} : { paddingTop: '20px' }}
+							>
+								<AgGridReact
+									columnDefs={this.state.columnDefs}
+									rowData={this.state.rowData}
+									rowSelection={"single"}
+									headerHeight='48'
+									domLayout='autoHeight'
+									pinnedTopRowData={this.state.pinnedTopRowData}
+									onSelectionChanged={this.onSelectionChanged.bind(this)} />
 							</div>
 						</Container>
 					</div>

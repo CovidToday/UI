@@ -155,3 +155,8 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .ag-header-group-cell-label {
  	justify-content: center;
 }
+
+.information-icon {
+  height: 16px;
+  width: 16px;
+}
