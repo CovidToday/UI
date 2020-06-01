@@ -78,7 +78,8 @@ class App extends Component {
 			mobilityGraphData: { datsets: [], lables: [] },
 			positivityRateGraphData: { datsets: [], lables: [] },
 			selectedState: 'India',
-			selectedView: 'Home'
+			selectedView: 'Home',
+			mobileView: false
 		}
 	}
 	
@@ -90,23 +91,54 @@ class App extends Component {
 				},
 				{
 			        headerName: 'TRANSMISSION', children: [
-			            {headerName: "RT", field: "rt", sortable: true},
-			            {headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true},
-			            {headerName: "DAILY CASES", field: "dailyCases", sortable: true}
+			            {headerName: "RT", field: "rt", width: 100, sortable: true, cellStyle: function(params) {
+							let style;
+							let a = true;
+							params.data.rtOld.forEach(rt => {
+								if(rt > 1) {
+									a = false;
+								}
+							})
+							if(params.data.rtCurrent > 1){
+								style = {backgroundColor: '#ff928a', fontSize: "x-small"};
+							} else if(params.data.rtCurrent < 1 && a === true) {
+								style = {backgroundColor: '#a1ffa1', fontSize: "x-small"};
+							} else if(params.data.rtCurrent < 1 && a === false) {
+								style = {backgroundColor: '#f7faa0', fontSize: "x-small"};
+							}
+							return style;
+						}},
+			            {headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, cellStyle: {fontSize: "x-small"}},
+			            {headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, cellStyle: {fontSize: "x-small"}}
 			        ]
 			    },
 			    {
 			        headerName: 'TESTING', children: [
-			            {headerName: "POSITIVITY RATE", field: "posRate", sortable: true},
-			            {headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true},
-			            {headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true},
-			            {headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true}
+			            {headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, cellStyle: {fontSize: "x-small"}},
+			            {headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, cellStyle: {fontSize: "x-small"}},
+			            {headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, cellStyle: function(params) {
+							let style;
+							if(params.data.ccfr > 10){
+								style = {backgroundColor: '#ff928a', fontSize: "x-small"};
+							} else if(params.data.ccfr < 5) {
+								style = {backgroundColor: '#a1ffa1', fontSize: "x-small"};
+							} else if(params.data.ccfr < 10 && params.data.ccfr > 5) {
+								style = {backgroundColor: '#f7faa0', fontSize: "x-small"};
+							}
+							return style;
+						}},
+			            {headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, cellStyle: {fontSize: "x-small"}}
 			        ]
 			    }
 			];
 
 	componentDidMount() {
 		this.setData();
+		if(window.innerWidth <= '1000') {
+			this.setState({columnDefs: this.columnDefMobile});
+			this.setState({mobileView: true});
+			
+		}
 	}
 	
 	async setData() {
@@ -135,9 +167,6 @@ class App extends Component {
 			});
 			
 		this.setRowData();
-		if(window.innerWidth <= '1000') {
-			this.setState({columnDefs: this.columnDefMobile});
-		}
 	}
 
 	getName = (key) => {
@@ -158,7 +187,7 @@ class App extends Component {
 			case "br":
 				name = "Bihar";
 				break;
-			case "cg":
+			case "ct":
 				name = "Chhattisgarh";
 				break;
 			case "ga":
@@ -173,7 +202,7 @@ class App extends Component {
 			case "hp":
 				name = "Himachal Pradesh";
 				break;
-			case "ja":
+			case "jh":
 				name = "Jharkhand";
 				break;
 			case "ka":
@@ -191,7 +220,7 @@ class App extends Component {
 			case "mn":
 				name = "Manipur";
 				break;
-			case "mg":
+			case "ml":
 				name = "Meghalaya";
 				break;
 			case "mz":
@@ -223,6 +252,9 @@ class App extends Component {
 				break;
 			case "up":
 				name = "Uttar Pradesh";
+				break;
+			case "ut":
+				name = "Uttarakhand";
 				break;
 			case "wb":
 				name = "West Bengal";
@@ -529,11 +561,17 @@ class App extends Component {
 	onSelectionChanged = (data) => {
 		const selectedRows = data.api.getSelectedRows();
 		const selectedState = selectedRows[0].key;
+		const state = this.getName(selectedState);
 		this.getRtPointGraphData(this.state.rtDataFromApi[selectedState]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[selectedState]);
+<<<<<<< HEAD
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[this.getName(selectedState)]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[this.getName(selectedState)]);
 		const state = this.getName(selectedState);
+=======
+		this.getMobilityGraphData(this.state.mobilityDataFromApi[state]);
+		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[state]);
+>>>>>>> refs/remotes/origin/master
 		this.setState({selectedState: state});
 	}
 	
@@ -544,41 +582,34 @@ class App extends Component {
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[key]);
+		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
+		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
+	}
+	
+	DropdownItems(props) {
+		const name = this.getName(props.key);
+		return <Dropdown.Item onSelect={() => this.onStateSelect(props.key)}>{name}</Dropdown.Item>
 	}
 	
 	DropdownRenderer = () => {
-		return 		<div className="sub-header-row"><span className="header-bar-text"> </span>
-					<span className="header-bar-text">TRANSMISSION</span>
-					<span className="header-bar-dropdown">
-					<Dropdown>
-					  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{backgroundColor: "#1167b1", borderColor: "black"}}>
-					    {this.state.selectedState}
-					  </Dropdown.Toggle>
+		return 		<div className="sub-header-row">
+						<span className="header-bar-text"> </span>
+						{!this.state.mobileView && <span className="header-bar-text">TRANSMISSION</span>}
+						<span className="header-bar-dropdown">
+						<Dropdown>
+					  		<Dropdown.Toggle variant="success" id="dropdown-basic" style={{backgroundColor: "#1167b1", borderColor: "black"}}>
+					    		{this.state.selectedState}
+					  		</Dropdown.Toggle>
 					
-					  <Dropdown.Menu>
-					    <Dropdown.Item onSelect={() => this.onStateSelect("IN")}>India</Dropdown.Item>
-					    <Dropdown.Item onSelect={() => this.onStateSelect("ap")}>Andhra Pradesh</Dropdown.Item>
-					    <Dropdown.Item onSelect={() => this.onStateSelect("br")}>Bihar</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("dl")}>Delhi</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("gj")}>Gujarat</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("hr")}>Haryana</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("jk")}>Jammu & Kashmir</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("ka")}>Karnataka</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("kl")}>Kerala</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("mp")}>Madhya Pradesh</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("mh")}>Maharashtra</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("or")}>Odisha</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("pb")}>Punjab</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("rj")}>Rajasthan</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("tn")}>Tamil Nadu</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("tg")}>Telangana</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("up")}>Uttar Pradesh</Dropdown.Item>
-						<Dropdown.Item onSelect={() => this.onStateSelect("wb")}>West Bengal</Dropdown.Item>
-					  </Dropdown.Menu>
-					</Dropdown>
-					</span>
-					<span className="header-bar-text">TESTING</span>
-					<span className="header-bar-text"> </span>
+						  <Dropdown.Menu>
+						    {Object.entries(this.state.rtDataFromApi).map((item) => {
+							     return <Dropdown.Item onSelect={() => this.onStateSelect(item[0])}>{this.getName(item[0])}</Dropdown.Item>
+							})}	
+						  </Dropdown.Menu>
+						</Dropdown>
+						</span>
+						{!this.state.mobileView && <span className="header-bar-text">TESTING</span>}
+						<span className="header-bar-text"> </span>
 					</div>
 	}
 
@@ -760,9 +791,9 @@ class App extends Component {
 					<div
 						id="myTable"
 						className="ag-theme-balham"
-						style={{
+						style={!this.state.mobileView ? {
 							padding: '20px'
-						}}
+						} : {paddingTop: '20px'}}
 					>
 						<AgGridReact
 							columnDefs={this.state.columnDefs}
