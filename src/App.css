@@ -96,8 +96,13 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 }
 
 .header-pic-container {
+	width: 35%;
+	text-align: left;
+}
+
+.header-pic-mobile {
 	width: 100%;
-	text-align: center;
+	text-align: left;
 }
 
 .header-pic {
@@ -113,7 +118,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .footer-pic {
 	display: inline-block;
 	width: inherit;
-	max-width: 600px;
+	max-width: 350px;
 	padding: 20px;
 }
 
@@ -178,4 +183,56 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .information-icon {
   height: 16px;
   width: 16px;
+}
+
+.nav-button.btn-outline-primary {
+	color: #383838;
+	border-color: white;
+}
+
+.nav-button.btn-outline-primary:hover {
+	color: white;
+	border-color: lightgray;
+	background-color: lightgray;
+}
+
+.nav-button.btn-outline-primary:not(:disabled):not(.disabled).active, 
+.nav-button.btn-outline-primary:not(:disabled):not(.disabled):active, 
+.nav-button.show>.btn-outline-primary.dropdown-toggle {
+	color: white;
+	border-color: lightgray;
+	background-color: lightgray;
+}
+
+.nav-button.btn-outline-primary.focus, .nav-button.btn-outline-primary:focus {
+	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);;
+}
+
+.nav-bar.btn {
+	font-family: inherit;
+}
+
+.nav-button-group {
+	padding-left: 25px;
+	width: 100%;
+}
+
+.nav-bar {
+	padding: 30px;
+	font-family: Titillium Web;
+}
+
+.nav-bar-mobile {
+	font-family: Titillium Web;
+}
+
+.nav-button-group-mobile {
+	width: 100%;
+	display: block;
+	text-align: center;
+}
+
+.link-text {
+	color: blue;
+	cursor: pointer;
 }

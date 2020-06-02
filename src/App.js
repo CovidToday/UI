@@ -7,9 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
 import { Container, Row, Col, Dropdown, Nav, Card, Button, Popover, OverlayTrigger } from 'react-bootstrap';
-import Header from "./header.jpg"
-import Footer from "./footer.jpg"
-import informationIcon from "./information_icon.png";
+import Header from "./images/header.png"
+import Footer from "./images/footer.jpg"
+import informationIcon from "./images/information_icon.png";
+import upIcon from "./images/arrow_up.png"
+import downIcon from "./images/arrow_down.png"
 
 class App extends Component {
 
@@ -846,7 +848,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView } = this.state;
+		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
 				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
@@ -889,25 +891,27 @@ class App extends Component {
 
 		return (
 			<div>
-				<div className="header-pic-container">
-					<img src={Header} className="header-pic" />
-				</div>
 				<div>
-					<Nav fill="true" justify="true" variant="tabs" className="nav-tabs">
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Home" })}>
-								<span className="nav-text">HOME</span></Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Methods" })}>
-								<span className="nav-text">METHODS</span></Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Team" })}>
-								<span className="nav-text">TEAM</span></Nav.Link>
-						</Nav.Item>
-					</Nav>
+				<span className={mobileView ? "header-pic-mobile" : "header-pic-container"}>
+					<img src={Header} className="header-pic" />
+				</span>
+				{<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+						</span>
+					</span>}
+					
 				</div>
+				
 				<br />
 				{selectedView === "Home" && <>
 					<div className="App">
@@ -1111,65 +1115,67 @@ class App extends Component {
 										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br />
 										Green: Below 1 <br />
 										Red: Above 1</div>
-								</Card.Text>
-							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Mobility Index`}</Card.Title>
-								<Card.Text className="top-text-body">
-									<div><span style={{ fontStyle: "italic" }}>This indicates the change in frequency and length of visits at different places compared to a baseline level from
-										Jan 3 to Feb 6, 2020.</span> It shows us the effect of lockdown and behavioural change on the movement of people, reflecting the
-										strictness and enforcement of social distancing in different states. We have introduced this parameter experimentally
-										considering that mobility has a direct effect on disease spread, however there is no evidence yet that this specific mobility
-										index is correlated with local transmission. <br /> Data Source: Google COVID19 Community Mobility Reports</div>
-								</Card.Text>
-							</Card.Body>
-							<Card.Body></Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontStyle: "italic" }}>{`Are we testing enough? (Testing indicators)`}</Card.Title>
-							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Test Positivity Rate`}</Card.Title>
-								<Card.Text className="top-text-body">
-									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity rate may mean that testing levels
-										are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to detect any resurgence.
-										In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion of COVID-19 and
-										may miss new chains of transmission in the community. Test Positivity Rate is a better indicator of testing adequacy than Tests
-										Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population.
-										(https://coronavirus.jhu.edu/testing/international-comparison) The WHO has recommended that the daily positivity rate be below
-										5% for atleast two weeks before relaxing public health measures. We report daily positivity rate (as 7-day moving averages) and
-										cumulative positivity rate (which includes all tests done till date). <br />
-										Red: More than 10% <br /> Yellow: Between 5% and 10% <br /> Green: Less than 5% (based on WHO criteria)</div>
-								</Card.Text>
-							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Corrected Case Fatality Rate (CFR)`}</Card.Title>
-								<Card.Text className="top-text-body">
-									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be
-									biased in ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and
-									the under-reporting of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias,
-									by adjusting the denominator to reflect the number of cases where death would have been reported if it had occurred, based on
-									known estimates of delay from confirmation to death. The variation in Corrected CFR across states would then reflect the degree
-										of under-reporting or testing adequacy in a particular state. <br />
-										Red: More than 10% <br /> Yellow: Between 5% and 10% <br /> Green: Less than 5% </div>
-								</Card.Text>
-							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Tests Per Million`}</Card.Title>
-								<Card.Text className="top-text-body">
-									<div style={{ fontStyle: "italic" }}>It is the total number of tests done per 10,00,000 people.</div>
-								</Card.Text>
-							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`For The People, By The People`}</Card.Title>
-								<Card.Text className="top-text-body">
-									<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders,
-										and public health experts from institutes across India. <span style={{ fontWeight: "bold", fontStyle: "italic" }}>Anyone can contribute to this project</span> - click here if you want to pitch in.</div>
-								</Card.Text>
-							</Card.Body>
-						</Card>
-					</div>
+							    	</Card.Text>
+								</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Mobility Index`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div><span style={{fontStyle: "italic"}}>This indicates the change in frequency and length of visits at different places compared to a baseline level from 
+										Jan 3 to Feb 6, 2020.</span> It shows us the effect of lockdown and behavioural change on the movement of people, reflecting the 
+										strictness and enforcement of social distancing in different states. We have introduced this parameter experimentally 
+										considering that mobility has a direct effect on disease spread, however there is no evidence yet that this specific mobility 
+										index is correlated with local transmission. <br/> Data Source: Google COVID19 Community Mobility Reports</div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body></Card.Body>
+								<Card.Body>
+							    	<Card.Title className="top-text-title" style={{fontWeight: "bold", fontStyle: "italic"}}>{`Are we testing enough? (Testing indicators)`}</Card.Title>
+								</Card.Body>
+								<Card.Body>
+								<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Test Positivity Rate`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div><span style={{fontStyle: "italic"}}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity rate may mean that testing levels 
+										are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to detect any resurgence. 
+										In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion of COVID-19 and 
+										may miss new chains of transmission in the community. Test Positivity Rate is a better indicator of testing adequacy than Tests 
+										Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
+										(https://coronavirus.jhu.edu/testing/international-comparison) The WHO has recommended that the daily positivity rate be below 
+										5% for atleast two weeks before relaxing public health measures. We report daily positivity rate (as 7-day moving averages) and 
+										cumulative positivity rate (which includes all tests done till date). <br/>
+										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% (based on WHO criteria)</div>
+							    	</Card.Text>
+								</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Corrected Case Fatality Rate (CFR)`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be 
+										biased in ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and 
+										the under-reporting of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, 
+										by adjusting the denominator to reflect the number of cases where death would have been reported if it had occurred, based on 
+										known estimates of delay from confirmation to death. The variation in Corrected CFR across states would then reflect the degree 
+										of under-reporting or testing adequacy in a particular state. <br/>
+										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% </div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Tests Per Million`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div style={{fontStyle: "italic"}}>It is the total number of tests done per 10,00,000 people.</div>
+							    	</Card.Text>
+							  	</Card.Body>
+								<Card.Body>	
+									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`For The People, By The People`}</Card.Title>
+							    	<Card.Text className="top-text-body">
+							      		<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders, 
+										and public health experts from institutes across India. <span style={{fontWeight: "bold", fontStyle: "italic"}}>Anyone can contribute to this project</span> - 
+										<a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}>click here if you want to pitch in.</a></div>
+							    	</Card.Text>
+							  	</Card.Body>
+							</Card>
+						</div>
 				</>}
 				{selectedView === "Methods" && <div className="App">Methods</div>}
+				{selectedView === "Contribute" && <div className="App">Contribute</div>}
 				{selectedView === "Team" && <div className="App">ABOUT US</div>}
 				<div className="footer-pic-container">
 					<img src={Footer} className="footer-pic" />
