@@ -10,8 +10,6 @@ import { Container, Row, Col, Dropdown, Nav, Card, Button } from 'react-bootstra
 import Header from "./header.jpg"
 import Footer from "./footer.jpg"
 import informationIcon from "./information_icon.png";
-import upIcon from "./arrow_up.png"
-import downIcon from "./arrow_down.png"
 
 class App extends Component {
 
