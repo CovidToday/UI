@@ -6,12 +6,10 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
-import { Container, Row, Col, Dropdown, Nav, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Nav, Card, Button, Popover, OverlayTrigger } from 'react-bootstrap';
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
 import informationIcon from "./images/information_icon.png";
-import upIcon from "./images/arrow_up.png"
-import downIcon from "./images/arrow_down.png"
 
 class App extends Component {
 
@@ -53,7 +51,8 @@ class App extends Component {
 				},
 				{
 					headerName: 'TESTING', children: [
-						{ headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+						{
+							headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
@@ -64,7 +63,8 @@ class App extends Component {
 									style = { backgroundColor: '#fffaa1' };
 								}
 								return style;
-							}},
+							}
+						},
 						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
 						{
 							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
@@ -201,6 +201,7 @@ class App extends Component {
 			.then(response => {
 				this.setState({ mobilityDataFromApi: response.data });
 				this.getMobilityGraphData(this.state.mobilityDataFromApi.India);
+				console.log(response.data);
 			});
 
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/positivity_Rate.json')
@@ -397,71 +398,73 @@ class App extends Component {
 		const states = allstates.filter(s => s !== "tt" && s !== "un" && s !== "ld");
 		const data = [];
 		const pinnedData = [];
-		if(this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
+		if (this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
 			states && states.forEach(s => {
 				const name = this.getName(s);
-						
-					//rt
-					const rtIndex = this.state.rtDataFromApi[s] ? this.state.rtDataFromApi[s].rt_point.length-1 : -1;
-					const rtPoint = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_point[rtIndex]).toFixed(2) : "NA";
-					const rtl95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_l95[rtIndex]).toFixed(2) : "NA";
-					const rtu95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_u95[rtIndex]).toFixed(2) : "NA";
-					const rtToCompare = [];
-					if (rtIndex > 13) {
-						for (let i = rtIndex - 13; i <= rtIndex; i++) {
-							rtToCompare.push((this.state.rtDataFromApi[s].rt_point[i]).toFixed(2));
-						};
+
+				//rt
+				const rtIndex = this.state.rtDataFromApi[s] ? this.state.rtDataFromApi[s].rt_point.length - 1 : -1;
+				const rtPoint = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_point[rtIndex]).toFixed(2) : "NA";
+				const rtl95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_l95[rtIndex]).toFixed(2) : "NA";
+				const rtu95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_u95[rtIndex]).toFixed(2) : "NA";
+				const rtToCompare = [];
+				if (rtIndex > 13) {
+					for (let i = rtIndex - 13; i <= rtIndex; i++) {
+						rtToCompare.push((this.state.rtDataFromApi[s].rt_point[i]).toFixed(2));
+					};
+				}
+				const rtData = rtPoint === "NA" ? "NA" : `${rtPoint} (${rtl95}-${rtu95})`;
+
+				//cfr
+				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
+				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
+
+				//national
+				let confirmedCases;
+				this.state.nationalDataFromApi.statewise.forEach(item => {
+					if (item.state === name) {
+						confirmedCases = item.confirmed;
 					}
-					const rtData = rtPoint === "NA" ? "NA" : `${rtPoint} (${rtl95}-${rtu95})`;
-					
-					//cfr
-					const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length-1 : -1;
-					const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex]*100).toFixed(2) : "NA";
+				});
 
-					//national
-					let confirmedCases;
-					this.state.nationalDataFromApi.statewise.forEach(item => {
-						if (item.state === name) {
-							confirmedCases = item.confirmed;
-						}
-					});
+				//posRate
+				const posRateArr = Object.entries(this.state.positivityRateDataFromApi);
+				let cumulativePosRate;
+				posRateArr.forEach(data => {
+					if (data[0] === name) {
+						const indexCum = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
+						const countCum = data[1].positivity_rate_cumulative.length - 1;
+						const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
+						const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
+						cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat : "NA";
+					}
+				});
+				let maCases;
+				posRateArr.forEach(data => {
+					if (data[0] === name) {
+						const indexMACases = data[1].daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
+						const countMACases = data[1].daily_positive_cases_ma.length - 1;
+						const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
+						const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
+						maCases = maCasesFloat && maCasesFloat !== "" ? maCasesFloat.toFixed(2) : "NA";
+					}
+				});
+				let maPosRate;
+				posRateArr.forEach(data => {
+					if (data[0] === name) {
+						const indexPosRateMa = data[1].daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
+						const countPosRateMa = data[1].daily_positivity_rate_ma.length - 1;
+						const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
+						const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
+						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
+					}
+				});
 
-					//posRate
-					const posRateArr = Object.entries(this.state.positivityRateDataFromApi);
-					let cumulativePosRate;
-					posRateArr.forEach(data => {
-						if (data[0] === name) {
-							const indexCum = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
-							const countCum = data[1].positivity_rate_cumulative.length - 1;
-							const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
-							const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
-							cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat : "NA";
-						}
-					});
-					let maCases;
-					posRateArr.forEach(data => {
-						if (data[0] === name) {
-							const indexMACases = data[1].daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
-							const countMACases = data[1].daily_positive_cases_ma.length - 1;
-							const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
-							const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
-							maCases = maCasesFloat && maCasesFloat !== "" ? maCasesFloat.toFixed(2) : "NA";
-						}
-					});
-					let maPosRate;
-					posRateArr.forEach(data => {
-						if (data[0] === name) {
-							const indexPosRateMa = data[1].daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
-							const countPosRateMa = data[1].daily_positivity_rate_ma.length - 1;
-							const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
-							const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
-							maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat*100).toFixed(2) : "NA";
-						}
-					});
-					
-					
-					data.push({ key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate, 
-						ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare});
+
+				data.push({
+					key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
+					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare
+				});
 			});
 			data.sort(function (a, b) {
 				return (a.rt > b.rt) ? 1 : -1
@@ -487,17 +490,17 @@ class App extends Component {
 		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
 
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
-		
+
 		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
 		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
 		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd] * 100).toFixed(2);
-		
+
 		const indexIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.length - 1;
 		const posRateMaIndexInd = indexIndPosRateMa >= 0 ? countIndPosRateMa - indexIndPosRateMa : indexIndPosRateMa;
-		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd]*100).toFixed(2);
-		
+		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd] * 100).toFixed(2);
+
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
 		const casesMaIndexInd = indexInd >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
@@ -675,12 +678,55 @@ class App extends Component {
 
 			// Main data
 			let mainData = [{
-				label: 'Mobility',
-				data: mobilityDataSet,
+				label: 'Mobility Average',
+				data: dataFromApi.average_mobility.slice(),
 				borderColor: 'black',
+				borderWidth: 3,
 				radius: 1,
 				fill: false
-			},];
+			},{
+				label: 'Grocery',
+				data: dataFromApi.grocery.slice(),
+				borderColor: 'blue',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			},{
+				label: 'Parks',
+				data: dataFromApi.parks.slice(),
+				borderColor: 'green',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Residential',
+				data: dataFromApi.residential.slice(),
+				borderColor: 'purple',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			},{
+				label: 'Retail',
+				data: dataFromApi.retail.slice(),
+				borderColor: 'gray',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Transit',
+				data: dataFromApi.transit.slice(),
+				borderColor: 'violet',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Workplace',
+				data: dataFromApi.workplace.slice(),
+				borderColor: 'yellow',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}];
 			data.datasets.push(...mainData);
 			this.setState({
 				mobilityGraphData: data,
@@ -805,6 +851,11 @@ class App extends Component {
 					// 	}
 					// }
 				},
+				tooltips: {
+					filter: function (tooltipItem) {
+						return tooltipItem.datasetIndex === 3;
+					}
+				},
 				title: {
 					display: true,
 				},
@@ -831,9 +882,9 @@ class App extends Component {
 			}}
 		/>
 	}
-	
+
 	handleDivScroll = (event) => {
-		if(this.textDivRef.current){
+		if (this.textDivRef.current) {
 			this.textDivRef.current.scrollIntoView({
 				behavior: "smooth",
 				block: "nearest"
@@ -843,6 +894,46 @@ class App extends Component {
 
 	render() {
 		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView, mobileView } = this.state;
+		const rtPopover = (
+			<Popover id="rt-popover">
+				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
+				<Popover.Content>
+					And here's some <strong>amazing</strong> content. It's very engaging.
+				right?
+				</Popover.Content>
+			</Popover>
+		);
+
+		const cfrPopover = (
+			<Popover id="cfr-popover">
+				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
+				<Popover.Content>
+					And here's some <strong>amazing</strong> content. It's very engaging.
+				right?
+				</Popover.Content>
+			</Popover>
+		);
+
+		const mobilityPopover = (
+			<Popover id="mobility-popover">
+				<Popover.Title as="h3">Mobility Index</Popover.Title>
+				<Popover.Content>
+					And here's some <strong>amazing</strong> content. It's very engaging.
+				right?
+				</Popover.Content>
+			</Popover>
+		);
+
+		const positivityPopover = (
+			<Popover id="positivity-popover">
+				<Popover.Title as="h3">Positivity Rate</Popover.Title>
+				<Popover.Content>
+					And here's some <strong>amazing</strong> content. It's very engaging.
+				right?
+				</Popover.Content>
+			</Popover>
+		);
+
 		return (
 			<div>
 				<div>
@@ -869,35 +960,35 @@ class App extends Component {
 				<br />
 				{selectedView === "Home" && <>
 					<div className="App">
-					
+
 						<div className="home-text">
 							<Card>
-						  		<Card.Body>
-							    	<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Tracking India\'s Progress Through The Coronavirus Pandemic`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		{`The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards are useful, 
+								<Card.Body>
+									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Tracking India\'s Progress Through The Coronavirus Pandemic`}</Card.Title>
+									<Card.Text className="top-text-body">
+										{`The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards are useful, 
 										but can give deeper insights into the progress of the epidemic if analysed and interpreted into scientific outbreak 
 										indicators for each state in real-time. As lockdown is relaxed across India, it is essential to monitor these 
 										indicators and adapt the response accordingly. You need not be adept at epidemiology and statistics to grasp the 
 										data we present, and we will assist you along the way.`}
-							    	</Card.Text>
+									</Card.Text>
 								</Card.Body>
-								<Card.Body>	
-									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div>We do the hard work for you, so you can focus on what the data means. <br/>
-										Collating data from multiple sources <br/>
-										Analysing the data using robust statistical methods to estimate scientific indicators <br/>
-										Utilising latest scientific evidence and advisories to inform estimation and interpretation <br/>
-										Accounting for known biases in estimation to give a truer picture of the outbreak <br/>
-										Updated daily for all states of India (where data is available) <br/>
+								<Card.Body>
+									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
+									<Card.Text className="top-text-body">
+										<div>We do the hard work for you, so you can focus on what the data means. <br />
+										Collating data from multiple sources <br />
+										Analysing the data using robust statistical methods to estimate scientific indicators <br />
+										Utilising latest scientific evidence and advisories to inform estimation and interpretation <br />
+										Accounting for known biases in estimation to give a truer picture of the outbreak <br />
+										Updated daily for all states of India (where data is available) <br />
 										Enabling understanding of outbreak indicators through explanation and visualisation</div>
 							    	</Card.Text>
 									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
 							  	</Card.Body>
 							</Card>
 						</div>
-					
+
 						<this.DropdownRenderer />
 
 
@@ -907,7 +998,11 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Effective Reproduction Number (Rt) <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<h5 className="mb-0 mt-2">Effective Reproduction Number (Rt)
+												<OverlayTrigger  placement="right" overlay={rtPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
 											<div className="rtgraph">
 												<this.RtChartRender />
 											</div>
@@ -917,7 +1012,11 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Mobility Index <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<h5 className="mb-0 mt-2">Mobility Index
+												<OverlayTrigger  placement="right" overlay={mobilityPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
 											<div className="mobilityGraph">
 												<Line
 													data={mobilityGraphData}
@@ -925,7 +1024,7 @@ class App extends Component {
 													options={{
 														maintainAspectRatio: false,
 														legend: {
-															display: false,
+															display: true,
 														},
 														title: {
 															display: true,
@@ -950,7 +1049,11 @@ class App extends Component {
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (CFR) <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (CFR)
+												<OverlayTrigger placement="left" overlay={cfrPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
 											<div className="cfr-graph">
 												<Line
 													data={cfrGraphData}
@@ -961,7 +1064,7 @@ class App extends Component {
 															display: false,
 														},
 														title: {
-															display: true,
+															display: false,
 														},
 														scales: {
 															yAxes: [{
@@ -982,7 +1085,11 @@ class App extends Component {
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Positivity Rate <img src={informationIcon} className="information-icon" alt="information png" /></h5>
+											<h5 className="mb-0 mt-2">Positivity Rate 
+												<OverlayTrigger  placement="left" overlay={positivityPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
 											<div className="positivityrate-graph">
 												<Line
 													data={positivityRateGraphData}
@@ -1014,7 +1121,7 @@ class App extends Component {
 							</Row>
 						</Container>
 
-								
+
 						<div className="sub-header-row mt-4">
 							<span className="header-bar-text">LATEST STATEWISE DATA</span>
 						</div>
@@ -1040,21 +1147,21 @@ class App extends Component {
 					<div className="sub-header-row mt-4">
 							<span className="header-bar-text">Know about the indicators</span>
 						</div>
-					
+						
 					<div className="home-text" ref={this.textDivRef}>
-							<Card>
-						  		<Card.Body>
-							    	<Card.Title className="top-text-title" style={{fontWeight: "bold", fontStyle: "italic"}}>{`How fast is the spread? (Transmission indicators)`}</Card.Title>
-								</Card.Body>
-								<Card.Body>
-								<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Effective Reproduction Number (Rt)`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div><span style={{fontStyle: "italic"}}>Rt is the average number of people infected by a single case, at a particular time t during the outbreak.</span> It shows us 
-										the rate of spread of the virus. When Rt reaches below 1 (epidemic threshold), we can say that the outbreak has been brought 
-										under control. Serial monitoring of Rt for each state tells us the severity of the outbreak in an area, and guides administrators 
-										to fine-tune the level of control measures required to bring the Rt under 1. As changes in transmission correlate with 
-										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br/>
-										Green: Below 1 <br/>
+						<Card>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontStyle: "italic" }}>{`How fast is the spread? (Transmission indicators)`}</Card.Title>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time t during the outbreak.</span> It shows us
+										the rate of spread of the virus. When Rt reaches below 1 (epidemic threshold), we can say that the outbreak has been brought
+										under control. Serial monitoring of Rt for each state tells us the severity of the outbreak in an area, and guides administrators
+										to fine-tune the level of control measures required to bring the Rt under 1. As changes in transmission correlate with
+										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br />
+										Green: Below 1 <br />
 										Red: Above 1</div>
 							    	</Card.Text>
 								</Card.Body>
