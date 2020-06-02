@@ -7,9 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
 import { Container, Row, Col, Dropdown, Nav, Card, Button } from 'react-bootstrap';
-import Header from "./header.jpg"
-import Footer from "./footer.jpg"
-import informationIcon from "./information_icon.png";
+import Header from "./images/header.png"
+import Footer from "./images/footer.jpg"
+import informationIcon from "./images/information_icon.png";
+import upIcon from "./images/arrow_up.png"
+import downIcon from "./images/arrow_down.png"
 
 class App extends Component {
 
@@ -840,28 +842,30 @@ class App extends Component {
 	}
 
 	render() {
-		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView } = this.state;
+		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView, mobileView } = this.state;
 		return (
 			<div>
-				<div className="header-pic-container">
-					<img src={Header} className="header-pic" />
-				</div>
 				<div>
-					<Nav fill="true" justify="true" variant="tabs" className="nav-tabs">
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Home" })}>
-								<span className="nav-text">HOME</span></Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Methods" })}>
-								<span className="nav-text">METHODS</span></Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link onClick={() => this.setState({ selectedView: "Team" })}>
-								<span className="nav-text">TEAM</span></Nav.Link>
-						</Nav.Item>
-					</Nav>
+				<span className={mobileView ? "header-pic-mobile" : "header-pic-container"}>
+					<img src={Header} className="header-pic" />
+				</span>
+				{<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+						</span>
+						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
+							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+						</span>
+					</span>}
+					
 				</div>
+				
 				<br />
 				{selectedView === "Home" && <>
 					<div className="App">
@@ -1101,13 +1105,15 @@ class App extends Component {
 									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`For The People, By The People`}</Card.Title>
 							    	<Card.Text className="top-text-body">
 							      		<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders, 
-										and public health experts from institutes across India. <span style={{fontWeight: "bold", fontStyle: "italic"}}>Anyone can contribute to this project</span> - click here if you want to pitch in.</div>
+										and public health experts from institutes across India. <span style={{fontWeight: "bold", fontStyle: "italic"}}>Anyone can contribute to this project</span> - 
+										<a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}>click here if you want to pitch in.</a></div>
 							    	</Card.Text>
 							  	</Card.Body>
 							</Card>
 						</div>
 				</>}
 				{selectedView === "Methods" && <div className="App">Methods</div>}
+				{selectedView === "Contribute" && <div className="App">Contribute</div>}
 				{selectedView === "Team" && <div className="App">ABOUT US</div>}
 				<div className="footer-pic-container">
 					<img src={Footer} className="footer-pic" />
