@@ -10,6 +10,8 @@ import { Container, Row, Col, Dropdown, Nav, Card, Button } from 'react-bootstra
 import Header from "./header.jpg"
 import Footer from "./footer.jpg"
 import informationIcon from "./information_icon.png";
+import upIcon from "./arrow_up.png"
+import downIcon from "./arrow_down.png"
 
 class App extends Component {
 
@@ -51,7 +53,18 @@ class App extends Component {
 				},
 				{
 					headerName: 'TESTING', children: [
-						{ headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort },
+						{ headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+								let style;
+								const posRateNumber = parseFloat(params.data.posRate);
+								if (posRateNumber > 10) {
+									style = { backgroundColor: '#ff928a' };
+								} else if (posRateNumber < 5) {
+									style = { backgroundColor: '#a1ffa1' };
+								} else if (posRateNumber < 10 && posRateNumber > 5) {
+									style = { backgroundColor: '#f7faa0' };
+								}
+								return style;
+							}},
 						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
 						{
 							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
@@ -125,7 +138,18 @@ class App extends Component {
 		},
 		{
 			headerName: 'TESTING', children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+								let style;
+								const posRateNumber = parseFloat(params.data.posRate);
+								if (posRateNumber > 10) {
+									style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+								} else if (posRateNumber < 5) {
+									style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+								} else if (posRateNumber < 10 && posRateNumber > 5) {
+									style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+								}
+								return style;
+							}},
 				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
 				{
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
@@ -370,7 +394,7 @@ class App extends Component {
 		this.state.nationalDataFromApi && this.state.nationalDataFromApi.statewise.forEach(i => {
 			allstates.push(i.statecode.toLowerCase());
 		});
-		const states = allstates.filter(s => s !== "tt" && s !== "un");
+		const states = allstates.filter(s => s !== "tt" && s !== "un" && s !== "ld");
 		const data = [];
 		const pinnedData = [];
 		if(this.state.rtDataFromApi && this.state.cfrDataFromApi && this.state.nationalDataFromApi && this.state.positivityRateDataFromApi) {
@@ -407,15 +431,36 @@ class App extends Component {
 					let cumulativePosRate;
 					posRateArr.forEach(data => {
 						if (data[0] === name) {
-							const index = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
-							const count = data[1].positivity_rate_cumulative.length - 1;
-							const posRateIndex = index >= 0 ? count - index : index;
-							cumulativePosRate = data[1].positivity_rate_cumulative[posRateIndex];
+							const indexCum = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
+							const countCum = data[1].positivity_rate_cumulative.length - 1;
+							const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
+							const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
+							cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat : "NA";
+						}
+					});
+					let maCases;
+					posRateArr.forEach(data => {
+						if (data[0] === name) {
+							const indexMACases = data[1].daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
+							const countMACases = data[1].daily_positive_cases_ma.length - 1;
+							const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
+							const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
+							maCases = maCasesFloat && maCasesFloat !== "" ? maCasesFloat.toFixed(2) : "NA";
+						}
+					});
+					let maPosRate;
+					posRateArr.forEach(data => {
+						if (data[0] === name) {
+							const indexPosRateMa = data[1].daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
+							const countPosRateMa = data[1].daily_positivity_rate_ma.length - 1;
+							const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
+							const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
+							maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat*100).toFixed(2) : "NA";
 						}
 					});
 					
 					
-					data.push({ key: s, state: name, rt: rtData, cumCases: confirmedCases, cumPosRate: cumulativePosRate, 
+					data.push({ key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate, 
 						ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare});
 			});
 			data.sort(function (a, b) {
@@ -442,13 +487,24 @@ class App extends Component {
 		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
 
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
+		
 		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
 		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
 		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd] * 100).toFixed(2);
+		
+		const indexIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
+		const countIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.length - 1;
+		const posRateMaIndexInd = indexIndPosRateMa >= 0 ? countIndPosRateMa - indexIndPosRateMa : indexIndPosRateMa;
+		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd]*100).toFixed(2);
+		
+		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
+		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
+		const casesMaIndexInd = indexInd >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
+		const casesMaInd = (posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]).toFixed(2);
 
 		pinnedData.push({
-			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, cumPosRate: cumulativePosRateInd,
+			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
 			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd
 		})
 		this.setState({ pinnedTopRowData: pinnedData })
@@ -993,8 +1049,8 @@ class App extends Component {
 										under control. Serial monitoring of Rt for each state tells us the severity of the outbreak in an area, and guides administrators 
 										to fine-tune the level of control measures required to bring the Rt under 1. As changes in transmission correlate with 
 										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br/>
-										Red: Below 1 <br/>
-										Green: Above 1</div>
+										Green: Below 1 <br/>
+										Red: Above 1</div>
 							    	</Card.Text>
 								</Card.Body>
 								<Card.Body>	
