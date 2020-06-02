@@ -205,6 +205,7 @@ class App extends Component {
 			.then(response => {
 				this.setState({ mobilityDataFromApi: response.data });
 				this.getMobilityGraphData(this.state.mobilityDataFromApi.India);
+				console.log(response.data);
 			});
 
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/positivity_Rate.json')
@@ -681,12 +682,55 @@ class App extends Component {
 
 			// Main data
 			let mainData = [{
-				label: 'Mobility',
-				data: mobilityDataSet,
+				label: 'Mobility Average',
+				data: dataFromApi.average_mobility.slice(),
 				borderColor: 'black',
+				borderWidth: 3,
 				radius: 1,
 				fill: false
-			},];
+			},{
+				label: 'Grocery',
+				data: dataFromApi.grocery.slice(),
+				borderColor: 'blue',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			},{
+				label: 'Parks',
+				data: dataFromApi.parks.slice(),
+				borderColor: 'green',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Residential',
+				data: dataFromApi.residential.slice(),
+				borderColor: 'purple',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			},{
+				label: 'Retail',
+				data: dataFromApi.retail.slice(),
+				borderColor: 'gray',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Transit',
+				data: dataFromApi.transit.slice(),
+				borderColor: 'violet',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}, {
+				label: 'Workplace',
+				data: dataFromApi.workplace.slice(),
+				borderColor: 'yellow',
+				borderWidth: 1,
+				radius: 0,
+				fill: false
+			}];
 			data.datasets.push(...mainData);
 			this.setState({
 				mobilityGraphData: data,
@@ -810,6 +854,11 @@ class App extends Component {
 					// 		return item.text.includes('Lockdown');
 					// 	}
 					// }
+				},
+				tooltips: {
+					filter: function (tooltipItem) {
+						return tooltipItem.datasetIndex === 3;
+					}
 				},
 				title: {
 					display: true,
@@ -954,7 +1003,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Effective Reproduction Number (Rt)
-												<OverlayTrigger trigger="hover" placement="right" overlay={rtPopover}>
+												<OverlayTrigger  placement="right" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -968,7 +1017,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Mobility Index
-												<OverlayTrigger trigger="hover" placement="right" overlay={mobilityPopover}>
+												<OverlayTrigger  placement="right" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -979,7 +1028,7 @@ class App extends Component {
 													options={{
 														maintainAspectRatio: false,
 														legend: {
-															display: false,
+															display: true,
 														},
 														title: {
 															display: true,
@@ -1005,7 +1054,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (CFR)
-												<OverlayTrigger trigger="hover" placement="left" overlay={cfrPopover}>
+												<OverlayTrigger placement="left" overlay={cfrPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -1019,7 +1068,7 @@ class App extends Component {
 															display: false,
 														},
 														title: {
-															display: true,
+															display: false,
 														},
 														scales: {
 															yAxes: [{
@@ -1041,7 +1090,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Positivity Rate 
-												<OverlayTrigger trigger="hover" placement="left" overlay={positivityPopover}>
+												<OverlayTrigger  placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
