@@ -38,11 +38,11 @@ class App extends Component {
 									}
 								})
 								if (params.data.rtCurrent > 1) {
-									style = { backgroundColor: '#ff928a' };
+									style = { backgroundColor: '#ffafa9' };
 								} else if (params.data.rtCurrent < 1 && a === true) {
-									style = { backgroundColor: '#a1ffa1' };
+									style = { backgroundColor: '#b1e9c7' };
 								} else if (params.data.rtCurrent < 1 && a === false) {
-									style = { backgroundColor: '#f7faa0' };
+									style = { backgroundColor: '#fffaa1' };
 								}
 								return style;
 							}
@@ -57,11 +57,11 @@ class App extends Component {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
-									style = { backgroundColor: '#ff928a' };
+									style = { backgroundColor: '#ffafa9' };
 								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#a1ffa1' };
+									style = { backgroundColor: '#b1e9c7' };
 								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#f7faa0' };
+									style = { backgroundColor: '#fffaa1' };
 								}
 								return style;
 							}},
@@ -70,11 +70,11 @@ class App extends Component {
 							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								if (params.data.ccfr > 10) {
-									style = { backgroundColor: '#ff928a' };
+									style = { backgroundColor: '#ffafa9' };
 								} else if (params.data.ccfr < 5) {
-									style = { backgroundColor: '#a1ffa1' };
+									style = { backgroundColor: '#b1e9c7' };
 								} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
-									style = { backgroundColor: '#f7faa0' };
+									style = { backgroundColor: '#fffaa1' };
 								}
 								return style;
 							}
@@ -123,11 +123,11 @@ class App extends Component {
 							}
 						})
 						if (params.data.rtCurrent > 1) {
-							style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
 						} else if (params.data.rtCurrent < 1 && a === true) {
-							style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+							style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
 						} else if (params.data.rtCurrent < 1 && a === false) {
-							style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+							style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
 						}
 						return style;
 					}
@@ -142,11 +142,11 @@ class App extends Component {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
-									style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+									style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
 								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+									style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
 								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+									style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
 								}
 								return style;
 							}},
@@ -155,11 +155,11 @@ class App extends Component {
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
-							style = { backgroundColor: '#ff928a', fontSize: "x-small" };
+							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
 						} else if (params.data.ccfr < 5) {
-							style = { backgroundColor: '#a1ffa1', fontSize: "x-small" };
+							style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
 						} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
-							style = { backgroundColor: '#f7faa0', fontSize: "x-small" };
+							style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
 						}
 						return style;
 					}
@@ -768,10 +768,10 @@ class App extends Component {
 	DropdownRenderer = () => {
 		return <div className="sub-header-row">
 			<span className="header-bar-text"> </span>
-			{!this.state.mobileView && <span className="header-bar-text">TRANSMISSION</span>}
+			{!this.state.mobileView && <span className="header-bar-text">How fast is the spread?</span>}
 			<span className="header-bar-dropdown">
 				<Dropdown>
-					<Dropdown.Toggle variant="success" id="dropdown-basic" style={{ backgroundColor: "#1167b1", borderColor: "black" }}>
+					<Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-state">
 						{this.state.selectedState}
 					</Dropdown.Toggle>
 
@@ -782,7 +782,7 @@ class App extends Component {
 					</Dropdown.Menu>
 				</Dropdown>
 			</span>
-			{!this.state.mobileView && <span className="header-bar-text">TESTING</span>}
+			{!this.state.mobileView && <span className="header-bar-text">Are we testing enough?</span>}
 			<span className="header-bar-text"> </span>
 		</div>
 	}
@@ -849,7 +849,7 @@ class App extends Component {
 				<span className={mobileView ? "header-pic-mobile" : "header-pic-container"}>
 					<img src={Header} className="header-pic" />
 				</span>
-				{<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
+				<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
 						</span>
@@ -862,7 +862,7 @@ class App extends Component {
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
-					</span>}
+					</span>
 					
 				</div>
 				
@@ -893,7 +893,7 @@ class App extends Component {
 										Updated daily for all states of India (where data is available) <br/>
 										Enabling understanding of outbreak indicators through explanation and visualisation</div>
 							    	</Card.Text>
-									<Button variant="outline-primary" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
+									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
 							  	</Card.Body>
 							</Card>
 						</div>
@@ -1037,6 +1037,9 @@ class App extends Component {
 							</div>
 						</Container>
 					</div>
+					<div className="sub-header-row mt-4">
+							<span className="header-bar-text">Know about the indicators</span>
+						</div>
 					
 					<div className="home-text" ref={this.textDivRef}>
 							<Card>

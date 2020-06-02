@@ -108,6 +108,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .header-pic {
 	display: inline-block;
 	width: inherit;
+	padding-left: 45px;
 }
 
 .footer-pic-container {
@@ -132,10 +133,11 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 }
 
 .header-bar-text {
-	color: crimson;
+	color: white;
 	display: table-cell;
 	text-align: center;
 	font-weight: bold;
+	font-family: Titillium Web;
 	vertical-align: middle;
 }
 
@@ -147,7 +149,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .sub-header-row {
 	display: table;
 	table-layout: fixed;
-	background-color: lavender;
+	background-color: #004065;
 	width: 100%;
 	min-height: 35px;
 }
@@ -235,4 +237,40 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .link-text {
 	color: blue;
 	cursor: pointer;
+}
+
+.dropdown-state.btn-success:not(:disabled):not(.disabled).active:focus, 
+.dropdown-state.btn-success:not(:disabled):not(.disabled):active:focus, .dropdown-state
+.show>.btn-success.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.dropdown-state.btn-success, .dropdown-state.btn-success:not(:disabled):not(.disabled).active, 
+.dropdown-state.btn-success:not(:disabled):not(.disabled):active, .dropdown-state.show>.btn-success.dropdown-toggle, .dropdown-state.btn-success:hover {
+	background-color: white;
+	border-color: black;
+	color: #004065;
+}
+
+.dropdown-state.btn-success.focus, .dropdown-state.btn-success:focus{
+	background-color: white;
+	border-color: black;
+	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+	color: #004065;
+}
+
+.scroll-button.btn-outline-primary{
+	color: #004065;
+	border-color: #004065;
+}
+
+.scroll-button.btn-outline-primary.focus, .scroll-button.btn-outline-primary:focus{
+	box-shadow: 0 0 0 0.2rem rgb(128, 128, 255);
+}
+
+.scroll-button.btn-outline-primary:hover, .scroll-button.btn-outline-primary:not(:disabled):not(.disabled).active, 
+.scroll-button.btn-outline-primary:not(:disabled):not(.disabled):active, .scroll-button.show>.btn-outline-primary.dropdown-toggle {
+	background-color: #004065;
+	border-color: black;
+	color: white;
 }
