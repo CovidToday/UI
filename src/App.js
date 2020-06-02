@@ -937,8 +937,8 @@ class App extends Component {
 		return (
 			<div>
 				<div>
-				<span className={mobileView ? "header-pic-mobile" : "header-pic-container"}>
-					<img src={Header} className="header-pic" />
+				<span className={mobileView ? "header-pic-container-mobile" : "header-pic-container"}>
+					<img src={Header} className={mobileView ? "header-pic-mobile" : "header-pic"} />
 				</span>
 				<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
