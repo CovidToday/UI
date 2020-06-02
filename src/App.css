@@ -38,49 +38,6 @@
   }
 }
 
-.heading {
-	font-size: calc(24px);
-	font-weight: bold;
-}
-
-.subheading {
-	font-size: calc(20px);
-	text-decoration-color: grey;
-	padding-left: 80px;
-}
-
-.strike {
-    display: block;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap; 
-}
-
-.strike > span {
-    position: relative;
-    display: inline-block;
-}
-
-.strike > span:before,
-.strike > span:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 300%;
-    height: 1px;
-    background: red;
-}
-
-.strike > span:before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-.strike > span:after {
-    left: 100%;
-    margin-left: 15px;
-}
-
 .table-div {
 	align-content: center;
 	text-align:center;
@@ -100,12 +57,18 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	text-align: left;
 }
 
-.header-pic-mobile {
+.header-pic-container-mobile {
 	width: 100%;
 	text-align: left;
 }
 
 .header-pic {
+	display: inline-block;
+	width: inherit;
+	padding-left: 45px;
+}
+
+.header-pic-mobile {
 	display: inline-block;
 	width: inherit;
 }
@@ -122,20 +85,12 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	padding: 20px;
 }
 
-.nav-text {
-	font-weight: bold;
-	color: black;
-}
-
-.nav-tabs {
-	background-color: lightgray;
-}
-
 .header-bar-text {
-	color: crimson;
+	color: white;
 	display: table-cell;
 	text-align: center;
 	font-weight: bold;
+	font-family: Titillium Web;
 	vertical-align: middle;
 }
 
@@ -147,7 +102,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .sub-header-row {
 	display: table;
 	table-layout: fixed;
-	background-color: lavender;
+	background-color: #004065;
 	width: 100%;
 	min-height: 35px;
 }
@@ -235,4 +190,40 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .link-text {
 	color: blue;
 	cursor: pointer;
+}
+
+.dropdown-state.btn-success:not(:disabled):not(.disabled).active:focus, 
+.dropdown-state.btn-success:not(:disabled):not(.disabled):active:focus, .dropdown-state
+.show>.btn-success.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.dropdown-state.btn-success, .dropdown-state.btn-success:not(:disabled):not(.disabled).active, 
+.dropdown-state.btn-success:not(:disabled):not(.disabled):active, .dropdown-state.show>.btn-success.dropdown-toggle, .dropdown-state.btn-success:hover {
+	background-color: white;
+	border-color: black;
+	color: #004065;
+}
+
+.dropdown-state.btn-success.focus, .dropdown-state.btn-success:focus{
+	background-color: white;
+	border-color: black;
+	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+	color: #004065;
+}
+
+.scroll-button.btn-outline-primary{
+	color: #004065;
+	border-color: #004065;
+}
+
+.scroll-button.btn-outline-primary.focus, .scroll-button.btn-outline-primary:focus{
+	box-shadow: 0 0 0 0.2rem rgb(128, 128, 255);
+}
+
+.scroll-button.btn-outline-primary:hover, .scroll-button.btn-outline-primary:not(:disabled):not(.disabled).active, 
+.scroll-button.btn-outline-primary:not(:disabled):not(.disabled):active, .scroll-button.show>.btn-outline-primary.dropdown-toggle {
+	background-color: #004065;
+	border-color: black;
+	color: white;
 }
