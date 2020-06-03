@@ -749,7 +749,6 @@ class App extends Component {
 				labels: []
 			};
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
-			console.log(dateIndex, dataFromApi.dates);
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
 			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
@@ -865,17 +864,18 @@ class App extends Component {
 					// }
 				},
 				tooltips: {
-					mode: 'nearest',
+					mode: 'index',
+					intersect: false,
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 3;
 					}
-				},				
-				hover : {
+				},
+				hover: {
+					mode: 'index',
 					intersect: false,
 					animationDuration: 200,
-					onHover : function(event,chart) {
+					onHover: function (event, chart) {
 						//chart[0]._chart.tooltip._view.opacity = 1;
-						console.log(event,chart);
 					},
 				},
 				title: {
@@ -919,15 +919,17 @@ class App extends Component {
 					display: false,
 				},
 				tooltips: {
-					mode: 'nearest',
+					mode: 'index',
+					intersect: false,
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 2;
 					}
-				},				
-				hover : {
+				},
+				hover: {
+					mode: 'index',
 					intersect: false,
 					animationDuration: 200,
-					onHover : function(event,chart) {
+					onHover: function (event, chart) {
 					},
 				},
 				title: {
@@ -961,12 +963,14 @@ class App extends Component {
 					display: true,
 				},
 				tooltips: {
-					mode: 'nearest',
-				},				
-				hover : {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'index',
 					intersect: false,
 					animationDuration: 200,
-					onHover : function(event,chart) {
+					onHover: function (event, chart) {
 					},
 				},
 				title: {
@@ -1162,15 +1166,17 @@ class App extends Component {
 															display: false,
 														},
 														tooltips: {
-															mode: 'nearest',
+															mode: 'index',
+															intersect: false,
 															filter: function (tooltipItem) {
 																return tooltipItem.datasetIndex === 2;
 															}
-														},				
-														hover : {
+														},
+														hover: {
+															mode: 'index',
 															intersect: false,
 															animationDuration: 200,
-															onHover : function(event,chart) {
+															onHover: function (event, chart) {
 															},
 														},
 														title: {
