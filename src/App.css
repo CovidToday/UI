@@ -227,3 +227,15 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	border-color: black;
 	color: white;
 }
+
+.dropdown-state.btn-success:not(:disabled):not(.disabled).active, .dropdown-state.btn-success:not(:disabled):not(.disabled):active, 
+.dropdown-state.show>.btn-success.dropdown-toggle {
+	color: #004065;
+	background-color: white;
+}
+
+.cell-icon {
+	height: 12px;
+	padding: 2px;
+	vertical-align: middle;
+}

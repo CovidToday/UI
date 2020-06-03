@@ -10,6 +10,10 @@ import { Container, Row, Col, Dropdown, Nav, Card, Button, Popover, OverlayTrigg
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
 import informationIcon from "./images/information_icon.png";
+import PosRateRenderer from './PosRateRenderer.jsx';
+import CfrRenderer from './CfrRenderer.jsx';
+import RtRenderer from './RtRenderer.jsx';
+import CasesRenderer from './CasesRenderer.jsx';
 
 class App extends Component {
 
@@ -25,9 +29,10 @@ class App extends Component {
 					]
 				},
 				{
-					headerName: 'TRANSMISSION', children: [
+					headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 						{
-							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort, cellStyle: function (params) {
+							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+							cellRenderer: 'rtRenderer', comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								let a = true;
 								params.data.rtOld.forEach(rt => {
@@ -45,14 +50,16 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
-						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort }
+						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Total number of COVID+ cases detected till date" },
+						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+							cellRenderer: 'casesRenderer', comparator: this.numberSort }
 					]
 				},
 				{
-					headerName: 'TESTING', children: [
+					headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 						{
-							headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+							headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
@@ -65,9 +72,10 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort },
+						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Percent of tests done till date that came back positive" },
 						{
-							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
+							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
+							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 								let style;
 								if (params.data.ccfr > 10) {
 									style = { backgroundColor: '#ffafa9' };
@@ -79,7 +87,7 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort }
+						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state" }
 					]
 				}
 			],
@@ -100,7 +108,13 @@ class App extends Component {
 			positivityRateGraphData: { datsets: [], lables: [] },
 			selectedState: 'India',
 			selectedView: 'Home',
-			mobileView: false
+			mobileView: false,
+			frameworkComponents: {
+		        posRateRenderer: PosRateRenderer,
+				cfrRenderer: CfrRenderer,
+				casesRenderer: CasesRenderer,
+				rtRenderer: RtRenderer
+		      },
 		}
 	}
 
@@ -111,9 +125,10 @@ class App extends Component {
 			]
 		},
 		{
-			headerName: 'TRANSMISSION', children: [
+			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
-					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "(95% Confidence Interval)", comparator: this.numberSort,
+					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+							cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
 						let a = true;
@@ -132,13 +147,16 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
-				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date", 
+				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+							cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
 			]
 		},
 		{
-			headerName: 'TESTING', children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
+				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
@@ -150,9 +168,11 @@ class App extends Component {
 								}
 								return style;
 							}},
-				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, headerTooltip: "Percent of tests done till date that came back positive", 
+				suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
 				{
-					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
+					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort,
+							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
 							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
@@ -164,7 +184,8 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{ headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state", 
+				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
 			]
 		}
 	];
@@ -225,10 +246,13 @@ class App extends Component {
 		if (numA === null && numB === null) {
 			return 0;
 		}
-		if (numA === null) {
+		if (numA === NaN && numB === NaN) {
+			return 0;
+		}
+		if (numA === null || numA === NaN) {
 			return -1;
 		}
-		if (numB === null) {
+		if (numB === null || numB === NaN) {
 			return 1;
 		}
 
@@ -418,6 +442,7 @@ class App extends Component {
 				//cfr
 				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
 				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
+				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex-7] * 100).toFixed(2) : "NA";
 
 				//national
 				let confirmedCases;
@@ -440,16 +465,20 @@ class App extends Component {
 					}
 				});
 				let maCases;
+				let maCasesOld;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
 						const indexMACases = data[1].daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 						const countMACases = data[1].daily_positive_cases_ma.length - 1;
 						const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
 						const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
-						maCases = maCasesFloat && maCasesFloat !== "" ? maCasesFloat.toFixed(2) : "NA";
+						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex-7];
+						maCases = maCasesFloat && maCasesFloat !== "" ? Math.floor(maCasesFloat) : "NA";
+						maCasesOld = maCasesFloatOld && maCasesFloatOld !== "" ? Math.floor(maCasesFloatOld) : "NA";
 					}
 				});
 				let maPosRate;
+				let maPosRateOld;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
 						const indexPosRateMa = data[1].daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
@@ -457,13 +486,15 @@ class App extends Component {
 						const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
 						const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
 						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
+						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex-7]);
+						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld * 100).toFixed(2) : "NA";
 					}
 				});
 
 
 				data.push({
 					key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
-					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare
+					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare, dailyCasesOld: maCasesOld, posRateOld: maPosRateOld, cfrOld: cfrPointOld
 				});
 			});
 			data.sort(function (a, b) {
@@ -504,7 +535,7 @@ class App extends Component {
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
 		const casesMaIndexInd = indexInd >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
-		const casesMaInd = (posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]).toFixed(2);
+		const casesMaInd = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]);
 
 		pinnedData.push({
 			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
@@ -1137,6 +1168,7 @@ class App extends Component {
 									columnDefs={this.state.columnDefs}
 									rowData={this.state.rowData}
 									rowSelection={"single"}
+									frameworkComponents={this.state.frameworkComponents}
 									headerHeight='48'
 									domLayout='autoHeight'
 									pinnedTopRowData={this.state.pinnedTopRowData}
