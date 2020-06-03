@@ -252,6 +252,6 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .home-text-footnote {
 	width: 80%;
 	margin: 0 auto;
-	padding: 10px;
 	font-size: smaller;
+	text-align: justify;
 }

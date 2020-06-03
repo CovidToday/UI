@@ -6,7 +6,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
-import { Container, Row, Col, Dropdown, Nav, Card, Button, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger } from 'react-bootstrap';
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
 import informationIcon from "./images/information_icon.png";
@@ -41,11 +41,11 @@ class App extends Component {
 									}
 								})
 								if (params.data.rtCurrent > 1) {
-									style = { backgroundColor: '#ffafa9' };
+									style = { backgroundColor: '#fdcbdd' };
 								} else if (params.data.rtCurrent < 1 && a === true) {
-									style = { backgroundColor: '#b1e9c7' };
+									style = { backgroundColor: '#e1fae9' };
 								} else if (params.data.rtCurrent < 1 && a === false) {
-									style = { backgroundColor: '#fffaa1' };
+									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
 							}
@@ -63,11 +63,11 @@ class App extends Component {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
-									style = { backgroundColor: '#ffafa9' };
+									style = { backgroundColor: '#fdcbdd' };
 								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#b1e9c7' };
+									style = { backgroundColor: '#e1fae9' };
 								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#fffaa1' };
+									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
 							}
@@ -78,11 +78,11 @@ class App extends Component {
 							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 								let style;
 								if (params.data.ccfr > 10) {
-									style = { backgroundColor: '#ffafa9' };
+									style = { backgroundColor: '#fdcbdd' };
 								} else if (params.data.ccfr < 5) {
-									style = { backgroundColor: '#b1e9c7' };
+									style = { backgroundColor: '#e1fae9' };
 								} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
-									style = { backgroundColor: '#fffaa1' };
+									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
 							}
@@ -139,11 +139,11 @@ class App extends Component {
 							}
 						})
 						if (params.data.rtCurrent > 1) {
-							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
+							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
 						} else if (params.data.rtCurrent < 1 && a === true) {
-							style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
+							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
 						} else if (params.data.rtCurrent < 1 && a === false) {
-							style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
+							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;
 					}
@@ -161,11 +161,11 @@ class App extends Component {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
-									style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
+									style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
 								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
+									style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
 								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
+									style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 								}
 								return style;
 							}},
@@ -176,11 +176,11 @@ class App extends Component {
 							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
-							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
+							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
 						} else if (params.data.ccfr < 5) {
-							style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
+							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
 						} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
-							style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
+							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;
 					}
@@ -1255,16 +1255,12 @@ class App extends Component {
 						</Container>
 					</div>
 					<div className="home-text-footnote">
-						<Card>
-								<Card.Body>
-									<Card.Text className="top-text-body">
-										{`Method of calculation and raw data sources at Methods page. Up and Down arrows indicate change in the respective 
-										parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
-										Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
-										(based on WHO criteria). Corrected CFR is Red: >10%, Yellow: 5-10%, Green: <5%.  `}
-									</Card.Text>
-								</Card.Body>
-							</Card>
+						<span className="top-text-body">
+							{`Method of calculation and raw data sources at Methods page. Up and Down arrows indicate change in the respective 
+							parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
+							Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
+							(based on WHO criteria). Corrected CFR is Red: >10%, Yellow: 5-10%, Green: <5%.  `}
+						</span>
 					</div>
 					<div className="sub-header-row mt-4">
 						<span className="header-bar-text">Know about the indicators</span>
