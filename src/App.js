@@ -1254,6 +1254,18 @@ class App extends Component {
 							</div>
 						</Container>
 					</div>
+					<div className="home-text-footnote">
+						<Card>
+								<Card.Body>
+									<Card.Text className="top-text-body">
+										{`Method of calculation and raw data sources at Methods page. Up and Down arrows indicate change in the respective 
+										parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
+										Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
+										(based on WHO criteria). Corrected CFR is Red: >10%, Yellow: 5-10%, Green: <5%.  `}
+									</Card.Text>
+								</Card.Body>
+							</Card>
+					</div>
 					<div className="sub-header-row mt-4">
 						<span className="header-bar-text">Know about the indicators</span>
 					</div>
