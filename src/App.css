@@ -190,6 +190,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .link-text {
 	color: blue;
 	cursor: pointer;
+	background-color: #d6fffd;
 }
 
 .dropdown-state.btn-success:not(:disabled):not(.disabled).active:focus, 
@@ -251,6 +252,13 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .home-text-footnote {
 	width: 80%;
+	margin: 0 auto;
+	font-size: smaller;
+	text-align: justify;
+}
+
+.home-text-footnote-mobile {
+	width: 90%;
 	margin: 0 auto;
 	font-size: smaller;
 	text-align: justify;

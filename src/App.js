@@ -1247,16 +1247,17 @@ class App extends Component {
 									rowData={this.state.rowData}
 									rowSelection={"single"}
 									frameworkComponents={this.state.frameworkComponents}
-									headerHeight='48'
+									headerHeight='52'
 									domLayout='autoHeight'
 									pinnedTopRowData={this.state.pinnedTopRowData}
 									onSelectionChanged={this.onSelectionChanged.bind(this)} />
 							</div>
 						</Container>
 					</div>
-					<div className="home-text-footnote">
+					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
 						<span className="top-text-body">
-							{`Method of calculation and raw data sources at Methods page. Up and Down arrows indicate change in the respective 
+							{`Method of calculation and raw data sources at`} <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> 
+							{`page. Up and Down arrows indicate change in the respective 
 							parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
 							Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
 							(based on WHO criteria). Corrected CFR is Red: >10%, Yellow: 5-10%, Green: <5%.  `}
