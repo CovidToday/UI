@@ -14,6 +14,9 @@ import PosRateRenderer from './PosRateRenderer.jsx';
 import CfrRenderer from './CfrRenderer.jsx';
 import RtRenderer from './RtRenderer.jsx';
 import CasesRenderer from './CasesRenderer.jsx';
+import Methods from "./Methods.js";
+import Contribute from "./Contribute.js";
+import About from "./About.js";
 
 class App extends Component {
 
@@ -1341,9 +1344,9 @@ class App extends Component {
 						</Card>
 					</div>
 				</>}
-				{selectedView === "Methods" && <div className="App">Methods</div>}
-				{selectedView === "Contribute" && <div className="App">Contribute</div>}
-				{selectedView === "Team" && <div className="App">ABOUT US</div>}
+				{selectedView === "Methods" && <div className="App"><Methods /></div>}
+				{selectedView === "Contribute" && <div className="App"><Contribute /></div>}
+				{selectedView === "Team" && <div className="App"><About /></div>}
 				<div className="footer-pic-container">
 					<img src={Footer} className="footer-pic" />
 				</div>

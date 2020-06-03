@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Merriweather');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
 
 .App {
@@ -127,7 +127,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .top-text-title {
 	text-align: left;
-	font-family: Merriweather;
+	font-family: Montserrat;
 }
 
 .top-text-body {
@@ -190,7 +190,8 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .link-text {
 	color: blue;
 	cursor: pointer;
-	background-color: #d6fffd;
+	font-weight: bold;
+	font-style: italic;
 }
 
 .dropdown-state.btn-success:not(:disabled):not(.disabled).active:focus, 
