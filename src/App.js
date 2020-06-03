@@ -95,10 +95,10 @@ class App extends Component {
 			lockdownDates: ["03-25-2020", "04-15-2020", "05-04-2020", "05-18-2020"],
 			graphStartDate: '22 March',
 			lockdownDatesIndex: [],
-			rtPointGraphData: { datasets: [{ data: [] }], labels: ['0'] },
-			cfrGraphData: { datasets: [{ data: [] }], labels: ['0'] },
-			mobilityGraphData: { datsets: [{ data: [] }], lables: ['0'] },
-			positivityRateGraphData: { datsets: [{ data: [] }], lables: ['0'] },
+			rtPointGraphData: { datasets: [{ data: [] }], labels: [] },
+			cfrGraphData: { datasets: [{ data: [] }], labels: [] },
+			mobilityGraphData: { datasets: [{ data: [] }], lables: [] },
+			positivityRateGraphData: { datasets: [{ data: [] }], lables: [] },
 			selectedState: 'India',
 			selectedView: 'Home',
 			mobileView: false
@@ -139,18 +139,20 @@ class App extends Component {
 		},
 		{
 			headerName: 'TESTING', children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
-								let style;
-								const posRateNumber = parseFloat(params.data.posRate);
-								if (posRateNumber > 10) {
-									style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
-								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
-								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
-								}
-								return style;
-							}},
+				{
+					headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "(7-Day Moving Average)", comparator: this.numberSort, cellStyle: function (params) {
+						let style;
+						const posRateNumber = parseFloat(params.data.posRate);
+						if (posRateNumber > 10) {
+							style = { backgroundColor: '#ffafa9', fontSize: "x-small" };
+						} else if (posRateNumber < 5) {
+							style = { backgroundColor: '#b1e9c7', fontSize: "x-small" };
+						} else if (posRateNumber < 10 && posRateNumber > 5) {
+							style = { backgroundColor: '#fffaa1', fontSize: "x-small" };
+						}
+						return style;
+					}
+				},
 				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
 				{
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort, cellStyle: function (params) {
@@ -519,7 +521,9 @@ class App extends Component {
 				labels: []
 			};
 			let lockdownDatesIndex = [];
-			data.labels = dataFromApi.dates;
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			this.state.lockdownDates.forEach(date => {
 				let index = dataFromApi.dates.indexOf(date);
@@ -533,7 +537,7 @@ class App extends Component {
 
 			//Horizontal line
 			let horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(1);
 			}
 			data.datasets.push({
@@ -572,34 +576,34 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Rt l95',
-				data: dataFromApi.rt_l95.slice(),
+				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '2',// + (verticalLineData.length + 2),
 				backgroundColor: 'lightgray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
-				data: dataFromApi.rt_l50.slice(),
+				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '1',// + (verticalLineData.length + 3),
 				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt Point',
-				data: dataFromApi.rt_point.slice(),
+				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length - 1),
 				radius: 1,
 				borderColor: 'black',
 				fill: false
 			}, {
 				label: 'Rt u50',
-				data: dataFromApi.rt_u50.slice(),
+				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '-2',
 				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
-				data: dataFromApi.rt_u95.slice(),
+				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '-4',
 				backgroundColor: 'lightgray',
 				radius: 0,
@@ -623,6 +627,7 @@ class App extends Component {
 			};
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
 			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			// Horizontal line
@@ -676,55 +681,55 @@ class App extends Component {
 				datasets: [],
 				labels: []
 			};
-			data.labels = dataFromApi.dates;
-			const mobilityDataSet = dataFromApi.average_mobility.slice();
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			// Main data
 			let mainData = [{
 				label: 'Mobility Average',
-				data: dataFromApi.average_mobility.slice(),
+				data: dataFromApi.average_mobility.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'black',
-				borderWidth: 3,
 				radius: 1,
 				fill: false
 			}, {
 				label: 'Grocery',
-				data: dataFromApi.grocery.slice(),
+				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'blue',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Parks',
-				data: dataFromApi.parks.slice(),
+				data: dataFromApi.parks.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'green',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Residential',
-				data: dataFromApi.residential.slice(),
+				data: dataFromApi.residential.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'purple',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Retail',
-				data: dataFromApi.retail.slice(),
+				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'gray',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Transit',
-				data: dataFromApi.transit.slice(),
+				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'violet',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Workplace',
-				data: dataFromApi.workplace.slice(),
+				data: dataFromApi.workplace.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'yellow',
 				borderWidth: 1,
 				radius: 0,
@@ -921,6 +926,36 @@ class App extends Component {
 		/>
 	}
 
+	MobilityChartRender = () => {
+		const { mobilityGraphData } = this.state;
+		return <Line
+			data={mobilityGraphData}
+			height={300}
+			plugins={{
+				verticalLineAtIndex: [3, 24, 43],
+			}}
+			options={{
+				maintainAspectRatio: false,
+				legend: {
+					display: true,
+				},
+				title: {
+					display: true,
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+						},
+					}],
+				},
+			}}
+		/>
+	}
+
 	handleDivScroll = (event) => {
 		if (this.textDivRef.current) {
 			this.textDivRef.current.scrollIntoView({
@@ -931,7 +966,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { mobilityGraphData, positivityRateGraphData, selectedView, mobileView } = this.state;
+		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
 				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
@@ -975,10 +1010,10 @@ class App extends Component {
 		return (
 			<div>
 				<div>
-				<span className={mobileView ? "header-pic-container-mobile" : "header-pic-container"}>
-					<img src={Header} className={mobileView ? "header-pic-mobile" : "header-pic"} />
-				</span>
-				<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
+					<span className={mobileView ? "header-pic-container-mobile" : "header-pic-container"}>
+						<img src={Header} className={mobileView ? "header-pic-mobile" : "header-pic"} />
+					</span>
+					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
 						</span>
@@ -992,7 +1027,7 @@ class App extends Component {
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
-					
+
 				</div>
 
 				<br />
@@ -1021,9 +1056,9 @@ class App extends Component {
 										Accounting for known biases in estimation to give a truer picture of the outbreak <br />
 										Updated daily for all states of India (where data is available) <br />
 										Enabling understanding of outbreak indicators through explanation and visualisation</div>
-							    	</Card.Text>
+									</Card.Text>
 									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
-							  	</Card.Body>
+								</Card.Body>
 							</Card>
 						</div>
 
@@ -1056,29 +1091,7 @@ class App extends Component {
 												</OverlayTrigger>
 											</h5>
 											<div className="mobilityGraph">
-												<Line
-													data={mobilityGraphData}
-													height={300}
-													options={{
-														maintainAspectRatio: false,
-														legend: {
-															display: true,
-														},
-														title: {
-															display: true,
-														},
-														scales: {
-															yAxes: [{
-																display: true,
-															}],
-															xAxes: [{
-																gridLines: {
-																	display: false,
-																}
-															}]
-														},
-													}}
-												/>
+												<this.MobilityChartRender />
 											</div>
 										</Col>
 									</Row>
@@ -1110,6 +1123,9 @@ class App extends Component {
 												<Line
 													data={positivityRateGraphData}
 													height={300}
+													plugins={{
+														verticalLineAtIndex: [3, 24, 43],
+													}}
 													options={{
 														maintainAspectRatio: false,
 														legend: {
@@ -1161,9 +1177,9 @@ class App extends Component {
 						</Container>
 					</div>
 					<div className="sub-header-row mt-4">
-							<span className="header-bar-text">Know about the indicators</span>
-						</div>
-						
+						<span className="header-bar-text">Know about the indicators</span>
+					</div>
+
 					<div className="home-text" ref={this.textDivRef}>
 						<Card>
 							<Card.Body>
