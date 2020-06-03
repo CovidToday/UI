@@ -865,9 +865,18 @@ class App extends Component {
 					// }
 				},
 				tooltips: {
+					mode: 'nearest',
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 3;
 					}
+				},				
+				hover : {
+					intersect: false,
+					animationDuration: 200,
+					onHover : function(event,chart) {
+						//chart[0]._chart.tooltip._view.opacity = 1;
+						console.log(event,chart);
+					},
 				},
 				title: {
 					display: true,
@@ -909,6 +918,18 @@ class App extends Component {
 				legend: {
 					display: false,
 				},
+				tooltips: {
+					mode: 'nearest',
+					filter: function (tooltipItem) {
+						return tooltipItem.datasetIndex === 2;
+					}
+				},				
+				hover : {
+					intersect: false,
+					animationDuration: 200,
+					onHover : function(event,chart) {
+					},
+				},
 				title: {
 					display: true,
 				},
@@ -938,6 +959,15 @@ class App extends Component {
 				maintainAspectRatio: false,
 				legend: {
 					display: true,
+				},
+				tooltips: {
+					mode: 'nearest',
+				},				
+				hover : {
+					intersect: false,
+					animationDuration: 200,
+					onHover : function(event,chart) {
+					},
 				},
 				title: {
 					display: true,
@@ -1130,6 +1160,18 @@ class App extends Component {
 														maintainAspectRatio: false,
 														legend: {
 															display: false,
+														},
+														tooltips: {
+															mode: 'nearest',
+															filter: function (tooltipItem) {
+																return tooltipItem.datasetIndex === 2;
+															}
+														},				
+														hover : {
+															intersect: false,
+															animationDuration: 200,
+															onHover : function(event,chart) {
+															},
 														},
 														title: {
 															display: true,
