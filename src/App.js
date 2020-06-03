@@ -252,7 +252,7 @@ class App extends Component {
 
 				// render vertical line
 				context.beginPath();
-				context.strokeStyle = '#004065';
+				context.strokeStyle = 'rgb(0,64,101,0.6)';
 				context.moveTo(lineLeftOffset, scale.top);
 				context.lineTo(lineLeftOffset, scale.bottom);
 				context.stroke();
