@@ -1072,7 +1072,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Effective Reproduction Number
-												<OverlayTrigger placement="right" overlay={rtPopover}>
+												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -1086,7 +1086,7 @@ class App extends Component {
 									<Row>
 										<Col>
 											<h5 className="mb-0 mt-2">Mobility Index (% change from pre-lockdown)
-												<OverlayTrigger placement="right" overlay={mobilityPopover}>
+												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
