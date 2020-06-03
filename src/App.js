@@ -101,11 +101,12 @@ class App extends Component {
 			minRtDataPoint: 0,
 			maxRtDataPoint: 0,
 			lockdownDates: ["03-25-2020", "04-15-2020", "05-04-2020", "05-18-2020"],
+			graphStartDate: '22 March',
 			lockdownDatesIndex: [],
 			rtPointGraphData: { datasets: [{ data: [] }], labels: [] },
-			cfrGraphData: { datasets: [], labels: [] },
-			mobilityGraphData: { datsets: [], lables: [] },
-			positivityRateGraphData: { datsets: [], lables: [] },
+			cfrGraphData: { datasets: [{ data: [] }], labels: [] },
+			mobilityGraphData: { datasets: [{ data: [] }], lables: [] },
+			positivityRateGraphData: { datasets: [{ data: [] }], lables: [] },
 			selectedState: 'India',
 			selectedView: 'Home',
 			mobileView: false,
@@ -222,7 +223,6 @@ class App extends Component {
 			.then(response => {
 				this.setState({ mobilityDataFromApi: response.data });
 				this.getMobilityGraphData(this.state.mobilityDataFromApi.India);
-				console.log(response.data);
 			});
 
 		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/positivity_Rate.json')
@@ -264,7 +264,6 @@ class App extends Component {
 			getLinePosition: function (chart, pointIndex) {
 				const meta = chart.getDatasetMeta(0); // first dataset is used to discover X coordinate of a point
 				const data = meta.data;
-				console.log(data[pointIndex]);
 				if (data[pointIndex])
 					return data[pointIndex]._model.x;
 			},
@@ -275,13 +274,13 @@ class App extends Component {
 
 				// render vertical line
 				context.beginPath();
-				context.strokeStyle = '#ff0000';
+				context.strokeStyle = 'rgb(0,64,101,0.6)';
 				context.moveTo(lineLeftOffset, scale.top);
 				context.lineTo(lineLeftOffset, scale.bottom);
 				context.stroke();
 
 				// write label
-				context.fillStyle = "#ff0000";
+				context.fillStyle = "#004065";
 				context.textAlign = 'left';
 				context.fillText(' Lockdown ' + number, lineLeftOffset, scale.top);
 			},
@@ -551,7 +550,9 @@ class App extends Component {
 				labels: []
 			};
 			let lockdownDatesIndex = [];
-			data.labels = dataFromApi.dates;
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			this.state.lockdownDates.forEach(date => {
 				let index = dataFromApi.dates.indexOf(date);
@@ -559,20 +560,20 @@ class App extends Component {
 					lockdownDatesIndex.push(index);
 				}
 			});
-			console.log(lockdownDatesIndex);
 
 			const maxRtDataPoint = Math.ceil(Math.max(...dataFromApi.rt_u95));
 			const minRtDataPoint = Math.floor(Math.min(...dataFromApi.rt_l95, 0));
 
 			//Horizontal line
 			let horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(1);
 			}
 			data.datasets.push({
 				label: 'fixed value',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,255,0,0.5)',
+				borderColor: 'rgba(0,100,0,0.9)',
+				borderWidth: 1,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -604,36 +605,36 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Rt l95',
-				data: dataFromApi.rt_l95.slice(),
+				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '2',// + (verticalLineData.length + 2),
-				backgroundColor: 'lightblue',
+				backgroundColor: 'lightgray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
-				data: dataFromApi.rt_l50.slice(),
+				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '1',// + (verticalLineData.length + 3),
-				backgroundColor: 'blue',
+				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt Point',
-				data: dataFromApi.rt_point.slice(),
+				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length - 1),
 				radius: 1,
 				borderColor: 'black',
 				fill: false
 			}, {
 				label: 'Rt u50',
-				data: dataFromApi.rt_u50.slice(),
+				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '-2',
-				backgroundColor: 'blue',
+				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
-				data: dataFromApi.rt_u95.slice(),
+				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length - 1),
 				fill: '-4',
-				backgroundColor: 'lightblue',
+				backgroundColor: 'lightgray',
 				radius: 0,
 				hoverRadius: 0,
 			}];
@@ -653,29 +654,34 @@ class App extends Component {
 				datasets: [],
 				labels: []
 			};
-			data.labels = dataFromApi.dates;
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			// Horizontal line
 			let horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(10);
 			}
 			data.datasets.push({
 				label: 'upper limit',
 				data: horizontalLineData,
 				borderColor: 'rgba(255,0,0,0.5)',
+				borderWidth: 1,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
 			});
 			horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(5);
 			}
 			data.datasets.push({
 				label: 'lower limit',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,255,0,0.5)',
+				borderColor: 'rgba(0,100,0,0.9)',
+				borderWidth: 1,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -687,7 +693,7 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'CFR',
-				data: cfrDataSet,
+				data: cfrDataSet.slice(dateIndex, cfrDataSet.length - 1),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
@@ -704,55 +710,55 @@ class App extends Component {
 				datasets: [],
 				labels: []
 			};
-			data.labels = dataFromApi.dates;
-			const mobilityDataSet = dataFromApi.average_mobility.slice();
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			// Main data
 			let mainData = [{
 				label: 'Mobility Average',
-				data: dataFromApi.average_mobility.slice(),
+				data: dataFromApi.average_mobility.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'black',
-				borderWidth: 3,
 				radius: 1,
 				fill: false
-			},{
+			}, {
 				label: 'Grocery',
-				data: dataFromApi.grocery.slice(),
+				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'blue',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
-			},{
+			}, {
 				label: 'Parks',
-				data: dataFromApi.parks.slice(),
+				data: dataFromApi.parks.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'green',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Residential',
-				data: dataFromApi.residential.slice(),
+				data: dataFromApi.residential.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'purple',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
-			},{
+			}, {
 				label: 'Retail',
-				data: dataFromApi.retail.slice(),
+				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'gray',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Transit',
-				data: dataFromApi.transit.slice(),
+				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'violet',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Workplace',
-				data: dataFromApi.workplace.slice(),
+				data: dataFromApi.workplace.slice(dateIndex, dataFromApi.dates.length - 1),
 				borderColor: 'yellow',
 				borderWidth: 1,
 				radius: 0,
@@ -771,29 +777,33 @@ class App extends Component {
 				datasets: [],
 				labels: []
 			};
-			data.labels = dataFromApi.dates;
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
 
 			// Horizontal line
 			let horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(10);
 			}
 			data.datasets.push({
 				label: 'upper limit',
 				data: horizontalLineData,
 				borderColor: 'rgba(255,0,0,0.5)',
+				borderWidth: 1,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
 			});
 			horizontalLineData = [];
-			for (let i = 0; i < dataFromApi.dates.length; i++) {
+			for (let i = 0; i < data.labels.length; i++) {
 				horizontalLineData.push(5);
 			}
 			data.datasets.push({
 				label: 'lower limit',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,255,0,0.5)',
+				borderColor: 'rgba(0,100,0,0.9)',
+				borderWidth: 1,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -805,7 +815,7 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Positive Rate',
-				data: positivityRateDataSet,
+				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length - 1),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
@@ -883,9 +893,19 @@ class App extends Component {
 					// }
 				},
 				tooltips: {
+					mode: 'index',
+					intersect: false,
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 3;
 					}
+				},
+				hover: {
+					mode: 'index',
+					intersect: false,
+					animationDuration: 200,
+					onHover: function (event, chart) {
+						//chart[0]._chart.tooltip._view.opacity = 1;
+					},
 				},
 				title: {
 					display: true,
@@ -914,6 +934,91 @@ class App extends Component {
 		/>
 	}
 
+	CfrChartRender = () => {
+		const { cfrGraphData } = this.state;
+		return <Line
+			data={cfrGraphData}
+			height={300}
+			plugins={{
+				verticalLineAtIndex: [3, 24, 43],
+			}}
+			options={{
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+					filter: function (tooltipItem) {
+						return tooltipItem.datasetIndex === 2;
+					}
+				},
+				hover: {
+					mode: 'index',
+					intersect: false,
+					animationDuration: 200,
+					onHover: function (event, chart) {
+					},
+				},
+				title: {
+					display: true,
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+						}
+					}]
+				},
+			}}
+		/>
+	}
+
+	MobilityChartRender = () => {
+		const { mobilityGraphData } = this.state;
+		return <Line
+			data={mobilityGraphData}
+			height={300}
+			plugins={{
+				verticalLineAtIndex: [3, 24, 43],
+			}}
+			options={{
+				maintainAspectRatio: false,
+				legend: {
+					display: true,
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'index',
+					intersect: false,
+					animationDuration: 200,
+					onHover: function (event, chart) {
+					},
+				},
+				title: {
+					display: true,
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+						},
+					}],
+				},
+			}}
+		/>
+	}
+
 	handleDivScroll = (event) => {
 		if (this.textDivRef.current) {
 			this.textDivRef.current.scrollIntoView({
@@ -924,7 +1029,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { mobilityGraphData, cfrGraphData, positivityRateGraphData, selectedView, mobileView } = this.state;
+		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
 				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
@@ -968,10 +1073,10 @@ class App extends Component {
 		return (
 			<div>
 				<div>
-				<span className={mobileView ? "header-pic-container-mobile" : "header-pic-container"}>
-					<img src={Header} className={mobileView ? "header-pic-mobile" : "header-pic"} />
-				</span>
-				<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
+					<span className={mobileView ? "header-pic-container-mobile" : "header-pic-container"}>
+						<img src={Header} className={mobileView ? "header-pic-mobile" : "header-pic"} />
+					</span>
+					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
 						</span>
@@ -985,9 +1090,9 @@ class App extends Component {
 							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
-					
+
 				</div>
-				
+
 				<br />
 				{selectedView === "Home" && <>
 					<div className="App">
@@ -1014,9 +1119,9 @@ class App extends Component {
 										Accounting for known biases in estimation to give a truer picture of the outbreak <br />
 										Updated daily for all states of India (where data is available) <br />
 										Enabling understanding of outbreak indicators through explanation and visualisation</div>
-							    	</Card.Text>
+									</Card.Text>
 									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
-							  	</Card.Body>
+								</Card.Body>
 							</Card>
 						</div>
 
@@ -1029,8 +1134,8 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Effective Reproduction Number (Rt)
-												<OverlayTrigger  placement="right" overlay={rtPopover}>
+											<h5 className="mb-0 mt-2">Effective Reproduction Number
+												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -1043,35 +1148,13 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Mobility Index
-												<OverlayTrigger  placement="right" overlay={mobilityPopover}>
+											<h5 className="mb-0 mt-2">Mobility Index (% change from pre-lockdown)
+												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
 											<div className="mobilityGraph">
-												<Line
-													data={mobilityGraphData}
-													height={300}
-													options={{
-														maintainAspectRatio: false,
-														legend: {
-															display: true,
-														},
-														title: {
-															display: true,
-														},
-														scales: {
-															yAxes: [{
-																display: true,
-															}],
-															xAxes: [{
-																gridLines: {
-																	display: false,
-																}
-															}]
-														},
-													}}
-												/>
+												<this.MobilityChartRender />
 											</div>
 										</Col>
 									</Row>
@@ -1080,35 +1163,13 @@ class App extends Component {
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (CFR)
+											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (%)
 												<OverlayTrigger placement="left" overlay={cfrPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
 											<div className="cfr-graph">
-												<Line
-													data={cfrGraphData}
-													height={300}
-													options={{
-														maintainAspectRatio: false,
-														legend: {
-															display: false,
-														},
-														title: {
-															display: false,
-														},
-														scales: {
-															yAxes: [{
-																display: true,
-															}],
-															xAxes: [{
-																gridLines: {
-																	display: false,
-																}
-															}]
-														},
-													}}
-												/>
+												<this.CfrChartRender />
 											</div>
 										</Col>
 									</Row>
@@ -1116,8 +1177,8 @@ class App extends Component {
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Positivity Rate 
-												<OverlayTrigger  placement="left" overlay={positivityPopover}>
+											<h5 className="mb-0 mt-2">Positivity Rate (%)
+												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
 											</h5>
@@ -1125,10 +1186,27 @@ class App extends Component {
 												<Line
 													data={positivityRateGraphData}
 													height={300}
+													plugins={{
+														verticalLineAtIndex: [3, 24, 43],
+													}}
 													options={{
 														maintainAspectRatio: false,
 														legend: {
 															display: false,
+														},
+														tooltips: {
+															mode: 'index',
+															intersect: false,
+															filter: function (tooltipItem) {
+																return tooltipItem.datasetIndex === 2;
+															}
+														},
+														hover: {
+															mode: 'index',
+															intersect: false,
+															animationDuration: 200,
+															onHover: function (event, chart) {
+															},
 														},
 														title: {
 															display: true,
@@ -1177,9 +1255,9 @@ class App extends Component {
 						</Container>
 					</div>
 					<div className="sub-header-row mt-4">
-							<span className="header-bar-text">Know about the indicators</span>
-						</div>
-						
+						<span className="header-bar-text">Know about the indicators</span>
+					</div>
+
 					<div className="home-text" ref={this.textDivRef}>
 						<Card>
 							<Card.Body>
@@ -1195,64 +1273,64 @@ class App extends Component {
 										control measures, we can assess the efficacy of different interventions by comparing the change in Rt after their implementation. <br />
 										Green: Below 1 <br />
 										Red: Above 1</div>
-							    	</Card.Text>
-								</Card.Body>
-								<Card.Body>	
-									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Mobility Index`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div><span style={{fontStyle: "italic"}}>This indicates the change in frequency and length of visits at different places compared to a baseline level from 
-										Jan 3 to Feb 6, 2020.</span> It shows us the effect of lockdown and behavioural change on the movement of people, reflecting the 
-										strictness and enforcement of social distancing in different states. We have introduced this parameter experimentally 
-										considering that mobility has a direct effect on disease spread, however there is no evidence yet that this specific mobility 
-										index is correlated with local transmission. <br/> Data Source: Google COVID19 Community Mobility Reports</div>
-							    	</Card.Text>
-							  	</Card.Body>
-								<Card.Body></Card.Body>
-								<Card.Body>
-							    	<Card.Title className="top-text-title" style={{fontWeight: "bold", fontStyle: "italic"}}>{`Are we testing enough? (Testing indicators)`}</Card.Title>
-								</Card.Body>
-								<Card.Body>
-								<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Test Positivity Rate`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div><span style={{fontStyle: "italic"}}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity rate may mean that testing levels 
-										are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to detect any resurgence. 
-										In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion of COVID-19 and 
-										may miss new chains of transmission in the community. Test Positivity Rate is a better indicator of testing adequacy than Tests 
-										Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
-										(https://coronavirus.jhu.edu/testing/international-comparison) The WHO has recommended that the daily positivity rate be below 
-										5% for atleast two weeks before relaxing public health measures. We report daily positivity rate (as 7-day moving averages) and 
-										cumulative positivity rate (which includes all tests done till date). <br/>
-										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% (based on WHO criteria)</div>
-							    	</Card.Text>
-								</Card.Body>
-								<Card.Body>	
-									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Corrected Case Fatality Rate (CFR)`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be 
-										biased in ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and 
-										the under-reporting of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, 
-										by adjusting the denominator to reflect the number of cases where death would have been reported if it had occurred, based on 
-										known estimates of delay from confirmation to death. The variation in Corrected CFR across states would then reflect the degree 
-										of under-reporting or testing adequacy in a particular state. <br/>
-										Red: More than 10% <br/> Yellow: Between 5% and 10% <br/> Green: Less than 5% </div>
-							    	</Card.Text>
-							  	</Card.Body>
-								<Card.Body>	
-									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`Tests Per Million`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div style={{fontStyle: "italic"}}>It is the total number of tests done per 10,00,000 people.</div>
-							    	</Card.Text>
-							  	</Card.Body>
-								<Card.Body>	
-									<Card.Title className="top-text-title" style={{fontWeight: "bold"}}>{`For The People, By The People`}</Card.Title>
-							    	<Card.Text className="top-text-body">
-							      		<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders, 
-										and public health experts from institutes across India. <span style={{fontWeight: "bold", fontStyle: "italic"}}>Anyone can contribute to this project</span> - 
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Mobility Index`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div><span style={{ fontStyle: "italic" }}>This indicates the change in frequency and length of visits at different places compared to a baseline level from
+										Jan 3 to Feb 6, 2020.</span> It shows us the effect of lockdown and behavioural change on the movement of people, reflecting the
+										strictness and enforcement of social distancing in different states. We have introduced this parameter experimentally
+										considering that mobility has a direct effect on disease spread, however there is no evidence yet that this specific mobility
+										index is correlated with local transmission. <br /> Data Source: Google COVID19 Community Mobility Reports</div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body></Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontStyle: "italic" }}>{`Are we testing enough? (Testing indicators)`}</Card.Title>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Test Positivity Rate`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity rate may mean that testing levels
+										are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to detect any resurgence.
+										In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion of COVID-19 and
+										may miss new chains of transmission in the community. Test Positivity Rate is a better indicator of testing adequacy than Tests
+										Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population.
+										(https://coronavirus.jhu.edu/testing/international-comparison) The WHO has recommended that the daily positivity rate be below
+										5% for atleast two weeks before relaxing public health measures. We report daily positivity rate (as 7-day moving averages) and
+										cumulative positivity rate (which includes all tests done till date). <br />
+										Red: More than 10% <br /> Yellow: Between 5% and 10% <br /> Green: Less than 5% (based on WHO criteria)</div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Corrected Case Fatality Rate (CFR)`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be
+									biased in ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and
+									the under-reporting of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias,
+									by adjusting the denominator to reflect the number of cases where death would have been reported if it had occurred, based on
+									known estimates of delay from confirmation to death. The variation in Corrected CFR across states would then reflect the degree
+										of under-reporting or testing adequacy in a particular state. <br />
+										Red: More than 10% <br /> Yellow: Between 5% and 10% <br /> Green: Less than 5% </div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Tests Per Million`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div style={{ fontStyle: "italic" }}>It is the total number of tests done per 10,00,000 people.</div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`For The People, By The People`}</Card.Title>
+								<Card.Text className="top-text-body">
+									<div>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, researchers, coders,
+										and public health experts from institutes across India. <span style={{ fontWeight: "bold", fontStyle: "italic" }}>Anyone can contribute to this project</span> -
 										<a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}>click here if you want to pitch in.</a></div>
-							    	</Card.Text>
-							  	</Card.Body>
-							</Card>
-						</div>
+								</Card.Text>
+							</Card.Body>
+						</Card>
+					</div>
 				</>}
 				{selectedView === "Methods" && <div className="App">Methods</div>}
 				{selectedView === "Contribute" && <div className="App">Contribute</div>}

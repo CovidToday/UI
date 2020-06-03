@@ -205,12 +205,21 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	color: #004065;
 }
 
-.dropdown-state.btn-success.focus, .dropdown-state.btn-success:focus{
+.dropdown-state.btn-success.focus, .dropdown-state.btn-success:focus, .btn-success:focus{
 	background-color: white;
 	border-color: black;
-	box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+	box-shadow: 0 0 0 0.1rem rgb(255, 255, 255);
 	color: #004065;
 }
+
+.show>.btn-success.dropdown-toggle, .show>.btn-success.dropdown-toggle:focus, .show>.btn-success.dropdown-toggle :focus {
+	background-color: white !important;
+	border-color: white !important;
+	color: #004065 !important;
+	box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
+}
+
+
 
 .scroll-button.btn-outline-primary{
 	color: #004065;
