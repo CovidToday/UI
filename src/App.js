@@ -818,7 +818,7 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Positive Rate',
-				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length - 1),
+				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
