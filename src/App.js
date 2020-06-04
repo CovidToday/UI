@@ -54,8 +54,10 @@ class App extends Component {
 							}
 						},
 						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Total number of COVID+ cases detected till date" },
-						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
-							cellRenderer: 'casesRenderer', comparator: this.numberSort }
+						{
+							headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+							cellRenderer: 'casesRenderer', comparator: this.numberSort
+						}
 					]
 				},
 				{
@@ -114,11 +116,11 @@ class App extends Component {
 			selectedView: 'Home',
 			mobileView: false,
 			frameworkComponents: {
-		        posRateRenderer: PosRateRenderer,
+				posRateRenderer: PosRateRenderer,
 				cfrRenderer: CfrRenderer,
 				casesRenderer: CasesRenderer,
 				rtRenderer: RtRenderer
-		      },
+			},
 		}
 	}
 
@@ -132,7 +134,7 @@ class App extends Component {
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
 					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
-							cellRenderer: 'rtRenderer', comparator: this.numberSort,
+					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
 						let a = true;
@@ -151,32 +153,40 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date", 
-				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
-				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
-							cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{
+					headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
+					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				},
+				{
+					headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+					cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				}
 			]
 		},
 		{
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
-							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
-								let style;
-								const posRateNumber = parseFloat(params.data.posRate);
-								if (posRateNumber > 10) {
-									style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#fafae1', fontSize: "x-small" };
-								}
-								return style;
-							}},
-				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, headerTooltip: "Percent of tests done till date that came back positive", 
-				suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{
+					headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+					cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
+						let style;
+						const posRateNumber = parseFloat(params.data.posRate);
+						if (posRateNumber > 10) {
+							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
+						} else if (posRateNumber < 5) {
+							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
+						} else if (posRateNumber < 10 && posRateNumber > 5) {
+							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
+						}
+						return style;
+					}
+				},
+				{
+					headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
+					suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				},
 				{
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort,
-							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
+					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
@@ -188,8 +198,10 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state", 
-				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{
+					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
+					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				}
 			]
 		}
 	];
@@ -285,6 +297,7 @@ class App extends Component {
 				// write label
 				context.fillStyle = "#004065";
 				context.textAlign = 'left';
+				context.font = '12px "Titillium Web"';
 				context.fillText(' Lockdown ' + number, lineLeftOffset, scale.top);
 			},
 
@@ -444,7 +457,7 @@ class App extends Component {
 				//cfr
 				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
 				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
-				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex-7] * 100).toFixed(2) : "NA";
+				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex - 7] * 100).toFixed(2) : "NA";
 
 				//national
 				let confirmedCases;
@@ -474,7 +487,7 @@ class App extends Component {
 						const countMACases = data[1].daily_positive_cases_ma.length - 1;
 						const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
 						const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
-						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex-7];
+						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex - 7];
 						maCases = maCasesFloat && maCasesFloat !== "" ? Math.floor(maCasesFloat) : "NA";
 						maCasesOld = maCasesFloatOld && maCasesFloatOld !== "" ? Math.floor(maCasesFloatOld) : "NA";
 					}
@@ -488,7 +501,7 @@ class App extends Component {
 						const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
 						const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
 						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
-						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex-7]);
+						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex - 7]);
 						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld * 100).toFixed(2) : "NA";
 					}
 				});
@@ -610,18 +623,20 @@ class App extends Component {
 				label: 'Rt l95',
 				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '2',// + (verticalLineData.length + 2),
-				backgroundColor: 'lightgray',
+				backgroundColor: '#d3efff',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
 				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '1',// + (verticalLineData.length + 3),
-				backgroundColor: 'gray',
+				backgroundColor: '#558aaf',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
-				label: 'Rt Point',
+				label: 'Rt',
 				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length),
 				radius: 1,
 				borderColor: '#004065',
@@ -630,14 +645,16 @@ class App extends Component {
 				label: 'Rt u50',
 				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-2',
-				backgroundColor: 'gray',
+				backgroundColor: '#558aaf',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
 				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-4',
-				backgroundColor: 'lightgray',
+				backgroundColor: '#d3efff',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}];
@@ -725,7 +742,7 @@ class App extends Component {
 				radius: 1,
 				fill: false
 			}, {
-				label: 'Grocery',
+				label: 'Grocery and Pharmacy',
 				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#454c80',
 				borderWidth: 1,
@@ -746,14 +763,14 @@ class App extends Component {
 				radius: 0,
 				fill: false
 			}, {
-				label: 'Retail',
+				label: 'Retail and Recreation',
 				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#e1697e',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
-				label: 'Transit',
+				label: 'Transit Stations',
 				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#fa8467',
 				borderWidth: 1,
@@ -902,9 +919,9 @@ class App extends Component {
 						return tooltipItem.datasetIndex === 3;
 					},
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label: function (tooltipItem, data) {
 							var label = data.datasets[tooltipItem.datasetIndex].label || '';
-		
+
 							if (label) {
 								label += ': ';
 							}
@@ -922,7 +939,7 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
+					padding: {
 						top: 21,
 					}
 				},
@@ -973,9 +990,9 @@ class App extends Component {
 						return tooltipItem.datasetIndex === 2;
 					},
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label: function (tooltipItem, data) {
 							var label = data.datasets[tooltipItem.datasetIndex].label || '';
-		
+
 							if (label) {
 								label += ': ';
 							}
@@ -992,7 +1009,7 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
+					padding: {
 						top: 21,
 					}
 				},
@@ -1028,7 +1045,8 @@ class App extends Component {
 					labels: {
 						boxWidth: 20,
 						fontFamily: 'Titillium Web',
-					}
+					},
+					position: 'bottom',
 				},
 				tooltips: {
 					mode: 'index',
@@ -1042,8 +1060,8 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
-						top: 0,
+					padding: {
+						top: 21,
 					}
 				},
 				title: {
@@ -1078,8 +1096,9 @@ class App extends Component {
 			<Popover id="rt-popover">
 				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Rt is the average number of people infected by a single case at a particular time during the outbreak.
+					Green line at Rt=1 below which epidemic is controlled.
+					Dark band and light band show 50% and 95% confidence intervals respectively.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1088,8 +1107,8 @@ class App extends Component {
 			<Popover id="cfr-popover">
 				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away.
+					Green line at 5%. Red line at 10%.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1098,8 +1117,7 @@ class App extends Component {
 			<Popover id="mobility-popover">
 				<Popover.Title as="h3">Mobility Index</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					This indicates the % change in the movement of people at various places compared to that before lockdown.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1108,8 +1126,8 @@ class App extends Component {
 			<Popover id="positivity-popover">
 				<Popover.Title as="h3">Positivity Rate</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Percent of tests done per day that came back positive (7-day moving average).
+					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1178,7 +1196,7 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Effective Reproduction Number
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Effective Reproduction Number
 												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1192,7 +1210,7 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Mobility Index (% change from pre-lockdown)
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Mobility Index (% change from pre-lockdown)
 												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1204,24 +1222,11 @@ class App extends Component {
 									</Row>
 								</Col>
 								<Col>
-									{/* CFR Graph */}
-									<Row>
-										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Corrected Case Fatality Rate (%)
-												<OverlayTrigger placement="left" overlay={cfrPopover}>
-													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
-												</OverlayTrigger>
-											</h5>
-											<div className="cfr-graph">
-												<this.CfrChartRender />
-											</div>
-										</Col>
-									</Row>
 									<div className="mt-2"></div>
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Positivity Rate (%)
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Positivity Rate (%)
 												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1245,9 +1250,9 @@ class App extends Component {
 																return tooltipItem.datasetIndex === 2;
 															},
 															callbacks: {
-																label: function(tooltipItem, data) {
+																label: function (tooltipItem, data) {
 																	var label = data.datasets[tooltipItem.datasetIndex].label || '';
-												
+
 																	if (label) {
 																		label += ': ';
 																	}
@@ -1264,7 +1269,7 @@ class App extends Component {
 															},
 														},
 														layout: {
-															padding : {
+															padding: {
 																top: 21,
 															}
 														},
@@ -1283,6 +1288,19 @@ class App extends Component {
 														},
 													}}
 												/>
+											</div>
+										</Col>
+									</Row>
+									{/* CFR Graph */}
+									<Row>
+										<Col>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Corrected Case Fatality Rate (%)
+												<OverlayTrigger placement="left" overlay={cfrPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
+											<div className="cfr-graph">
+												<this.CfrChartRender />
 											</div>
 										</Col>
 									</Row>
@@ -1316,7 +1334,7 @@ class App extends Component {
 					</div>
 					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
 						<span className="top-text-body">
-							{`Method of calculation and raw data sources at`} <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> 
+							{`Method of calculation and raw data sources at`} <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a>
 							{`page. Up and Down arrows indicate change in the respective 
 							parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
 							Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
