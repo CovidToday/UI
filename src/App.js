@@ -20,7 +20,6 @@ import Contribute from "./Contribute.js";
 import About from "./About.js";
 
 class App extends Component {
-
 	constructor(props) {
 		super(props);
 		this.textDivRef = React.createRef()
@@ -1125,16 +1124,16 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
 					<span>
