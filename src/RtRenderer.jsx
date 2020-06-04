@@ -12,9 +12,11 @@ export default class PosRateRenderer extends Component {
 		const rtOldValue = data.rtOld[6];
 			if(this.props.value && this.props.value !== "NA"){
 				if(parseFloat(data.rtCurrent) < parseFloat(rtOldValue)) {
-				return <span><span style={{paddingRight: "3px"}}>{this.props.value}</span><img src={downIcon} className="cell-icon"/></span>
+				return <span title={`Value shown for ${this.props.data.rtDate}`}><span style={{paddingRight: "3px"}}>
+				{this.props.value}</span><img src={downIcon} className="cell-icon"/></span>
 			} else {
-				return <span><span style={{paddingRight: "3px"}}>{this.props.value}</span><img src={upIcon} className="cell-icon"/></span>
+				return <span title={`Value shown for ${this.props.data.rtDate}`}><span style={{paddingRight: "3px"}}>
+				{this.props.value}</span><img src={upIcon} className="cell-icon"/></span>
 			}
 		} else {return <span>-</span>}
 	}
