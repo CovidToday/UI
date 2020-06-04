@@ -31,7 +31,7 @@ class App extends Component {
 			columnDefs: [
 				{
 					headerName: '', children: [
-						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true,  maxWidth: "170" }
+						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true, maxWidth: "170" }
 					]
 				},
 				{
@@ -79,8 +79,10 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, 
-						cellRenderer: 'cumPosRateRenderer', headerTooltip: "Percent of tests done till date that came back positive" },
+						{
+							headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
+							cellRenderer: 'cumPosRateRenderer', headerTooltip: "Percent of tests done till date that came back positive"
+						},
 						{
 							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
 							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
@@ -119,7 +121,7 @@ class App extends Component {
 			selectedView: 'Home',
 			mobileView: false,
 			frameworkComponents: {
-		        posRateRenderer: PosRateRenderer,
+				posRateRenderer: PosRateRenderer,
 				cfrRenderer: CfrRenderer,
 				casesRenderer: CasesRenderer,
 				rtRenderer: RtRenderer,
@@ -139,7 +141,7 @@ class App extends Component {
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
 					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
-							cellRenderer: 'rtRenderer', comparator: this.numberSort,
+					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
 						let a = true;
@@ -183,7 +185,7 @@ class App extends Component {
 						cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
 				{
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 100, sortable: true, suppressMovable: true, comparator: this.numberSort,
-							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
+					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
@@ -195,8 +197,10 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state", 
-				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{
+					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
+					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				}
 			]
 		}
 	];
@@ -210,7 +214,7 @@ class App extends Component {
 			this.setState({ mobileView: true });
 
 		}
-		
+
 	}
 
 	componentWillMount() {
@@ -295,6 +299,7 @@ class App extends Component {
 				// write label
 				context.fillStyle = "#004065";
 				context.textAlign = 'left';
+				context.font = '12px "Titillium Web"';
 				context.fillText(' Lockdown ' + number, lineLeftOffset, scale.top);
 			},
 
@@ -491,7 +496,7 @@ class App extends Component {
 						const countMACases = data[1].daily_positive_cases_ma.length - 1;
 						const MACasesIndex = indexMACases >= 0 ? countMACases - indexMACases : indexMACases;
 						const maCasesFloat = data[1].daily_positive_cases_ma[MACasesIndex];
-						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex-7];
+						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex - 7];
 						maCases = maCasesFloat && maCasesFloat !== "" ? Math.floor(maCasesFloat) : "NA";
 						maCasesOld = maCasesFloatOld && maCasesFloatOld !== "" ? Math.floor(maCasesFloatOld) : "NA";
 						maCasesDate = data[1].dates[MACasesIndex];
@@ -507,7 +512,7 @@ class App extends Component {
 						const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
 						const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
 						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
-						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex-7]);
+						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex - 7]);
 						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld * 100).toFixed(2) : "NA";
 						posRateDate = data[1].dates[posRateMaIndex];
 					}
@@ -642,18 +647,20 @@ class App extends Component {
 				label: 'Rt l95',
 				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '2',// + (verticalLineData.length + 2),
-				backgroundColor: 'lightgray',
+				backgroundColor: '#d3efff',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
 				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '1',// + (verticalLineData.length + 3),
-				backgroundColor: 'gray',
+				backgroundColor: '#558aaf',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
-				label: 'Rt Point',
+				label: 'Rt',
 				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length),
 				radius: 1,
 				borderColor: '#004065',
@@ -662,14 +669,16 @@ class App extends Component {
 				label: 'Rt u50',
 				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-2',
-				backgroundColor: 'gray',
+				backgroundColor: '#558aaf',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
 				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-4',
-				backgroundColor: 'lightgray',
+				backgroundColor: '#d3efff',
+				borderWidth: 1,
 				radius: 0,
 				hoverRadius: 0,
 			}];
@@ -757,7 +766,7 @@ class App extends Component {
 				radius: 1,
 				fill: false
 			}, {
-				label: 'Grocery',
+				label: 'Grocery and Pharmacy',
 				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#454c80',
 				borderWidth: 1,
@@ -778,14 +787,14 @@ class App extends Component {
 				radius: 0,
 				fill: false
 			}, {
-				label: 'Retail',
+				label: 'Retail and Recreation',
 				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#e1697e',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
-				label: 'Transit',
+				label: 'Transit Stations',
 				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: '#fa8467',
 				borderWidth: 1,
@@ -934,9 +943,9 @@ class App extends Component {
 						return tooltipItem.datasetIndex === 3;
 					},
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label: function (tooltipItem, data) {
 							var label = data.datasets[tooltipItem.datasetIndex].label || '';
-		
+
 							if (label) {
 								label += ': ';
 							}
@@ -954,7 +963,7 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
+					padding: {
 						top: 21,
 					}
 				},
@@ -1005,9 +1014,9 @@ class App extends Component {
 						return tooltipItem.datasetIndex === 2;
 					},
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label: function (tooltipItem, data) {
 							var label = data.datasets[tooltipItem.datasetIndex].label || '';
-		
+
 							if (label) {
 								label += ': ';
 							}
@@ -1024,7 +1033,7 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
+					padding: {
 						top: 21,
 					}
 				},
@@ -1060,7 +1069,8 @@ class App extends Component {
 					labels: {
 						boxWidth: 20,
 						fontFamily: 'Titillium Web',
-					}
+					},
+					position: 'bottom',
 				},
 				tooltips: {
 					mode: 'index',
@@ -1074,8 +1084,8 @@ class App extends Component {
 					},
 				},
 				layout: {
-					padding : {
-						top: 0,
+					padding: {
+						top: 21,
 					}
 				},
 				title: {
@@ -1103,13 +1113,13 @@ class App extends Component {
 			})
 		}
 	}
-	
+
 	handleDashboardScroll = () => {
 		if (this.plotsRef.current) {
-			setTimeout(() => {this.scrollToPlots()}, 800);
+			setTimeout(() => { this.scrollToPlots() }, 800);
 		}
 	}
-	
+
 	scrollToPlots = (event) => {
 		if (this.plotsRef.current) {
 			this.plotsRef.current.scrollIntoView({
@@ -1125,8 +1135,9 @@ class App extends Component {
 			<Popover id="rt-popover">
 				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Rt is the average number of people infected by a single case at a particular time during the outbreak.
+					Green line at Rt=1 below which epidemic is controlled.
+					Dark band and light band show 50% and 95% confidence intervals respectively.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1135,8 +1146,8 @@ class App extends Component {
 			<Popover id="cfr-popover">
 				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away.
+					Green line at 5%. Red line at 10%.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1145,8 +1156,7 @@ class App extends Component {
 			<Popover id="mobility-popover">
 				<Popover.Title as="h3">Mobility Index</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					This indicates the % change in the movement of people at various places compared to that before lockdown.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1155,8 +1165,8 @@ class App extends Component {
 			<Popover id="positivity-popover">
 				<Popover.Title as="h3">Positivity Rate</Popover.Title>
 				<Popover.Content>
-					And here's some <strong>amazing</strong> content. It's very engaging.
-				right?
+					Percent of tests done per day that came back positive (7-day moving average).
+					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1169,20 +1179,20 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
-							onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
-							onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
-							onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
-							onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
 					<span>
@@ -1231,7 +1241,7 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Effective Reproduction Number
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Effective Reproduction Number
 												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1245,7 +1255,7 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Mobility Index (% change from pre-lockdown)
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Mobility Index (% change from pre-lockdown)
 												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1257,24 +1267,11 @@ class App extends Component {
 									</Row>
 								</Col>
 								<Col>
-									{/* CFR Graph */}
-									<Row>
-										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Corrected Case Fatality Rate (%)
-												<OverlayTrigger placement="left" overlay={cfrPopover}>
-													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
-												</OverlayTrigger>
-											</h5>
-											<div className="cfr-graph">
-												<this.CfrChartRender />
-											</div>
-										</Col>
-									</Row>
 									<div className="mt-2"></div>
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading">Positivity Rate (%)
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Positivity Rate (%)
 												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1298,9 +1295,9 @@ class App extends Component {
 																return tooltipItem.datasetIndex === 2;
 															},
 															callbacks: {
-																label: function(tooltipItem, data) {
+																label: function (tooltipItem, data) {
 																	var label = data.datasets[tooltipItem.datasetIndex].label || '';
-												
+
 																	if (label) {
 																		label += ': ';
 																	}
@@ -1317,7 +1314,7 @@ class App extends Component {
 															},
 														},
 														layout: {
-															padding : {
+															padding: {
 																top: 21,
 															}
 														},
@@ -1336,6 +1333,19 @@ class App extends Component {
 														},
 													}}
 												/>
+											</div>
+										</Col>
+									</Row>
+									{/* CFR Graph */}
+									<Row>
+										<Col>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Corrected Case Fatality Rate (%)
+												<OverlayTrigger placement="left" overlay={cfrPopover}>
+													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+												</OverlayTrigger>
+											</h5>
+											<div className="cfr-graph">
+												<this.CfrChartRender />
 											</div>
 										</Col>
 									</Row>
