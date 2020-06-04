@@ -7,14 +7,20 @@ export default class CumPosRateRenderer extends Component {
 
 	getValue() {
 		const raw = this.props.value;
-		const value = raw.substring(0, raw.length - 1);
+		const last = raw[raw.length - 1];
+		let value;
+		if(last === "%") {
+			value = raw.substring(0, raw.length - 1);
+		} else {
+			value = raw;
+		}
 		return value;
 			
 	}
 
   render() {
     return (
-      <span>
+      <span title={`Value shown for ${this.props.data.cumPRateDate}`}>
         {this.getValue()}
       </span>
     );

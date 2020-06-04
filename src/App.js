@@ -16,6 +16,7 @@ import CfrRenderer from './CfrRenderer.jsx';
 import RtRenderer from './RtRenderer.jsx';
 import CasesRenderer from './CasesRenderer.jsx';
 import CumPosRateRenderer from './CumPosRateRenderer.jsx';
+import CumCasesRenderer from './CumCasesRenderer.jsx';
 import Methods from "./Methods.js";
 import Contribute from "./Contribute.js";
 import About from "./About.js";
@@ -55,15 +56,16 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Total number of COVID+ cases detected till date" },
-						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, 
+						cellRenderer: 'cumCasesRenderer', headerTooltip: "Total number of COVID+ cases detected till date" },
+						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
 							cellRenderer: 'casesRenderer', comparator: this.numberSort }
 					]
 				},
 				{
 					headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 						{
-							headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+							headerName: "POSITIVITY RATE", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
 							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
@@ -121,7 +123,8 @@ class App extends Component {
 				cfrRenderer: CfrRenderer,
 				casesRenderer: CasesRenderer,
 				rtRenderer: RtRenderer,
-				cumPosRateRenderer: CumPosRateRenderer
+				cumPosRateRenderer: CumPosRateRenderer,
+				cumCasesRenderer: CumCasesRenderer
 		      },
 		}
 	}
@@ -156,14 +159,14 @@ class App extends Component {
 					}
 				},
 				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date", 
-				comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
-				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(average over last 7 days)",
+				cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
 							cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
 			]
 		},
 		{
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+				{ headerName: "POSITIVITY RATE", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
 							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
@@ -440,6 +443,7 @@ class App extends Component {
 				const rtPoint = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_point[rtIndex]).toFixed(2) : "NA";
 				const rtl95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_l95[rtIndex]).toFixed(2) : "NA";
 				const rtu95 = rtIndex > 0 ? (this.state.rtDataFromApi[s].rt_u95[rtIndex]).toFixed(2) : "NA";
+				const rtDate = rtIndex > 0 ? (this.state.rtDataFromApi[s].dates[rtIndex]) : "-";
 				const rtToCompare = [];
 				if (rtIndex > 13) {
 					for (let i = rtIndex - 13; i <= rtIndex; i++) {
@@ -452,18 +456,22 @@ class App extends Component {
 				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
 				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
 				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex-7] * 100).toFixed(2) : "NA";
+				const cfrDate = cfrIndex > 0 ? this.state.cfrDataFromApi[name].dates[cfrIndex] : "-";
 
 				//national
 				let confirmedCases;
+				let cumCasesDate;
 				this.state.nationalDataFromApi.statewise.forEach(item => {
 					if (item.state === name) {
 						confirmedCases = item.confirmed;
+						cumCasesDate = item.lastupdatedtime;
 					}
 				});
 
 				//posRate
 				const posRateArr = Object.entries(this.state.positivityRateDataFromApi);
 				let cumulativePosRate;
+				let cumPRateDate;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
 						const indexCum = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
@@ -471,10 +479,12 @@ class App extends Component {
 						const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
 						const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
 						cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat : "NA";
+						cumPRateDate = data[1].dates[cumPosRateIndex];
 					}
 				});
 				let maCases;
 				let maCasesOld;
+				let maCasesDate;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
 						const indexMACases = data[1].daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
@@ -484,10 +494,12 @@ class App extends Component {
 						const maCasesFloatOld = data[1].daily_positive_cases_ma[MACasesIndex-7];
 						maCases = maCasesFloat && maCasesFloat !== "" ? Math.floor(maCasesFloat) : "NA";
 						maCasesOld = maCasesFloatOld && maCasesFloatOld !== "" ? Math.floor(maCasesFloatOld) : "NA";
+						maCasesDate = data[1].dates[MACasesIndex];
 					}
 				});
 				let maPosRate;
 				let maPosRateOld;
+				let posRateDate;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
 						const indexPosRateMa = data[1].daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
@@ -497,13 +509,15 @@ class App extends Component {
 						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
 						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex-7]);
 						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld * 100).toFixed(2) : "NA";
+						posRateDate = data[1].dates[posRateMaIndex];
 					}
 				});
 
 
 				data.push({
 					key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
-					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare, dailyCasesOld: maCasesOld, posRateOld: maPosRateOld, cfrOld: cfrPointOld
+					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare, dailyCasesOld: maCasesOld, posRateOld: maPosRateOld, cfrOld: cfrPointOld,
+					rtDate: rtDate, cumCasesDate: cumCasesDate, maCasesDate: maCasesDate, posRateDate: posRateDate, cumPRateDate: cumPRateDate, cfrDate: cfrDate
 				});
 			});
 			data.sort(function (a, b) {
@@ -516,6 +530,7 @@ class App extends Component {
 		const rtPointInd = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_point[rtIndexInd]).toFixed(2) : "NA";
 		const rtl95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_l95[rtIndexInd]).toFixed(2) : "NA";
 		const rtu95Ind = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].rt_u95[rtIndexInd]).toFixed(2) : "NA";
+		const rtDate = rtIndexInd > 0 ? (this.state.rtDataFromApi["IN"].dates[rtIndexInd]) : "-";
 		const rtToCompareInd = [];
 		if (rtIndexInd > 13) {
 			for (let i = rtIndexInd - 13; i <= rtIndexInd; i++) {
@@ -523,11 +538,15 @@ class App extends Component {
 			};
 		}
 		const rtDataInd = `${rtPointInd} (${rtl95Ind}-${rtu95Ind})`
+		
 		const cfrIndexInd = this.state.cfrDataFromApi["India"].cfr3_point.length - 1;
 		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd] * 100).toFixed(2) : "NA";
+		const cfrDate = cfrIndexInd > 0 ? this.state.cfrDataFromApi["India"].dates[cfrIndexInd] : "-";
+		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd-7] * 100).toFixed(2) : "NA";
 
 		const cumConfirmedIndIndex = this.state.nationalDataFromApi.cases_time_series.length - 1;
 		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
+		const cumCasesIndDate = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].date;
 
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
 
@@ -535,20 +554,26 @@ class App extends Component {
 		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
 		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd] * 100).toFixed(2);
+		const cumPRDateInd = posRateArrInd.dates[posRateIndexInd];
 
 		const indexIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.length - 1;
 		const posRateMaIndexInd = indexIndPosRateMa >= 0 ? countIndPosRateMa - indexIndPosRateMa : indexIndPosRateMa;
 		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd] * 100).toFixed(2);
+		const PosRateMaIndOld = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd-7] * 100).toFixed(2);
+		const posRateDateInd = posRateArrInd.dates[posRateMaIndexInd];
 
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
 		const casesMaIndexInd = indexInd >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
 		const casesMaInd = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]);
+		const casesMaIndOld = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd-7]);
+		const maCasesIndDate = posRateArrInd.dates[casesMaIndexInd];
 
 		pinnedData.push({
 			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
-			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd
+			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd, rtDate: rtDate, cfrDate: cfrDate, cfrOld: cfrPointOld, dailyCasesOld: casesMaIndOld,
+			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPRDate: cumPRDateInd
 		})
 		this.setState({ pinnedTopRowData: pinnedData })
 	}
@@ -1344,11 +1369,12 @@ class App extends Component {
 					</div>
 					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
 						<span className="top-text-body">
-							{`Method of calculation and raw data sources at`} <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> 
-							{`page. Up and Down arrows indicate change in the respective 
-							parameter compared to 7 days ago. Colour coding of cells as follows- Rt is Red: >1, Yellow: <1 for less than 2 weeks, 
-							Green: <1 for more than 2 weeks (based on WHO criteria). Positivity Rate is Red: >10%, Yellow: 5-10%, Green: <5% 
-							(based on WHO criteria). Corrected CFR is Red: >10%, Yellow: 5-10%, Green: <5%.  `}
+							<div>Method of calculation and raw data sources at <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/> 
+							Up and Down arrows indicate change in the respective parameter compared to 7 days ago.<br/> 
+							Colour coding of cells as follows- <br/>
+							{`Rt is Red: > 1, Yellow: < 1 for less than 2 weeks, Green: < 1 for more than 2 weeks (based on WHO criteria).`} <br/>
+							{`Positivity Rate is Red: > 10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`}<br/> 
+							{`Corrected CFR is Red: > 10%, Yellow: 5-10%, Green: < 5%.`}</div>
 						</span>
 					</div>
 					<div className="sub-header-row mt-4">
