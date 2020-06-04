@@ -921,8 +921,13 @@ class App extends Component {
 						//chart[0]._chart.tooltip._view.opacity = 1;
 					},
 				},
+				layout: {
+					padding : {
+						top: 21,
+					}
+				},
 				title: {
-					display: true,
+					display: false,
 				},
 				scales: {
 					yAxes: [{
@@ -986,8 +991,13 @@ class App extends Component {
 					onHover: function (event, chart) {
 					},
 				},
+				layout: {
+					padding : {
+						top: 21,
+					}
+				},
 				title: {
-					display: true,
+					display: false,
 				},
 				scales: {
 					yAxes: [{
@@ -1031,8 +1041,13 @@ class App extends Component {
 					onHover: function (event, chart) {
 					},
 				},
+				layout: {
+					padding : {
+						top: 0,
+					}
+				},
 				title: {
-					display: true,
+					display: false,
 				},
 				scales: {
 					yAxes: [{
@@ -1248,8 +1263,13 @@ class App extends Component {
 															onHover: function (event, chart) {
 															},
 														},
+														layout: {
+															padding : {
+																top: 21,
+															}
+														},
 														title: {
-															display: true,
+															display: false,
 														},
 														scales: {
 															yAxes: [{
