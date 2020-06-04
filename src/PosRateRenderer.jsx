@@ -6,7 +6,6 @@ export default class PosRateRenderer extends Component {
   constructor(props) {
     super(props);
   }
-
 	getValue() {
 		const data = this.props.data;
 			if(this.props.value && this.props.value !== "NA"){
