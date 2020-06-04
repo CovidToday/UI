@@ -1131,7 +1131,7 @@ class App extends Component {
 			<Popover id="cfr-popover">
 				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content>
-					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away.
+					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage.
 					Green line at 5%. Red line at 10%.
 				</Popover.Content>
 			</Popover>
@@ -1150,7 +1150,7 @@ class App extends Component {
 			<Popover id="positivity-popover">
 				<Popover.Title as="h3">Positivity Rate</Popover.Title>
 				<Popover.Content>
-					Percent of tests done per day that came back positive (7-day moving average).
+					Percent of tests done per day that came back positive (7-day moving average).Lower positivity rate means better testing coverage.
 					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
