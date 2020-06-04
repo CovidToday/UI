@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import './App.css';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -14,21 +15,22 @@ import PosRateRenderer from './PosRateRenderer.jsx';
 import CfrRenderer from './CfrRenderer.jsx';
 import RtRenderer from './RtRenderer.jsx';
 import CasesRenderer from './CasesRenderer.jsx';
+import CumPosRateRenderer from './CumPosRateRenderer.jsx';
 import Methods from "./Methods.js";
 import Contribute from "./Contribute.js";
 import About from "./About.js";
 
 class App extends Component {
-
 	constructor(props) {
 		super(props);
-		this.textDivRef = React.createRef()
+		this.textDivRef = React.createRef();
+		this.plotsRef = React.createRef();
 
 		this.state = {
 			columnDefs: [
 				{
 					headerName: '', children: [
-						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true }
+						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true, maxWidth: "170" }
 					]
 				},
 				{
@@ -77,7 +79,10 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Percent of tests done till date that came back positive" },
+						{
+							headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
+							cellRenderer: 'cumPosRateRenderer', headerTooltip: "Percent of tests done till date that came back positive"
+						},
 						{
 							headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
 							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
@@ -119,7 +124,8 @@ class App extends Component {
 				posRateRenderer: PosRateRenderer,
 				cfrRenderer: CfrRenderer,
 				casesRenderer: CasesRenderer,
-				rtRenderer: RtRenderer
+				rtRenderer: RtRenderer,
+				cumPosRateRenderer: CumPosRateRenderer
 			},
 		}
 	}
@@ -154,7 +160,7 @@ class App extends Component {
 					}
 				},
 				{
-					headerName: "CUMULATIVE CASES", field: "cumCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
+					headerName: "CUMULATIVE CASES", field: "cumCases", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
 					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				},
 				{
@@ -166,7 +172,7 @@ class App extends Component {
 		{
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 				{
-					headerName: "POSITIVITY RATE", field: "posRate", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
+					headerName: "POSITIVITY RATE", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicated RECENT trend",
 					cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 						let style;
 						const posRateNumber = parseFloat(params.data.posRate);
@@ -181,11 +187,11 @@ class App extends Component {
 					}
 				},
 				{
-					headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 80, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
-					suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 100, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
+					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				},
 				{
-					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 80, sortable: true, suppressMovable: true, comparator: this.numberSort,
+					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 100, sortable: true, suppressMovable: true, comparator: this.numberSort,
 					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
@@ -199,7 +205,7 @@ class App extends Component {
 					}
 				},
 				{
-					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
+					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
 					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				}
 			]
@@ -208,11 +214,14 @@ class App extends Component {
 
 	componentDidMount() {
 		this.setData();
+		ReactGA.initialize('UA-168412971-1');
+		ReactGA.pageview('covidToday');
 		if (window.innerWidth <= '1000') {
 			this.setState({ columnDefs: this.columnDefMobile });
 			this.setState({ mobileView: true });
 
 		}
+
 	}
 
 	componentWillMount() {
@@ -1090,6 +1099,21 @@ class App extends Component {
 		}
 	}
 
+	handleDashboardScroll = () => {
+		if (this.plotsRef.current) {
+			setTimeout(() => { this.scrollToPlots() }, 800);
+		}
+	}
+
+	scrollToPlots = (event) => {
+		if (this.plotsRef.current) {
+			this.plotsRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest"
+			})
+		}
+	}
+
 	render() {
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
@@ -1140,17 +1164,23 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+								onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
+					</span>
+					<span>
 					</span>
 
 				</div>
@@ -1190,7 +1220,7 @@ class App extends Component {
 						<this.DropdownRenderer />
 
 
-						<Container>
+						<Container ref={this.plotsRef}>
 							<Row>
 								<Col lg="6">
 									{/* RT Graph */}
@@ -1325,7 +1355,7 @@ class App extends Component {
 									rowData={this.state.rowData}
 									rowSelection={"single"}
 									frameworkComponents={this.state.frameworkComponents}
-									headerHeight='52'
+									headerHeight={window.innerWidth < '1200' ? '60' : '48'}
 									domLayout='autoHeight'
 									pinnedTopRowData={this.state.pinnedTopRowData}
 									onSelectionChanged={this.onSelectionChanged.bind(this)} />
