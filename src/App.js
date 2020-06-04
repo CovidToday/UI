@@ -555,7 +555,7 @@ class App extends Component {
 			let lockdownDatesIndex = [];
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
-			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
 
 			this.state.lockdownDates.forEach(date => {
 				let index = dataFromApi.dates.indexOf(date);
@@ -608,34 +608,34 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Rt l95',
-				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '2',// + (verticalLineData.length + 2),
 				backgroundColor: 'lightgray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt l50',
-				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.rt_l50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '1',// + (verticalLineData.length + 3),
 				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt Point',
-				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length),
 				radius: 1,
 				borderColor: 'black',
 				fill: false
 			}, {
 				label: 'Rt u50',
-				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.rt_u50.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-2',
 				backgroundColor: 'gray',
 				radius: 0,
 				hoverRadius: 0,
 			}, {
 				label: 'Rt u95',
-				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length),
 				fill: '-4',
 				backgroundColor: 'lightgray',
 				radius: 0,
@@ -660,7 +660,7 @@ class App extends Component {
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
-			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
 
 			// Horizontal line
 			let horizontalLineData = [];
@@ -696,7 +696,7 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'CFR',
-				data: cfrDataSet.slice(dateIndex, cfrDataSet.length - 1),
+				data: cfrDataSet.slice(dateIndex, cfrDataSet.length),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
@@ -715,53 +715,53 @@ class App extends Component {
 			};
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
-			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
 
 			// Main data
 			let mainData = [{
 				label: 'Mobility Average',
-				data: dataFromApi.average_mobility.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.average_mobility.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
 			}, {
 				label: 'Grocery',
-				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'blue',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Parks',
-				data: dataFromApi.parks.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.parks.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'green',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Residential',
-				data: dataFromApi.residential.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.residential.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'purple',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Retail',
-				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'gray',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Transit',
-				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'violet',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Workplace',
-				data: dataFromApi.workplace.slice(dateIndex, dataFromApi.dates.length - 1),
+				data: dataFromApi.workplace.slice(dateIndex, dataFromApi.dates.length),
 				borderColor: 'yellow',
 				borderWidth: 1,
 				radius: 0,
@@ -782,7 +782,7 @@ class App extends Component {
 			};
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
-			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length - 1);
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
 
 			// Horizontal line
 			let horizontalLineData = [];
@@ -818,7 +818,7 @@ class App extends Component {
 			// Main data
 			let mainData = [{
 				label: 'Positive Rate',
-				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length - 1),
+				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length),
 				borderColor: 'black',
 				radius: 1,
 				fill: false
