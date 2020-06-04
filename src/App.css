@@ -264,3 +264,8 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	font-size: smaller;
 	text-align: justify;
 }
+
+.methods-table {
+	width: 80%;
+	margin: 0 auto;
+}
