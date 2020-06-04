@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import './App.css';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -22,7 +23,8 @@ import About from "./About.js";
 class App extends Component {
 	constructor(props) {
 		super(props);
-		this.textDivRef = React.createRef()
+		this.textDivRef = React.createRef();
+		this.plotsRef = React.createRef();
 
 		this.state = {
 			columnDefs: [
@@ -198,11 +200,14 @@ class App extends Component {
 
 	componentDidMount() {
 		this.setData();
+		ReactGA.initialize('UA-168412971-1');
+		ReactGA.pageview('covidToday');
 		if (window.innerWidth <= '1000') {
 			this.setState({ columnDefs: this.columnDefMobile });
 			this.setState({ mobileView: true });
 
 		}
+		
 	}
 
 	componentWillMount() {
@@ -1073,6 +1078,21 @@ class App extends Component {
 			})
 		}
 	}
+	
+	handleDashboardScroll = () => {
+		if (this.plotsRef.current) {
+			setTimeout(() => {this.scrollToPlots()}, 800);
+		}
+	}
+	
+	scrollToPlots = (event) => {
+		if (this.plotsRef.current) {
+			this.plotsRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest"
+			})
+		}
+	}
 
 	render() {
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
@@ -1124,16 +1144,20 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Home" })}>Dashboard</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
+							onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
+							onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
+							onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
+							<Button variant="outline-primary" style={{fontSize: "larger"}} className="nav-button" 
+							onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
 					<span>
@@ -1176,7 +1200,7 @@ class App extends Component {
 						<this.DropdownRenderer />
 
 
-						<Container>
+						<Container ref={this.plotsRef}>
 							<Row>
 								<Col lg="6">
 									{/* RT Graph */}

@@ -18,6 +18,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-data-grid": "^7.0.0-canary.16",
     "react-dom": "^16.13.1",
+    "react-ga": "^2.7.0",
     "react-scripts": "3.4.1",
     "semantic-ui-react": "^0.88.2",
     "yarn": "^1.22.4"
