@@ -575,8 +575,8 @@ class App extends Component {
 			data.datasets.push({
 				label: 'fixed value',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,100,0,0.9)',
-				borderWidth: 1,
+				borderColor: 'rgba(0,100,0,0.5)',
+				borderWidth: 2,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -624,7 +624,7 @@ class App extends Component {
 				label: 'Rt Point',
 				data: dataFromApi.rt_point.slice(dateIndex, dataFromApi.dates.length),
 				radius: 1,
-				borderColor: 'black',
+				borderColor: '#004065',
 				fill: false
 			}, {
 				label: 'Rt u50',
@@ -671,7 +671,7 @@ class App extends Component {
 				label: 'upper limit',
 				data: horizontalLineData,
 				borderColor: 'rgba(255,0,0,0.5)',
-				borderWidth: 1,
+				borderWidth: 2,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -683,8 +683,8 @@ class App extends Component {
 			data.datasets.push({
 				label: 'lower limit',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,100,0,0.9)',
-				borderWidth: 1,
+				borderColor: 'rgba(0,100,0,0.5)',
+				borderWidth: 2,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -697,7 +697,7 @@ class App extends Component {
 			let mainData = [{
 				label: 'CFR',
 				data: cfrDataSet.slice(dateIndex, cfrDataSet.length),
-				borderColor: 'black',
+				borderColor: '#004065',
 				radius: 1,
 				fill: false
 			},];
@@ -721,48 +721,48 @@ class App extends Component {
 			let mainData = [{
 				label: 'Mobility Average',
 				data: dataFromApi.average_mobility.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'black',
+				borderColor: '#004065',
 				radius: 1,
 				fill: false
 			}, {
 				label: 'Grocery',
 				data: dataFromApi.grocery.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'blue',
+				borderColor: '#454c80',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Parks',
 				data: dataFromApi.parks.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'green',
+				borderColor: '#7f548f',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Residential',
 				data: dataFromApi.residential.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'purple',
+				borderColor: '#b65b8d',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Retail',
 				data: dataFromApi.retail.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'gray',
+				borderColor: '#e1697e',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Transit',
 				data: dataFromApi.transit.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'violet',
+				borderColor: '#fa8467',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
 			}, {
 				label: 'Workplace',
 				data: dataFromApi.workplace.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: 'yellow',
+				borderColor: '#ffaa52',
 				borderWidth: 1,
 				radius: 0,
 				fill: false
@@ -793,7 +793,7 @@ class App extends Component {
 				label: 'upper limit',
 				data: horizontalLineData,
 				borderColor: 'rgba(255,0,0,0.5)',
-				borderWidth: 1,
+				borderWidth: 2,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -805,8 +805,8 @@ class App extends Component {
 			data.datasets.push({
 				label: 'lower limit',
 				data: horizontalLineData,
-				borderColor: 'rgba(0,100,0,0.9)',
-				borderWidth: 1,
+				borderColor: 'rgba(0,100,0,0.5)',
+				borderWidth: 2,
 				fill: false,
 				radius: 0,
 				hoverRadius: 0,
@@ -817,9 +817,9 @@ class App extends Component {
 
 			// Main data
 			let mainData = [{
-				label: 'Positive Rate',
+				label: 'Positivity Rate',
 				data: positivityRateDataSet.slice(dateIndex, positivityRateDataSet.length),
-				borderColor: 'black',
+				borderColor: '#004065',
 				radius: 1,
 				fill: false
 			},];
@@ -900,6 +900,17 @@ class App extends Component {
 					intersect: false,
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 3;
+					},
+					callbacks: {
+						label: function(tooltipItem, data) {
+							var label = data.datasets[tooltipItem.datasetIndex].label || '';
+		
+							if (label) {
+								label += ': ';
+							}
+							label += tooltipItem.yLabel.toFixed(2);
+							return label;
+						}
 					}
 				},
 				hover: {
@@ -955,6 +966,17 @@ class App extends Component {
 					intersect: false,
 					filter: function (tooltipItem) {
 						return tooltipItem.datasetIndex === 2;
+					},
+					callbacks: {
+						label: function(tooltipItem, data) {
+							var label = data.datasets[tooltipItem.datasetIndex].label || '';
+		
+							if (label) {
+								label += ': ';
+							}
+							label += tooltipItem.yLabel.toFixed(2) + '%';
+							return label;
+						}
 					}
 				},
 				hover: {
@@ -993,6 +1015,10 @@ class App extends Component {
 				maintainAspectRatio: false,
 				legend: {
 					display: true,
+					labels: {
+						boxWidth: 20,
+						fontFamily: 'Titillium Web',
+					}
 				},
 				tooltips: {
 					mode: 'index',
@@ -1137,7 +1163,7 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Effective Reproduction Number
+											<h5 className="mb-0 mt-2 plot-heading">Effective Reproduction Number
 												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1151,7 +1177,7 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Mobility Index (% change from pre-lockdown)
+											<h5 className="mb-0 mt-2 plot-heading">Mobility Index (% change from pre-lockdown)
 												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1166,7 +1192,7 @@ class App extends Component {
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Corrected Case Fatality Rate (%)
+											<h5 className="mb-0 mt-2 plot-heading">Corrected Case Fatality Rate (%)
 												<OverlayTrigger placement="left" overlay={cfrPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1180,7 +1206,7 @@ class App extends Component {
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2">Positivity Rate (%)
+											<h5 className="mb-0 mt-2 plot-heading">Positivity Rate (%)
 												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1202,6 +1228,17 @@ class App extends Component {
 															intersect: false,
 															filter: function (tooltipItem) {
 																return tooltipItem.datasetIndex === 2;
+															},
+															callbacks: {
+																label: function(tooltipItem, data) {
+																	var label = data.datasets[tooltipItem.datasetIndex].label || '';
+												
+																	if (label) {
+																		label += ': ';
+																	}
+																	label += tooltipItem.yLabel.toFixed(2) + '%';
+																	return label;
+																}
 															}
 														},
 														hover: {
