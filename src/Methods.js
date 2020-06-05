@@ -4,6 +4,7 @@ import { Card, Table } from 'react-bootstrap';
 export default class Methods extends Component {
 
   render() {
+	const tableClass = window.innerWidth <= '1000' ? "methods-table" : "methods-table-mobile";
     return (
       <div>
 		<div className="sub-header-row mt-4">
@@ -92,7 +93,7 @@ export default class Methods extends Component {
 									Google mobility data shows how visits and length of stay at different places change compared to a baseline (changes for each day are 
 									compared to a baseline value for the corresponding day of the week, during the 5-week period Jan 3 to Feb 6, 2020). Google calculates 
 									these changes using aggregated and anonymized location data. </div><br/>
-									<div className="methods-table">
+									<div className={tableClass}>
 									<Table striped bordered hover>
 									  <thead>
 									    <tr>
