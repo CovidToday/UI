@@ -1456,7 +1456,8 @@ class App extends Component {
 									detect any resurgence. In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion 
 									of COVID-19 and may miss new chains of transmission in the community. The WHO recommends that the daily positivity rate be below 5% 
 									for atleast two weeks before relaxing public health measures. Test Positivity Rate is a better indicator of testing adequacy than 
-									Tests Per Million, as testing coverage should be seen </div>
+									Tests Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
+									We report daily positivity rate (as 7-day moving averages) and cumulative positivity rate (which includes all tests done till date). </div>
 								</Card.Text>
 							</Card.Body>
 						</Card>
@@ -1469,7 +1470,8 @@ class App extends Component {
 									ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting 
 									of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the 
 									denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of 
-									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected</span></div>
+									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect 
+									the degree of under-reporting or testing adequacy in a particular state (with certain limitations). </span></div>
 								</Card.Text>
 							</Card.Body>
 						</Card>
