@@ -17,6 +17,7 @@ import RtRenderer from './RtRenderer.jsx';
 import CasesRenderer from './CasesRenderer.jsx';
 import CumPosRateRenderer from './CumPosRateRenderer.jsx';
 import CumCasesRenderer from './CumCasesRenderer.jsx';
+import TPMRenderer from './TPMRenderer.jsx';
 import Methods from "./Methods.js";
 import Contribute from "./Contribute.js";
 import About from "./About.js";
@@ -97,7 +98,8 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state" }
+						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, 
+						cellRenderer: 'TPMRenderer', comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state" }
 					]
 				}
 			],
@@ -126,7 +128,8 @@ class App extends Component {
 				casesRenderer: CasesRenderer,
 				rtRenderer: RtRenderer,
 				cumPosRateRenderer: CumPosRateRenderer,
-				cumCasesRenderer: CumCasesRenderer
+				cumCasesRenderer: CumCasesRenderer,
+				TPMRenderer: TPMRenderer
 		      },
 		}
 	}
@@ -199,7 +202,7 @@ class App extends Component {
 				},
 				{
 					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
-					comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'TPMRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				}
 			]
 		}
@@ -517,12 +520,25 @@ class App extends Component {
 						posRateDate = data[1].dates[posRateMaIndex];
 					}
 				});
+				let tpm;
+				let tpmDate;
+				posRateArr.forEach(data => {
+					if (data[0] === name) {
+						const indexTpm = data[1].test_per_million.slice().reverse().findIndex(i => i !== "");
+						const countTpm = data[1].test_per_million.length - 1;
+						const tpmIndex = indexTpm >= 0 ? countTpm - indexTpm : indexTpm;
+						const tpmFloat = (data[1].test_per_million[tpmIndex]);
+						tpm = tpmFloat && tpmFloat !== "" ? (tpmFloat).toFixed(2) : "NA";
+						tpmDate = data[1].dates[tpmIndex];
+					}
+				});
 
 
 				data.push({
 					key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
 					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare, dailyCasesOld: maCasesOld, posRateOld: maPosRateOld, cfrOld: cfrPointOld,
-					rtDate: rtDate, cumCasesDate: cumCasesDate, maCasesDate: maCasesDate, posRateDate: posRateDate, cumPRateDate: cumPRateDate, cfrDate: cfrDate
+					rtDate: rtDate, cumCasesDate: cumCasesDate, maCasesDate: maCasesDate, posRateDate: posRateDate, cumPRateDate: cumPRateDate, cfrDate: cfrDate,
+					testsPerMil: tpm, tpmDate: tpmDate
 				});
 			});
 			data.sort(function (a, b) {
@@ -570,15 +586,22 @@ class App extends Component {
 
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
-		const casesMaIndexInd = indexInd >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
+		const casesMaIndexInd = indexIndcasesMa >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
 		const casesMaInd = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]);
 		const casesMaIndOld = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd-7]);
 		const maCasesIndDate = posRateArrInd.dates[casesMaIndexInd];
+		
+		const indexIndTpm = posRateArrInd.test_per_million.slice().reverse().findIndex(i => i !== "");
+		const countIndTpm = posRateArrInd.test_per_million.length - 1;
+		const tpmIndexInd = indexIndTpm >= 0 ? countIndTpm - indexIndTpm : indexIndTpm;
+		const tpmInd = Math.floor(posRateArrInd.test_per_million[tpmIndexInd]);
+		const tpmIndDate = posRateArrInd.dates[tpmIndexInd];
 
 		pinnedData.push({
 			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
 			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd, rtDate: rtDate, cfrDate: cfrDate, cfrOld: cfrPointOld, dailyCasesOld: casesMaIndOld,
-			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPRDate: cumPRDateInd
+			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPRDate: cumPRDateInd,
+			testsPerMil: tpmInd, tpmDate: tpmIndDate
 		})
 		this.setState({ pinnedTopRowData: pinnedData })
 	}
@@ -1170,6 +1193,7 @@ class App extends Component {
 				</Popover.Content>
 			</Popover>
 		);
+		const navButtonSize = mobileView ? "smaller" : "larger";
 
 		return (
 			<div>
@@ -1179,19 +1203,19 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: "larger" }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
