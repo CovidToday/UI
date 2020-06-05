@@ -1229,27 +1229,25 @@ class App extends Component {
 					<div className="App">
 
 						<div className="home-text">
-							<Card>
-								<Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Tracking India\'s Progress Through The Coronavirus Pandemic`}</Card.Title>
-									<Card.Text className="top-text-body">
-										{`The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards are useful, 
-										but can give deeper insights into the progress of the epidemic if analysed and interpreted into scientific outbreak 
-										indicators for each state in real-time. As lockdown is relaxed across India, it is essential to monitor these 
-										indicators and adapt the response accordingly. You need not be adept at epidemiology and statistics to grasp the 
-										data we present, and we will assist you along the way.`}
-									</Card.Text>
-								</Card.Body>
+							<div className="for-the-people-heading">Tracking India's Progress Through The Coronavirus Pandemic</div>
+							<div className="disclaimer">The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards 
+							are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak 
+							indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding 
+							and tracking these numbers is particularly important as we move towards reopening our economy.</div>
+							<Card style={{background: "#e8e8e8"}}>
 								<Card.Body>
 									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
 									<Card.Text className="top-text-body">
 										<div>We do the hard work for you, so you can focus on what the data means. <br />
-										Collating data from multiple sources <br />
-										Analysing the data using robust statistical methods to estimate scientific indicators <br />
-										Utilising latest scientific evidence and advisories to inform estimation and interpretation <br />
-										Accounting for known biases in estimation to give a truer picture of the outbreak <br />
-										Updated daily for all states of India (where data is available) <br />
-										Enabling understanding of outbreak indicators through explanation and visualisation</div>
+										<ul>
+										<li>Cleaning and integrating data from multiple sources </li>
+										<li>Analysing the data using robust statistical methods </li>
+										<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
+										<li>Using latest scientific evidence and advisories to guide interpretation </li>
+										<li>Updated daily for all states of India (where data is available) </li>
+										<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
+										<li>All data made available for running your own analyses </li>
+										</ul></div>
 									</Card.Text>
 									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
 								</Card.Body>
