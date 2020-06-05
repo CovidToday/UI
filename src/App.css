@@ -273,3 +273,39 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .plot-heading {
 	font-family: Titillium Web;
 }
+
+.for-the-people {
+	width: 90%;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.for-the-people-text {
+	font-size: medium;
+    text-align: justify;
+	font-family: Titillium Web;
+}
+
+.for-the-people-heading {
+	text-align: center;
+    font-size: larger;
+    font-weight: bold;
+	font-family: Montserrat;
+	padding-bottom: 15px;
+}
+
+.divider {
+	border-style: dotted;
+    border-width: 1px;
+    margin: 0 auto;
+    width: 30%;
+    border-radius: 1px;
+}
+
+.disclaimer {
+	width: 90%;
+	margin: 0 auto;
+	padding: 20px;
+	text-align: center;
+	font-family: Titillium Web;
+}
