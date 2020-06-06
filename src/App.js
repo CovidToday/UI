@@ -150,7 +150,7 @@ class App extends Component {
 		{
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
-					headerName: "RT", field: "rt", width: 120, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+					headerName: "RT", field: "rt", width: 110, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
 					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
@@ -552,7 +552,7 @@ class App extends Component {
 						const countTpm = data[1].test_per_million.length - 1;
 						const tpmIndex = indexTpm >= 0 ? countTpm - indexTpm : indexTpm;
 						const tpmFloat = (data[1].test_per_million[tpmIndex]);
-						tpm = tpmFloat && tpmFloat !== "" ? Math.floor(tpmFloat) : "NA";
+						tpm = tpmFloat && tpmFloat !== "" ? (tpmFloat).toFixed(2) : "NA";
 						tpmDate = data[1].dates[tpmIndex];
 					}
 				});
