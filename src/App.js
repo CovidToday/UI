@@ -1213,9 +1213,9 @@ class App extends Component {
 	}
 
 	render() {
-		
+
 		const popoverFont = this.state.mobileView ? "smaller" : "1 rem";
-		
+
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
@@ -1296,16 +1296,16 @@ class App extends Component {
 							  <Card>
 							    <Card.Header>
 								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>Tracking India's Progress Through The Coronavirus Pandemic</div>
-								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards 
-								are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak 
-								indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding 
+								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards
+								are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak
+								indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding
 								and tracking these numbers is particularly important as we move towards reopening our economy. <br/>
-								Before diving in 
+								Before diving in
 							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
 							        Know more about us
 							      </Accordion.Toggle>{`or `}
 								  <span className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators</span>
-								</div>	
+								</div>
 							    </Card.Header>
 							    <Accordion.Collapse eventKey="1">
 							      <Card.Body>
@@ -1322,7 +1322,7 @@ class App extends Component {
 												<li>All data made available for running your own analyses </li>
 											</ul></div>
 									</Card.Text>
-									
+
 								</Card.Body>
 							    </Accordion.Collapse>
 							  </Card>
@@ -1363,7 +1363,7 @@ class App extends Component {
 											<div className="mobilityGraph">
 												<this.MobilityChartRender />
 											</div>
-										</Card>	
+										</Card>
 										</Col>
 									</Row>
 								</Col>
@@ -1437,7 +1437,7 @@ class App extends Component {
 													}}
 												/>
 											</div>
-										</Card>	
+										</Card>
 										</Col>
 									</Row>
 									{/* CFR Graph */}
@@ -1452,7 +1452,7 @@ class App extends Component {
 											<div className="cfr-graph">
 												<this.CfrChartRender />
 											</div>
-										</Card>	
+										</Card>
 										</Col>
 									</Row>
 								</Col>
@@ -1485,11 +1485,11 @@ class App extends Component {
 					</div>
 					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
 						<span className="top-text-body">
-							<div>Method of calculation and raw data sources at <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/> 
-							Up and Down arrows indicate change in the respective parameter compared to 7 days ago.<br/> 
+							<div>Method of calculation and raw data sources at <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/>
+							Up and Down arrows indicate change in the respective parameter compared to 7 days ago.<br/>
 							Colour coding of cells as follows- <br/>
 							{`Rt is Red: > 1, Yellow: < 1 for less than 2 weeks, Green: < 1 for more than 2 weeks (based on WHO criteria).`} <br/>
-							{`Positivity Rate is Red: > 10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`}<br/> 
+							{`Positivity Rate is Red: > 10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`}<br/>
 							{`Corrected CFR is Red: > 10%, Yellow: 5-10%, Green: < 5%.`}</div>
 						</span>
 					</div>
@@ -1504,24 +1504,24 @@ class App extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
-									<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time 
-									t during the outbreak.</span>  WHO recommends this metric as the key measure to know the rate of spread of the virus. When Rt 
-									reaches below 1, we can say that the outbreak has been brought under control. Tracking the regional Rt tells us the severity of 
-									the outbreak in each state, and guides administrators to fine-tune the level of control measures required to bring the Rt under 
-									1. As changes in transmission correlate with control measures, we can assess the efficacy of different measures by comparing the 
+									<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time
+									t during the outbreak.</span>  WHO recommends this metric as the key measure to know the rate of spread of the virus. When Rt
+									reaches below 1, we can say that the outbreak has been brought under control. Tracking the regional Rt tells us the severity of
+									the outbreak in each state, and guides administrators to fine-tune the level of control measures required to bring the Rt under
+									1. As changes in transmission correlate with control measures, we can assess the efficacy of different measures by comparing the
 									change in Rt after their implementation. </div>
 								</Card.Text>
 							</Card.Body>
-						</Card>	
+						</Card>
 						<span style={{width: "2%"}}> </span>
-						<Card style={{background: "#e8e8e8"}}>	
+						<Card style={{background: "#e8e8e8"}}>
 							<Card.Body>
 								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Mobility Index`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
-									<div><span style={{ fontStyle: "italic" }}>This indicates the change in the amount of movement of people at various places 
-									compared to that before lockdown</span>  It shows us the effect of lockdown and behavioural change on the movement of people, 
-									and how this changes as restrictions are relaxed in a graded manner. We have introduced this parameter experimentally considering 
-									that mobility has a direct effect on disease spread, however there is no evidence yet that the mobility indices shown directly 
+									<div><span style={{ fontStyle: "italic" }}>This indicates the change in the amount of movement of people at various places
+									compared to that before lockdown</span>  It shows us the effect of lockdown and behavioural change on the movement of people,
+									and how this changes as restrictions are relaxed in a graded manner. We have introduced this parameter experimentally considering
+									that mobility has a direct effect on disease spread, however there is no evidence yet that the mobility indices shown directly
 									correlate with local transmission.</div>
 								</Card.Text>
 							</Card.Body>
@@ -1533,46 +1533,46 @@ class App extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Test Positivity Rate`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
-									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity 
-									rate means that testing levels are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to 
-									detect any resurgence. In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion 
-									of COVID-19 and may miss new chains of transmission in the community. The WHO recommends that the daily positivity rate be below 5% 
-									for atleast two weeks before relaxing public health measures. Test Positivity Rate is a better indicator of testing adequacy than 
-									Tests Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
+									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity
+									rate means that testing levels are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to
+									detect any resurgence. In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion
+									of COVID-19 and may miss new chains of transmission in the community. The WHO recommends that the daily positivity rate be below 5%
+									for atleast two weeks before relaxing public health measures. Test Positivity Rate is a better indicator of testing adequacy than
+									Tests Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population.
 									We report daily positivity rate (as 7-day moving averages) and cumulative positivity rate (which includes all tests done till date). </div>
 								</Card.Text>
 							</Card.Body>
 						</Card>
 						<span style={{width: "2%"}}> </span>
-						<Card style={{background: "antiquewhite"}}>	
+						<Card style={{background: "antiquewhite"}}>
 							<Card.Body>
 								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Corrected Case Fatality Rate`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
-									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be biased in 
-									ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting 
-									of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the 
-									denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of 
-									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect 
+									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be biased in
+									ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting
+									of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the
+									denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of
+									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect
 									the degree of under-reporting or testing adequacy in a particular state (with certain limitations). </span></div>
 									</Card.Text>
 								</Card.Body>
 							</Card>
 						</CardGroup>
 					</div>
-					<div className="disclaimer" style={{fontSize: fontSizeDynamic}}>The raw data sources and detailed method of calculation is provided in the 
-						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page. 
-						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other. 
-						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts. 
+					<div className="disclaimer" style={{fontSize: fontSizeDynamic}}>The raw data sources and detailed method of calculation is provided in the
+						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a> page.
+						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
+						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
 						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
 					<div className="divider"> </div>
 					<div className="for-the-people">
 						<div className="for-the-people-heading" style={{fontSize: fontSizeDynamic}}>For The People, By The People</div>
-						<div className="for-the-people-text" style={{fontSize: fontSizeDynamic}}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, 
-						researchers, coders, and public health experts from institutes across India. 
-						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to 
-						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected. 
-						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to 
-						the <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute page</a> to see how you can pitch in.
+						<div className="for-the-people-text" style={{fontSize: fontSizeDynamic}}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors,
+						researchers, coders, and public health experts from institutes across India.
+						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to
+						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected.
+						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to
+						the <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute </a>page to see how you can pitch in.
 						</div>
 					</div>
 				</>}

@@ -15,7 +15,7 @@ export default class Methods extends Component {
     return (
       <div>
 		<div className="sub-header-row mt-4">
-			<span className="header-bar-text">KNOW ABOUT THE INDICATORS</span>
+			<span className="header-bar-text">METHODS</span>
 		</div>
 		<div className={layout}>
 							<Card>
@@ -46,21 +46,21 @@ export default class Methods extends Component {
 									shape and scale for the gamma distribution to serve as the posterior distribution of the delay. For each of the 1000 
 									samples of fitted parameters, the reporting dates (r<sub>i</sub>) were transformed to give the symptom onset date (o<sub>i</sub>) by the formula:<br/>
 									o<sub>i</sub> = r<sub>i</sub> - d<sub>i</sub><br/>
-									where d<sub>i</sub> (delay from onset to confirmation) ~ Gamma(φ<sub>i</sub>) resulting in 1000 lag adjusted datasets. This process was applied to the 
+									where d<sub>i</sub> (delay from onset to confirmation) ~ Gamma(φ<sub>i</sub>) resulting in 1000 lag adjusted datasets. This process was applied to the
 									incidence by confirmation data for the nation and different states.<br/><br/>
-									
+
 									<b>Adjusting for yet unconfirmed cases in order to estimate recent onsets:</b><br/>
 									The above method can only estimate symptom onsets till d<sub>max</sub> days before today, where d<sub>max</sub> is the maximum possible reporting lag. 
 									The onsets that would have already occurred in these recent days have not yet been confirmed. In order to account for this right 
 									truncation of case confirmations, we used a process of binomial upscaling. Consider 't' is the latest date for which the cases 
 									have been adjusted. We model the number of onsets on 'l' days before the latest date, o<sub>(t-l)</sub> with Bernoulli trials with the 
 									probability equal to the proportion of the cases that have been confirmed since onset in the following l days. This probability 
-									is given by F( l | f<sub>i</sub>) ie. the CDF (F( x | f<sub>i</sub> )) of the reporting lag distribution at x = l days. Thus, the number of missed 
+									is given by F( l | f<sub>i</sub>) ie. the CDF (F( x | f<sub>i</sub> )) of the reporting lag distribution at x = l days. Thus, the number of missed
 									onset dates would be given by:<br/>
 									o*<sub>(t-l)</sub> ~ Negbin( n = o<sub>(t-l)</sub> + 1, p = F( l | f<sub>i</sub> ) )<br/>
 									Thus, the total number of onsets on date 'x' is given by o(x)+o*(x). One important point to consider is that this 
 									method is prone to high bias when the probability 'p' approaches low values at dates very close to the latest date. 
-									Since we were not able to adjust for this bias, the last few dates were dropped when the variability across trials for 
+									Since we were not able to adjust for this bias, the last few dates were dropped when the variability across trials for
 									estimates started increasing due to the high bias.<br/><br/>
 									
 									<b>Estimating the Effective Reproduction Number at time t</b><br/> 
@@ -69,42 +69,42 @@ export default class Methods extends Component {
 									case, and is thus appropriate to calculate Rt from symptom onset based incidence data. Due to lack of serial interval estimates from 
 									India, we used the best available estimate from a study including 468 patients in China (4)  as a gamma distributed serial interval 
 									with a mean of 3.96 days (95% CI 3.53-4.39) and a SD of 4.75 days (95% CI 4.46-5.07). which was in agreement with several other 
-									studies.(5-7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by 
+									studies.(5-7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by
 									calculating pooled mean and pooled standard deviation and a net estimate for 50% and 95% confidence intervals were calculated.<br/><br/>
-									
+
 									<span style={italicBoldText}>Acknowledgement</span><br/>
-									Statistical approaches used by Abbott et al at Epiforecasts have been used to adjust for the reporting delay in Rt estimation. (8).<br/><br/> 
-									
+									Statistical approaches used by Abbott et al at Epiforecasts have been used to adjust for the reporting delay in Rt estimation. (8).<br/><br/>
+
 									<span style={italicBoldText}>Limitations/Scope for improvement:</span><br/>
 									<ol>
-									<li>Since we do not know the true number of infections (irrespective of detection), Rt calculation is based on reported cases. The 
-									estimated Rt is unaffected if the ascertainment rate (percent of true infections that are detected) remains fairly constant across 
-									time. Any fluctuations in ascertainment due to testing coverage variation will affect the Rt estimates until such time that the 
+									<li>Since we do not know the true number of infections (irrespective of detection), Rt calculation is based on reported cases. The
+									estimated Rt is unaffected if the ascertainment rate (percent of true infections that are detected) remains fairly constant across
+									time. Any fluctuations in ascertainment due to testing coverage variation will affect the Rt estimates until such time that the
 									ascertainment stabilises at the new level.</li>
-									<li>Any government in India does not report the symptom onset dates currently, so a true epicurve can not be made. We have used the 
-									best available data from India to project the probability distribution of the delay from symptom onset to confirmation, however this 
-									delay can be vastly different for various areas, especially where there is a backlog of tests prolonging it. Putting this data in 
-									public domain even in a limited manner will greatly increase the accuracy of Rt estimation over time and better guide public health 
-									policy.</li> 
-									<li>Changes in the assumed serial interval affects the estimated Rt. Lack of a local serial interval estimate will impact the accuracy. 
-									Also, serial interval changes over the course of the epidemic (shortens near the peak and due to impact of control measures) which 
+									<li>Any government in India does not report the symptom onset dates currently, so a true epicurve can not be made. We have used the
+									best available data from India to project the probability distribution of the delay from symptom onset to confirmation, however this
+									delay can be vastly different for various areas, especially where there is a backlog of tests prolonging it. Putting this data in
+									public domain even in a limited manner will greatly increase the accuracy of Rt estimation over time and better guide public health
+									policy.</li>
+									<li>Changes in the assumed serial interval affects the estimated Rt. Lack of a local serial interval estimate will impact the accuracy.
+									Also, serial interval changes over the course of the epidemic (shortens near the peak and due to impact of control measures) which
 									we do not take into account. Again, data from contact tracing programs can address all these challenges in real-time.</li>
 									</ol> <br/>
-									
-									<span style={italicBoldText}>Update frequency and last available date:</span><br/> 
-									Case data is pulled daily from covid19india.org and Rt estimated daily. However as stated above, Rt can only be estimated upto 3-5 
-									days before the estimation date.<br/><br/> 
+
+									<span style={italicBoldText}>Update frequency and last available date:</span><br/>
+									Case data is pulled daily from covid19india.org and Rt estimated daily. However as stated above, Rt can only be estimated upto 3-5
+									days before the estimation date.<br/><br/>
 									</div>
 								</Card.Text>
 							</Card.Body>
-							
+
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`Mobility`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available 
-									<a href="https://support.google.com/covid19-mobility?hl=en#topic=9822927"> here. </a> 
-									Google mobility data shows how visits and length of stay at different places change compared to a baseline (changes for each day are 
-									compared to a baseline value for the corresponding day of the week, during the 5-week period Jan 3 to Feb 6, 2020). Google calculates 
+									<div style={normalText}>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available
+									<a href="https://support.google.com/covid19-mobility?hl=en#topic=9822927"> here. </a>
+									Google mobility data shows how visits and length of stay at different places change compared to a baseline (changes for each day are
+									compared to a baseline value for the corresponding day of the week, during the 5-week period Jan 3 to Feb 6, 2020). Google calculates
 									these changes using aggregated and anonymized location data. </div><br/>
 									<div className={tableClass}>
 									<Table striped bordered hover>
@@ -151,34 +151,34 @@ export default class Methods extends Component {
 							<Card.Body>
 								<Card.Text className="top-text-body">
 									<div style={normalText}><b>Calculating Average Mobility from the data</b><br/>
-									We calculate the Average Mobility by aggregating data for <span style={italicText}>Grocery and pharmacy, Transit stations, 
-									Workplaces, and Retail and recreation</span>. We do not include <span style={italicText}>Parks</span> because mobility in 
-									parks is highly influenced in short-term by day-to-day weather changes and in long-term by seasonal changes compared to the baseline 
-									in January. We do not include <span style={italicText}>Residential</span> because the residential category shows a change 
-									in duration-the other categories measure a change in total visitors , and Google recommends not  comparing the change in residential 
-									with other categories because they have different units of measurement. We intend to improve the Average Mobility by creating a 
-									composite metric that best correlates with transmission changes.<br/><br/> 
-									
-									<b>Smoothening baseline bias for better interpretation</b><br/> 
-									Since the data shows relative and not absolute mobility change, it is affected by mobility levels at the  baseline. This causes a 
-									nearer-to-baseline value to appear at weekends as the current weekend mobility does not change much 
-									<span style={italicText}>relative</span> to pre-lockdown weekends. We smoothen these changes to aid interpretation by 
-									continuing the last working day value over the weekends. Note that the raw data reflects the statistical truth, but 
-									the smoothening is done so that only changes due to social distancing are visible. <br/><br/>  
-									
-									
+									We calculate the Average Mobility by aggregating data for <span style={italicText}>Grocery and pharmacy, Transit stations,
+									Workplaces, and Retail and recreation</span>. We do not include <span style={italicText}>Parks</span> because mobility in
+									parks is highly influenced in short-term by day-to-day weather changes and in long-term by seasonal changes compared to the baseline
+									in January. We do not include <span style={italicText}>Residential</span> because the residential category shows a change
+									in duration-the other categories measure a change in total visitors , and Google recommends not  comparing the change in residential
+									with other categories because they have different units of measurement. We intend to improve the Average Mobility by creating a
+									composite metric that best correlates with transmission changes.<br/><br/>
+
+									<b>Smoothening baseline bias for better interpretation</b><br/>
+									Since the data shows relative and not absolute mobility change, it is affected by mobility levels at the  baseline. This causes a
+									nearer-to-baseline value to appear at weekends as the current weekend mobility does not change much
+									<span style={italicText}>relative</span> to pre-lockdown weekends. We smoothen these changes to aid interpretation by
+									continuing the last working day value over the weekends. Note that the raw data reflects the statistical truth, but
+									the smoothening is done so that only changes due to social distancing are visible. <br/><br/>
+
+
 									<span style={italicBoldText}>Limitations:</span><br/>
 									<ol>
 									<li>The data represents a sample of Google's users, and may or may not represent the exact behavior of a wider population.</li>
-									<li>Location accuracy and the understanding of categorized places varies from region to region, so Google cautions against using this 
+									<li>Location accuracy and the understanding of categorized places varies from region to region, so Google cautions against using this
 									data to compare changes between regions with different characteristics (e.g. rural versus urban areas).</li>
-									<li>What data is included in the calculation depends on user settings, connectivity, and whether it meets Google's privacy threshold. 
-									If the privacy threshold isn't met (when somewhere isn't busy enough to ensure anonymity) Google doesn't show a change for the day. 
+									<li>What data is included in the calculation depends on user settings, connectivity, and whether it meets Google's privacy threshold.
+									If the privacy threshold isn't met (when somewhere isn't busy enough to ensure anonymity) Google doesn't show a change for the day.
 									As a result, you may encounter empty fields for certain places and dates.</li>
 									</ol><br/>
-									
+
 									<span style={italicBoldText}>Update frequency and last available date:</span><br/>
-									Google releases mobility data for a particular date after 5-7 days. As soon as data is released, it is updated on our dashboard 
+									Google releases mobility data for a particular date after 5-7 days. As soon as data is released, it is updated on our dashboard
 									within a day.
 									</div><br/>
 								</Card.Text>
@@ -186,32 +186,32 @@ export default class Methods extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day, 
-									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent 
-									trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with 
-									the Cumulative Positivity Rate tells us how the state is doing at testing recently as compared to its baseline performance 
-									since the epidemic started. 
+									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day,
+									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent
+									trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with
+									the Cumulative Positivity Rate tells us how the state is doing at testing recently as compared to its baseline performance
+									since the epidemic started.
 									</div><br/>
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`Cumulative Positivity Rate`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied 
-									by 100. This metric shows us the 'overall' picture of testing adequacy since the epidemic started. Since it takes time for 
-									recent trends to reflect in Cumulative Positivity Rate, this metric is not a good indicator of recent performance of a state 
-									in testing. 
+									<div style={normalText}>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied
+									by 100. This metric shows us the 'overall' picture of testing adequacy since the epidemic started. Since it takes time for
+									recent trends to reflect in Cumulative Positivity Rate, this metric is not a good indicator of recent performance of a state
+									in testing.
 									</div><br/>
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`Corrected CFR`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors- 
-									the delay between time of case confirmation and time of death, and the under-reporting of cases due to limitations in 
-									testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the denominator to reflect 
-									the number of cases where death would have been reported if it had occurred, based on known estimates of delay from 
-									confirmation to death. The variation in Corrected CFR across states would then reflect the degree of under-reporting 
+									<div style={normalText}>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors-
+									the delay between time of case confirmation and time of death, and the under-reporting of cases due to limitations in
+									testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the denominator to reflect
+									the number of cases where death would have been reported if it had occurred, based on known estimates of delay from
+									confirmation to death. The variation in Corrected CFR across states would then reflect the degree of under-reporting
 									or testing adequacy in a particular state (with certain limitations). This approach has been used by Russel et al. (9)
 									<br/><br/>
 									
@@ -222,13 +222,13 @@ export default class Methods extends Component {
 									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for 
 									CasesClosed(t). (10) For each dataset,<br/>
 									<br/><br/>
-									
+
 									<span style={italicBoldText}>Limitations:</span><br/>
 									<ol>
-									<li>In addition to testing variation, the variation of Corrected CFR across states would also depend on other factors 
-									like age structure, comorbidity prevalence, and healthcare efficacy and overload status of various states. In states facing 
+									<li>In addition to testing variation, the variation of Corrected CFR across states would also depend on other factors
+									like age structure, comorbidity prevalence, and healthcare efficacy and overload status of various states. In states facing
 									severe healthcare capacity overload, the corrected CFR should be interpreted as a testing indicator with extreme caution. </li>
-									<li>The Corrected CFR may be overestimated in early stages of the epidemic in an area since the lack of cases in the denominator 
+									<li>The Corrected CFR may be overestimated in early stages of the epidemic in an area since the lack of cases in the denominator
 									is exacerbated by the lag correction.</li>
 									</ol><br/>
 									</div>
@@ -256,7 +256,7 @@ export default class Methods extends Component {
 						</Card>
 						</div>
 	  </div>
-		
+
     );
   }
 }
