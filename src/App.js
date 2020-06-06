@@ -552,7 +552,7 @@ class App extends Component {
 						const countTpm = data[1].test_per_million.length - 1;
 						const tpmIndex = indexTpm >= 0 ? countTpm - indexTpm : indexTpm;
 						const tpmFloat = (data[1].test_per_million[tpmIndex]);
-						tpm = tpmFloat && tpmFloat !== "" ? (tpmFloat).toFixed(2) : "NA";
+						tpm = tpmFloat && tpmFloat !== "" ? Math.floor(tpmFloat) : "NA";
 						tpmDate = data[1].dates[tpmIndex];
 					}
 				});
