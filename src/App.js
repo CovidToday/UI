@@ -1424,7 +1424,7 @@ class App extends Component {
 					</div>
 					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
 						<span className="top-text-body">
-							<div>Method of calculation and raw data sources at <a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/> 
+							<div>Method of calculation and raw data sources at <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/> 
 							Up and Down arrows indicate change in the respective parameter compared to 7 days ago.<br/> 
 							Colour coding of cells as follows- <br/>
 							{`Rt is Red: > 1, Yellow: < 1 for less than 2 weeks, Green: < 1 for more than 2 weeks (based on WHO criteria).`} <br/>
@@ -1499,19 +1499,19 @@ class App extends Component {
 					</CardGroup>	
 					</div>
 					<div className="disclaimer" style={{fontSize: fontSizeDynamic}}>The raw data sources and detailed method of calculation is provided in the 
-						<a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page. 
+						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page. 
 						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other. 
 						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts. 
-						<a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
+						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
 					<div className="divider"> </div>
 					<div className="for-the-people">
 						<div className="for-the-people-heading" style={{fontSize: fontSizeDynamic}}>For The People, By The People</div>
 						<div className="for-the-people-text" style={{fontSize: fontSizeDynamic}}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, 
 						researchers, coders, and public health experts from institutes across India. 
-						<a className="link-text" onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to 
+						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to 
 						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected. 
 						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to 
-						the <a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute page</a> to see how you can pitch in.
+						the <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute page</a> to see how you can pitch in.
 						</div>
 					</div>
 				</>}

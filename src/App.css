@@ -190,8 +190,6 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .link-text {
 	color: blue;
 	cursor: pointer;
-	font-weight: bold;
-	font-style: italic;
 }
 
 .dropdown-state.btn-success:not(:disabled):not(.disabled).active:focus, 
@@ -271,8 +269,8 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 }
 
 .methods-table-mobile {
-	width: 90%;
 	margin: 0 auto;
+	font-size: small;
 }
 
 .plot-heading {
@@ -341,4 +339,13 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .accordion-button:focus {
 	outline: none;
+}
+
+.text-pages-layout {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.small-text {
+	font-size: smaller;
 }

@@ -4,18 +4,24 @@ import { Card, Table } from 'react-bootstrap';
 export default class Methods extends Component {
 
   render() {
-	const tableClass = window.innerWidth <= '1000' ? "methods-table" : "methods-table-mobile";
+	const tableClass = window.innerWidth > '1000' ? "methods-table" : "methods-table-mobile";
+	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
+	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
+	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
+	const boldText = window.innerWidth > '1000' ? {fontWeight: "bold"} : {fontWeight: "bold", fontSize: "smaller"};
+	const italicText = window.innerWidth > '1000' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "smaller"};
+	const italicBoldText = window.innerWidth > '1000' ? {fontStyle: "italic", fontWeight: "bold"} : {fontStyle: "italic", fontWeight: "bold", fontSize: "smaller"};
     return (
       <div>
 		<div className="sub-header-row mt-4">
 			<span className="header-bar-text">KNOW ABOUT THE INDICATORS</span>
 		</div>
-		<div className="home-text">
+		<div className={layout}>
 							<Card>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Data Sources`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Data Sources`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={{textAlign: "left"}}><b>Raw data for cases and tests</b>- <a href="http://www.covid19india.org">www.covid19india.org</a><br/>
+									<div style={citationsText}><b>Raw data for cases and tests</b>- <a href="http://www.covid19india.org">www.covid19india.org</a><br/>
 										 <b>Data for mobility index</b>- <a href="http://www.google.com/covid19/mobility">www.google.com/covid19/mobility</a><br/>
 										 <b>Distribution of delay from symptom onset to confirmation</b>- <a href="http://www.medrxiv.org/content/10.1101/2020.05.13.20096826v2">www.medrxiv.org/content/10.1101/2020.05.13.20096826v2</a> (53 patients from Delhi NCR)<br/>
 										 <b>Distribution of serial interval</b>- <a href="http://wwwnc.cdc.gov/eid/article/26/6/20-0357_article">wwwnc.cdc.gov/eid/article/26/6/20-0357_article</a> (468 patients from China; no local data available)<br/>
@@ -25,9 +31,9 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Effective Reproduction Number (Rt)`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div><b>Adjusting for the delay from symptom onset to case confirmation:</b><br/>
+									<div style={normalText}><b>Adjusting for the delay from symptom onset to case confirmation:</b><br/>
 									A variable delay occurs from symptom onset to case confirmation (reporting lag) which is attributed to multiple factors including 
 									time taken to seek care (patient dependent) and time taken to detect and test the case (healthcare-system dependent). The daily 
 									raw data gives us the â€˜incidence by confirmationâ€™. We transform this incidence by confirmation into incidence by symptom onset,
@@ -65,10 +71,10 @@ export default class Methods extends Component {
 									studies.(5â€“7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by 
 									calculating pooled mean and pooled standard deviation and a net estimate for 50% and 95% confidence intervals were calculated.<br/><br/>
 									
-									<span style={{fontStyle: "italic", fontWeight: "bold"}}>Acknowledgement</span><br/>
+									<span style={italicBoldText}>Acknowledgement</span><br/>
 									Statistical approaches used by Abbott et al at Epiforecasts have been used to adjust for the reporting delay in Rt estimation. (8).<br/><br/> 
 									
-									<span style={{fontWeight: "bold", fontStyle: "italic"}}>Limitations/Scope for improvement:</span><br/>
+									<span style={italicBoldText}>Limitations/Scope for improvement:</span><br/>
 									<ol>
 									<li>Since we do not know the true number of infections (irrespective of detection), Rt calculation is based on reported cases. The 
 									estimated Rt is unaffected if the ascertainment rate (percent of true infections that are detected) remains fairly constant across 
@@ -84,7 +90,7 @@ export default class Methods extends Component {
 									we do not take into account. Again, data from contact tracing programs can address all these challenges in real-time.</li>
 									</ol> <br/>
 									
-									<span style={{fontStyle: "italic", fontWeight: "bold"}}>Update frequency and last available date:</span><br/> 
+									<span style={italicBoldText}>Update frequency and last available date:</span><br/> 
 									Case data is pulled daily from covid19india.org and Rt estimated daily. However as stated above, Rt can only be estimated upto 3-5 
 									days before the estimation date.<br/><br/> 
 									</div>
@@ -92,9 +98,9 @@ export default class Methods extends Component {
 							</Card.Body>
 							
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Mobility`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Mobility`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available 
+									<div style={normalText}>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available 
 									<a href="https://support.google.com/covid19-mobility?hl=en#topic=9822927"> here. </a> 
 									Google mobility data shows how visits and length of stay at different places change compared to a baseline (changes for each day are 
 									compared to a baseline value for the corresponding day of the week, during the 5-week period Jan 3 to Feb 6, 2020). Google calculates 
@@ -143,11 +149,11 @@ export default class Methods extends Component {
 							</Card.Body>
 							<Card.Body>
 								<Card.Text className="top-text-body">
-									<div><b>Calculating Average Mobility from the data</b><br/>
-									We calculate the Average Mobility by aggregating data for <span style={{fontStyle: "italic"}}>Grocery and pharmacy, Transit stations, 
-									Workplaces, and Retail and recreation</span>. We do not include <span style={{fontStyle: "italic"}}>Parks</span> because mobility in 
+									<div style={normalText}><b>Calculating Average Mobility from the data</b><br/>
+									We calculate the Average Mobility by aggregating data for <span style={italicText}>Grocery and pharmacy, Transit stations, 
+									Workplaces, and Retail and recreation</span>. We do not include <span style={italicText}>Parks</span> because mobility in 
 									parks is highly influenced in short-term by day-to-day weather changes and in long-term by seasonal changes compared to the baseline 
-									in January. We do not include <span style={{fontStyle: "italic"}}>Residential</span> because the residential category shows a change 
+									in January. We do not include <span style={italicText}>Residential</span> because the residential category shows a change 
 									in duration-the other categories measure a change in total visitors , and Google recommends not  comparing the change in residential 
 									with other categories because they have different units of measurement. We intend to improve the Average Mobility by creating a 
 									composite metric that best correlates with transmission changes.<br/><br/> 
@@ -155,12 +161,12 @@ export default class Methods extends Component {
 									<b>Smoothening baseline bias for better interpretation</b><br/> 
 									Since the data shows relative and not absolute mobility change, it is affected by mobility levels at the  baseline. This causes a 
 									nearer-to-baseline value to appear at weekends as the current weekend mobility does not change much 
-									<span style={{fontStyle: "italic"}}>relative</span> to pre-lockdown weekends. We smoothen these changes to aid interpretation by 
+									<span style={italicText}>relative</span> to pre-lockdown weekends. We smoothen these changes to aid interpretation by 
 									continuing the last working day value over the weekends. Note that the raw data reflects the statistical truth, but 
 									the smoothening is done so that only changes due to social distancing are visible. <br/><br/>  
 									
 									
-									<span style={{fontStyle: "italic", fontWeight: "bold"}}>Limitations:</span><br/>
+									<span style={italicBoldText}>Limitations:</span><br/>
 									<ol>
 									<li>The data represents a sample of Google's users, and may or may not represent the exact behavior of a wider population.</li>
 									<li>Location accuracy and the understanding of categorized places varies from region to region, so Google cautions against using this 
@@ -170,16 +176,16 @@ export default class Methods extends Component {
 									As a result, you may encounter empty fields for certain places and dates.</li>
 									</ol><br/>
 									
-									<span style={{fontStyle: "italic", fontWeight: "bold"}}>Update frequency and last available date:</span><br/>
+									<span style={italicBoldText}>Update frequency and last available date:</span><br/>
 									Google releases mobility data for a particular date after 5-7 days. As soon as data is released, it is updated on our dashboard 
 									within a day.
 									</div><br/>
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day, 
+									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day, 
 									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent 
 									trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with 
 									the Cumulative Positivity Rate tells us how the state is doing at testing recently as compared to its baseline performance 
@@ -188,9 +194,9 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Cumulative Positivity Rate`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Cumulative Positivity Rate`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied 
+									<div style={normalText}>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied 
 									by 100. This metric shows us the 'overall' picture of testing adequacy since the epidemic started. Since it takes time for 
 									recent trends to reflect in Cumulative Positivity Rate, this metric is not a good indicator of recent performance of a state 
 									in testing. 
@@ -198,9 +204,9 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Corrected CFR`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Corrected CFR`}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors- 
+									<div style={normalText}>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors- 
 									the delay between time of case confirmation and time of death, and the under-reporting of cases due to limitations in 
 									testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the denominator to reflect 
 									the number of cases where death would have been reported if it had occurred, based on known estimates of delay from 
@@ -216,7 +222,7 @@ export default class Methods extends Component {
 									CasesClosed(t). (10) For each dataset, 
 									<br/><br/>
 									
-									<span style={{fontStyle: "italic", fontWeight: "bold"}}>Limitations:</span><br/>
+									<span style={italicBoldText}>Limitations:</span><br/>
 									<ol>
 									<li>In addition to testing variation, the variation of Corrected CFR across states would also depend on other factors 
 									like age structure, comorbidity prevalence, and healthcare efficacy and overload status of various states. In states facing 
@@ -228,17 +234,17 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: "medium" }}>{`Did we miss something? Get in touch here`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Did we miss something? Get in touch here`}</Card.Title>
 								<Card.Text>
-									<div>
+									<div style={citationsText}>
 									<ol>
 									<li>Gupta M, Mohanta SS, Rao A, Parameswaran GG, Agarwal M, Arora M, et al. Transmission dynamics of the COVID-19 epidemic in India and modelling optimal lockdown exit strategies. medRxiv. 2020 May 22;2020.05.13.20096826.</li>
-									<li>Cori A, Ferguson NM, Fraser C, Cauchemez S. A New Framework and Software to Estimate Time-Varying Reproduction Numbers During Epidemics. Am J Epidemiol. 2013 Nov 1;178(9):1505–12.</li>
-									<li>Wallinga J, Teunis P. Different Epidemic Curves for Severe Acute Respiratory Syndrome Reveal Similar Impacts of Control Measures. Am J Epidemiol. 2004 Sep 15;160(6):509–16.</li>
-									<li>Du Z, Xu X, Wu Y, Wang L, Cowling BJ, Meyers LA. Early Release - Serial Interval of COVID-19 among Publicly Reported Confirmed Cases - Volume 26, Number 6—June 2020 - Emerging Infectious Diseases journal - CDC. [cited 2020 Apr 21]; Available from: https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article</li>
+									<li>Cori A, Ferguson NM, Fraser C, Cauchemez S. A New Framework and Software to Estimate Time-Varying Reproduction Numbers During Epidemics. Am J Epidemiol. 2013 Nov 1;178(9):1505-12.</li>
+									<li>Wallinga J, Teunis P. Different Epidemic Curves for Severe Acute Respiratory Syndrome Reveal Similar Impacts of Control Measures. Am J Epidemiol. 2004 Sep 15;160(6):509-16.</li>
+									<li>Du Z, Xu X, Wu Y, Wang L, Cowling BJ, Meyers LA. Early Release - Serial Interval of COVID-19 among Publicly Reported Confirmed Cases - Volume 26, Number 6-June 2020 - Emerging Infectious Diseases journal - CDC. [cited 2020 Apr 21]; Available from: https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article</li>
 									<li>Tindale L, Coombe M, Stockdale JE, Garlock E, Lau WYV, Saraswat M, et al. Transmission interval estimates suggest pre-symptomatic spread of COVID-19. medRxiv. 2020 Mar 6;2020.03.03.20029983</li>
 									<li>Zhao S, Gao D, Zhuang Z, Chong M, Cai Y, Ran J, et al. Estimating the serial interval of the novel coronavirus disease (COVID-19): A statistical analysis using the public data in Hong Kong from January 16 to February 15, 2020. medRxiv. 2020 Feb 25;2020.02.21.20026559.</li>
-									<li>Nishiura H, Linton NM, Akhmetzhanov AR. Serial interval of novel coronavirus (COVID-19) infections. Int J Infect Dis. 2020 Apr 1;93:284–6.</li>
+									<li>Nishiura H, Linton NM, Akhmetzhanov AR. Serial interval of novel coronavirus (COVID-19) infections. Int J Infect Dis. 2020 Apr 1;93:284-6.</li>
 									<li>Abbott S, Hellewell J, Thompson RN, Sherratt K, Gibbs HP, Bosse NI, et al. Estimating the time-varying reproduction number of SARS-CoV-2 using national and subnational case counts. Wellcome Open Res. 2020 Jun 1;5:112.</li>
 									<li>Russell TW, Hellewell J, Abbott S, Golding N, Gibbs H, Jarvis CI. Using a delay-adjusted case fatality ratio to estimate under-reporting [Internet]. CMMID Repository. 2020 [cited 2020 Apr 28]. Available from: https://cmmid.github.io/topics/covid19/global_cfr_estimates.html</li>
 									<li>Linton NM, Kobayashi T, Yang Y, Hayashi K, Akhmetzhanov AR, Jung S, et al. Incubation Period and Other Epidemiological Characteristics of 2019 Novel Coronavirus Infections with Right Truncation: A Statistical Analysis of Publicly Available Case Data. J Clin Med. 2020 Feb;9(2):538.</li>
