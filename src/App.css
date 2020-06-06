@@ -261,7 +261,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .home-text-footnote-mobile {
 	width: 90%;
 	margin: 0 auto;
-	font-size: smaller;
+	font-size: x-small;
 	text-align: justify;
 }
 
@@ -313,4 +313,32 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	padding: 20px;
 	text-align: center;
 	font-family: Titillium Web;
+}
+
+.plots-card {
+	padding: 5px;
+	margin: 10px;
+}
+
+.disclaimer-top {
+	margin: 0 auto;
+	text-align: center;
+	font-family: Titillium Web;
+}
+
+.scroll-button {
+	color: #004056;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.accordion-button {
+	color: #004056;
+    border: 0;
+    background: none;
+    text-decoration: underline;
+}
+
+.accordion-button:focus {
+	outline: none;
 }
