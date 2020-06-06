@@ -234,7 +234,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Did we miss something? Get in touch here`}</Card.Title>
+								<Card.Title className="top-text-title" style={boldText}>{`Citations`}</Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>
