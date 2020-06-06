@@ -57,10 +57,14 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort, 
-						cellRenderer: 'cumCasesRenderer', headerTooltip: "Total number of COVID+ cases detected till date" },
-						{ headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
-							cellRenderer: 'casesRenderer', comparator: this.numberSort }
+						{
+							headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
+							cellRenderer: 'cumCasesRenderer', headerTooltip: "Total number of COVID+ cases detected till date"
+						},
+						{
+							headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
+							cellRenderer: 'casesRenderer', comparator: this.numberSort
+						}
 					]
 				},
 				{
@@ -98,8 +102,10 @@ class App extends Component {
 								return style;
 							}
 						},
-						{ headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true, 
-						cellRenderer: 'TPMRenderer', comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state" }
+						{
+							headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true,
+							cellRenderer: 'TPMRenderer', comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state"
+						}
 					]
 				}
 			],
@@ -112,7 +118,8 @@ class App extends Component {
 			nationalDataFromApi: [],
 			minRtDataPoint: 0,
 			maxRtDataPoint: 0,
-			lockdownDates: ["03-25-2020", "04-15-2020", "05-04-2020", "05-18-2020"],
+			lockdownDates: ["25 March", "15 April", "04 May", "18 May", "01 June"],
+			lockdownChartText: ['Lockdown 1', 'Lockdown 2', 'Lockdown 3', 'Lockdown 4', 'Unlock 1'],
 			graphStartDate: '22 March',
 			lockdownDatesIndex: [],
 			rtPointGraphData: { datasets: [{ data: [] }], labels: [] },
@@ -130,7 +137,7 @@ class App extends Component {
 				cumPosRateRenderer: CumPosRateRenderer,
 				cumCasesRenderer: CumCasesRenderer,
 				TPMRenderer: TPMRenderer
-		      },
+			},
 		}
 	}
 
@@ -163,29 +170,37 @@ class App extends Component {
 						return style;
 					}
 				},
-				{ headerName: "CUMULATIVE CASES", field: "cumCases", width: 100, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date", 
-				cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
-				{ headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
-							cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" } }
+				{
+					headerName: "CUMULATIVE CASES", field: "cumCases", width: 100, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
+					cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				},
+				{
+					headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
+					cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				}
 			]
 		},
 		{
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
-				{ headerName: "POSITIVITY RATE", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
-							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
-								let style;
-								const posRateNumber = parseFloat(params.data.posRate);
-								if (posRateNumber > 10) {
-									style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-								} else if (posRateNumber < 5) {
-									style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-								} else if (posRateNumber < 10 && posRateNumber > 5) {
-									style = { backgroundColor: '#fafae1', fontSize: "x-small" };
-								}
-								return style;
-							}},
-				{ headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 100, sortable: true, headerTooltip: "Percent of tests done till date that came back positive", 
-						cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" } },
+				{
+					headerName: "POSITIVITY RATE", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
+					cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
+						let style;
+						const posRateNumber = parseFloat(params.data.posRate);
+						if (posRateNumber > 10) {
+							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
+						} else if (posRateNumber < 5) {
+							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
+						} else if (posRateNumber < 10 && posRateNumber > 5) {
+							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
+						}
+						return style;
+					}
+				},
+				{
+					headerName: "CUMULATIVE POSITIVITY RATE", field: "cumPosRate", width: 100, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
+					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+				},
 				{
 					headerName: "CORRECTED CASE FATALITY RATE", field: "ccfr", width: 100, sortable: true, suppressMovable: true, comparator: this.numberSort,
 					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
@@ -284,17 +299,18 @@ class App extends Component {
 			getLinePosition: function (chart, pointIndex) {
 				const meta = chart.getDatasetMeta(0); // first dataset is used to discover X coordinate of a point
 				const data = meta.data;
+				console.log(data);
 				if (data[pointIndex])
 					return data[pointIndex]._model.x;
 			},
-			renderVerticalLine: function (chartInstance, pointIndex, number) {
+			renderVerticalLine: function (chartInstance, pointIndex, text) {
 				const lineLeftOffset = this.getLinePosition(chartInstance, pointIndex);
 				const scale = chartInstance.scales['y-axis-0'];
 				const context = chartInstance.chart.ctx;
 
 				// render vertical line
 				context.beginPath();
-				context.strokeStyle = 'rgb(0,64,101,0.6)';
+				context.strokeStyle = 'rgb(0,64,101,0.3)';
 				context.moveTo(lineLeftOffset, scale.top);
 				context.lineTo(lineLeftOffset, scale.bottom);
 				context.stroke();
@@ -302,13 +318,21 @@ class App extends Component {
 				// write label
 				context.fillStyle = "#004065";
 				context.textAlign = 'left';
-				context.font = '12px "Titillium Web"';
-				context.fillText(' Lockdown ' + number, lineLeftOffset, scale.top);
+				context.font = '11px "Titillium Web"';
+				context.fillText(text, lineLeftOffset, scale.top);
 			},
 
 			afterDatasetsDraw: function (chart, easing) {
 				if (chart.config.plugins) {
-					chart.config.plugins.verticalLineAtIndex.forEach((pointIndex, index) => this.renderVerticalLine(chart, pointIndex, index + 1));
+					let linesIndex = [];
+					chart.config.plugins.verticalLineAtIndex.forEach((pointIndex) => {
+						let index = chart.config.data.labels.indexOf(pointIndex);
+						linesIndex.push(index);
+					});
+					console.log(linesIndex);
+					linesIndex.forEach((pointIndex, index) => {
+						this.renderVerticalLine(chart, pointIndex, chart.config.plugins.lockdownChartText[index]);
+					});
 				}
 			}
 		};
@@ -463,7 +487,7 @@ class App extends Component {
 				//cfr
 				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
 				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
-				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex-7] * 100).toFixed(2) : "NA";
+				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex - 7] * 100).toFixed(2) : "NA";
 				const cfrDate = cfrIndex > 0 ? this.state.cfrDataFromApi[name].dates[cfrIndex] : "-";
 
 				//national
@@ -559,11 +583,11 @@ class App extends Component {
 			};
 		}
 		const rtDataInd = `${rtPointInd} (${rtl95Ind}-${rtu95Ind})`
-		
+
 		const cfrIndexInd = this.state.cfrDataFromApi["India"].cfr3_point.length - 1;
 		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd] * 100).toFixed(2) : "NA";
 		const cfrDate = cfrIndexInd > 0 ? this.state.cfrDataFromApi["India"].dates[cfrIndexInd] : "-";
-		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd-7] * 100).toFixed(2) : "NA";
+		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd - 7] * 100).toFixed(2) : "NA";
 
 		const cumConfirmedIndIndex = this.state.nationalDataFromApi.cases_time_series.length - 1;
 		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
@@ -581,16 +605,16 @@ class App extends Component {
 		const countIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.length - 1;
 		const posRateMaIndexInd = indexIndPosRateMa >= 0 ? countIndPosRateMa - indexIndPosRateMa : indexIndPosRateMa;
 		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd] * 100).toFixed(2);
-		const PosRateMaIndOld = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd-7] * 100).toFixed(2);
+		const PosRateMaIndOld = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd - 7] * 100).toFixed(2);
 		const posRateDateInd = posRateArrInd.dates[posRateMaIndexInd];
 
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndcasesMa = posRateArrInd.daily_positive_cases_ma.length - 1;
 		const casesMaIndexInd = indexIndcasesMa >= 0 ? countIndcasesMa - indexIndcasesMa : indexIndcasesMa;
 		const casesMaInd = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd]);
-		const casesMaIndOld = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd-7]);
+		const casesMaIndOld = Math.floor(posRateArrInd.daily_positive_cases_ma[casesMaIndexInd - 7]);
 		const maCasesIndDate = posRateArrInd.dates[casesMaIndexInd];
-		
+
 		const indexIndTpm = posRateArrInd.test_per_million.slice().reverse().findIndex(i => i !== "");
 		const countIndTpm = posRateArrInd.test_per_million.length - 1;
 		const tpmIndexInd = indexIndTpm >= 0 ? countIndTpm - indexIndTpm : indexIndTpm;
@@ -725,6 +749,15 @@ class App extends Component {
 
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
 			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
+			let lockdownDatesIndex = [];
+			this.state.lockdownDates.forEach(date => {
+				let index = data.labels.indexOf(date);
+				if (index > 0) {
+					console.log(date)
+					lockdownDatesIndex.push(index);
+				}
+			});
+			console.log(lockdownDatesIndex);
 
 			// Horizontal line
 			let horizontalLineData = [];
@@ -780,6 +813,21 @@ class App extends Component {
 			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
 			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
+
+			// Horizontal line
+			let horizontalLineData = [];
+			for (let i = 0; i < data.labels.length; i++) {
+				horizontalLineData.push(0);
+			}
+			data.datasets.push({
+				label: 'fixed',
+				data: horizontalLineData,
+				borderColor: 'rgba(72,72,72,0.5)',
+				borderWidth: 2,
+				fill: false,
+				radius: 0,
+				hoverRadius: 0,
+			});
 
 			// Main data
 			let mainData = [{
@@ -942,12 +990,13 @@ class App extends Component {
 	}
 
 	RtChartRender = () => {
-		const { minRtDataPoint, maxRtDataPoint, rtPointGraphData, lockdownDatesIndex } = this.state;
+		const { minRtDataPoint, maxRtDataPoint, rtPointGraphData, lockdownDates, lockdownChartText } = this.state;
 		return <Line
 			data={rtPointGraphData}
 			height={300}
 			plugins={{
-				verticalLineAtIndex: [3, 24, 43]//lockdownDatesIndex//[3, 24, 43]
+				verticalLineAtIndex: lockdownDates,
+				lockdownChartText: lockdownChartText,
 			}}
 			options={{
 				maintainAspectRatio: false,
@@ -1018,12 +1067,13 @@ class App extends Component {
 	}
 
 	CfrChartRender = () => {
-		const { cfrGraphData } = this.state;
+		const { cfrGraphData, lockdownDates, lockdownChartText } = this.state;
 		return <Line
 			data={cfrGraphData}
 			height={300}
 			plugins={{
-				verticalLineAtIndex: [3, 24, 43],
+				verticalLineAtIndex: lockdownDates,
+				lockdownChartText: lockdownChartText,
 			}}
 			options={{
 				maintainAspectRatio: false,
@@ -1078,12 +1128,13 @@ class App extends Component {
 	}
 
 	MobilityChartRender = () => {
-		const { mobilityGraphData } = this.state;
+		const { mobilityGraphData, lockdownDates, lockdownChartText } = this.state;
 		return <Line
 			data={mobilityGraphData}
 			height={300}
 			plugins={{
-				verticalLineAtIndex: [3, 24, 43],
+				verticalLineAtIndex: lockdownDates,
+				lockdownChartText: lockdownChartText,
 			}}
 			options={{
 				maintainAspectRatio: false,
@@ -1092,12 +1143,21 @@ class App extends Component {
 					labels: {
 						boxWidth: 20,
 						fontFamily: 'Titillium Web',
+						filter: function (item, chart) {
+							console.log(item);
+							if(item.text){
+								return !item.text.includes('fixed');
+							}
+						},
 					},
 					position: 'bottom',
 				},
 				tooltips: {
 					mode: 'index',
 					intersect: false,
+					filter: function(item) {
+						return !item.datasetIndex == 0;
+					},
 				},
 				hover: {
 					mode: 'index',
@@ -1252,15 +1312,15 @@ class App extends Component {
 									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
 									<Card.Text className="top-text-body">
 										<div>We do the hard work for you, so you can focus on what the data means. <br />
-										<ul>
-										<li>Cleaning and integrating data from multiple sources </li>
-										<li>Analysing the data using robust statistical methods </li>
-										<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
-										<li>Using latest scientific evidence and advisories to guide interpretation </li>
-										<li>Updated daily for all states of India (where data is available) </li>
-										<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
-										<li>All data made available for running your own analyses </li>
-										</ul></div>
+											<ul>
+												<li>Cleaning and integrating data from multiple sources </li>
+												<li>Analysing the data using robust statistical methods </li>
+												<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
+												<li>Using latest scientific evidence and advisories to guide interpretation </li>
+												<li>Updated daily for all states of India (where data is available) </li>
+												<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
+												<li>All data made available for running your own analyses </li>
+											</ul></div>
 									</Card.Text>
 									
 								</Card.Body>
@@ -1272,8 +1332,8 @@ class App extends Component {
 						<this.DropdownRenderer />
 
 
-						<Container ref={this.plotsRef}>
-							<Row>
+						<Container >
+							<Row ref={this.plotsRef}>
 								<Col lg="6">
 									{/* RT Graph */}
 									<Row>
@@ -1323,7 +1383,8 @@ class App extends Component {
 													data={positivityRateGraphData}
 													height={300}
 													plugins={{
-														verticalLineAtIndex: [3, 24, 43],
+														verticalLineAtIndex: this.state.lockdownDates,
+														lockdownChartText: this.state.lockdownChartText,
 													}}
 													options={{
 														maintainAspectRatio: false,
@@ -1493,10 +1554,10 @@ class App extends Component {
 									denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of 
 									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect 
 									the degree of under-reporting or testing adequacy in a particular state (with certain limitations). </span></div>
-								</Card.Text>
-							</Card.Body>
-						</Card>
-					</CardGroup>	
+									</Card.Text>
+								</Card.Body>
+							</Card>
+						</CardGroup>
 					</div>
 					<div className="disclaimer" style={{fontSize: fontSizeDynamic}}>The raw data sources and detailed method of calculation is provided in the 
 						<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page. 
