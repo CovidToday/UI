@@ -7,7 +7,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
-import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger, CardGroup } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger, CardGroup, Accordion } from 'react-bootstrap';
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
 import informationIcon from "./images/information_icon.png";
@@ -970,7 +970,7 @@ class App extends Component {
 	DropdownRenderer = () => {
 		return <div className="sub-header-row">
 			<span className="header-bar-text"> </span>
-			{!this.state.mobileView && <span className="header-bar-text">How fast is the spread?</span>}
+			{!this.state.mobileView && <span className="header-bar-text">HOW FAST IS THE SPREAD?</span>}
 			<span className="header-bar-dropdown">
 				<Dropdown>
 					<Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-state">
@@ -984,7 +984,7 @@ class App extends Component {
 					</Dropdown.Menu>
 				</Dropdown>
 			</span>
-			{!this.state.mobileView && <span className="header-bar-text">Are we testing enough?</span>}
+			{!this.state.mobileView && <span className="header-bar-text">ARE WE TESTING ENOUGH?</span>}
 			<span className="header-bar-text"> </span>
 		</div>
 	}
@@ -1213,11 +1213,14 @@ class App extends Component {
 	}
 
 	render() {
+		
+		const popoverFont = this.state.mobileView ? "smaller" : "1 rem";
+		
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
-				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Effective Reproduction Number (Rt)</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Rt is the average number of people infected by a single case at a particular time during the outbreak.
 					Green line at Rt=1 below which epidemic is controlled.
 					Dark band and light band show 50% and 95% confidence intervals respectively.
@@ -1227,8 +1230,8 @@ class App extends Component {
 
 		const cfrPopover = (
 			<Popover id="cfr-popover">
-				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Corrected Case Fatality Rate (CFR)</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage.
 					Green line at 5%. Red line at 10%.
 				</Popover.Content>
@@ -1237,8 +1240,8 @@ class App extends Component {
 
 		const mobilityPopover = (
 			<Popover id="mobility-popover">
-				<Popover.Title as="h3">Mobility Index</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Mobility Index</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					This indicates the % change in the movement of people at various places compared to that before lockdown.
 				</Popover.Content>
 			</Popover>
@@ -1246,14 +1249,14 @@ class App extends Component {
 
 		const positivityPopover = (
 			<Popover id="positivity-popover">
-				<Popover.Title as="h3">Positivity Rate</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Positivity Rate</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Percent of tests done per day that came back positive (7-day moving average).Lower positivity rate means better testing coverage.
 					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
 		);
-		const navButtonSize = mobileView ? "smaller" : "larger";
+		const fontSizeDynamic = mobileView ? "smaller" : "larger";
 
 		return (
 			<div>
@@ -1263,19 +1266,19 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: navButtonSize }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
@@ -1289,13 +1292,23 @@ class App extends Component {
 					<div className="App">
 
 						<div className="home-text">
-							<div className="for-the-people-heading">Tracking India's Progress Through The Coronavirus Pandemic</div>
-							<div className="disclaimer">The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards
-							are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak
-							indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding
-							and tracking these numbers is particularly important as we move towards reopening our economy.</div>
-							<Card style={{ background: "#e8e8e8" }}>
-								<Card.Body>
+							<Accordion>
+							  <Card>
+							    <Card.Header>
+								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>Tracking India's Progress Through The Coronavirus Pandemic</div>
+								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards 
+								are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak 
+								indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding 
+								and tracking these numbers is particularly important as we move towards reopening our economy. <br/>
+								Before diving in 
+							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
+							        Know more about us
+							      </Accordion.Toggle>{`or `}
+								  <span className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators</span>
+								</div>	
+							    </Card.Header>
+							    <Accordion.Collapse eventKey="1">
+							      <Card.Body>
 									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
 									<Card.Text className="top-text-body">
 										<div>We do the hard work for you, so you can focus on what the data means. <br />
@@ -1309,9 +1322,11 @@ class App extends Component {
 												<li>All data made available for running your own analyses </li>
 											</ul></div>
 									</Card.Text>
-									<Button variant="outline-primary" className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators before diving in</Button>
+									
 								</Card.Body>
-							</Card>
+							    </Accordion.Collapse>
+							  </Card>
+							</Accordion>
 						</div>
 
 						<this.DropdownRenderer />
@@ -1323,7 +1338,8 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Effective Reproduction Number
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Effective Reproduction Number
 												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1331,13 +1347,15 @@ class App extends Component {
 											<div className="rtgraph">
 												<this.RtChartRender />
 											</div>
+										</Card>
 										</Col>
 									</Row>
 									<div className="mt-2"></div>
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Mobility Index (% change from pre-lockdown)
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Mobility Index (% change from pre-lockdown)
 												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1345,6 +1363,7 @@ class App extends Component {
 											<div className="mobilityGraph">
 												<this.MobilityChartRender />
 											</div>
+										</Card>	
 										</Col>
 									</Row>
 								</Col>
@@ -1353,7 +1372,8 @@ class App extends Component {
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Positivity Rate (%)
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Positivity Rate (%)
 												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1417,12 +1437,14 @@ class App extends Component {
 													}}
 												/>
 											</div>
+										</Card>	
 										</Col>
 									</Row>
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-											<h5 className="mb-0 mt-2 plot-heading font-weight-bold">Corrected Case Fatality Rate (%)
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Corrected Case Fatality Rate (%)
 												<OverlayTrigger placement="left" overlay={cfrPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
 												</OverlayTrigger>
@@ -1430,6 +1452,7 @@ class App extends Component {
 											<div className="cfr-graph">
 												<this.CfrChartRender />
 											</div>
+										</Card>	
 										</Col>
 									</Row>
 								</Col>
@@ -1475,80 +1498,80 @@ class App extends Component {
 					</div>
 
 					<div className="home-text" ref={this.textDivRef}>
-						<div className="for-the-people-heading" style={{ padding: "10px" }}>How fast is the spread? (Transmission indicators)</div>
-						<CardGroup>
-							<Card style={{ background: "#e8e8e8" }}>
-								<Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
-									<Card.Text className="top-text-body">
-										<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time
-									t during the outbreak.</span>  WHO recommends this metric as the key measure to know the rate of spread of the virus. When Rt
-									reaches below 1, we can say that the outbreak has been brought under control. Tracking the regional Rt tells us the severity of
-									the outbreak in each state, and guides administrators to fine-tune the level of control measures required to bring the Rt under
-									1. As changes in transmission correlate with control measures, we can assess the efficacy of different measures by comparing the
+					<div className="for-the-people-heading" style={{padding: "10px", fontSize: fontSizeDynamic}}>How fast is the spread? (Transmission indicators)</div>
+					<CardGroup>
+						<Card style={{background: "#e8e8e8"}}>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
+									<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time 
+									t during the outbreak.</span>  WHO recommends this metric as the key measure to know the rate of spread of the virus. When Rt 
+									reaches below 1, we can say that the outbreak has been brought under control. Tracking the regional Rt tells us the severity of 
+									the outbreak in each state, and guides administrators to fine-tune the level of control measures required to bring the Rt under 
+									1. As changes in transmission correlate with control measures, we can assess the efficacy of different measures by comparing the 
 									change in Rt after their implementation. </div>
-									</Card.Text>
-								</Card.Body>
-							</Card>
-							<span style={{ width: "2%" }}> </span>
-							<Card style={{ background: "#e8e8e8" }}>
-								<Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Mobility Index`}</Card.Title>
-									<Card.Text className="top-text-body">
-										<div><span style={{ fontStyle: "italic" }}>This indicates the change in the amount of movement of people at various places
-									compared to that before lockdown</span>  It shows us the effect of lockdown and behavioural change on the movement of people,
-									and how this changes as restrictions are relaxed in a graded manner. We have introduced this parameter experimentally considering
-									that mobility has a direct effect on disease spread, however there is no evidence yet that the mobility indices shown directly
+								</Card.Text>
+							</Card.Body>
+						</Card>	
+						<span style={{width: "2%"}}> </span>
+						<Card style={{background: "#e8e8e8"}}>	
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Mobility Index`}</Card.Title>
+								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
+									<div><span style={{ fontStyle: "italic" }}>This indicates the change in the amount of movement of people at various places 
+									compared to that before lockdown</span>  It shows us the effect of lockdown and behavioural change on the movement of people, 
+									and how this changes as restrictions are relaxed in a graded manner. We have introduced this parameter experimentally considering 
+									that mobility has a direct effect on disease spread, however there is no evidence yet that the mobility indices shown directly 
 									correlate with local transmission.</div>
-									</Card.Text>
-								</Card.Body>
-							</Card>
-						</CardGroup>
-						<div className="for-the-people-heading" style={{ padding: "10px" }}>Are we testing enough? (Testing indicators)</div>
-						<CardGroup>
-							<Card style={{ background: "antiquewhite" }}>
-								<Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Test Positivity Rate`}</Card.Title>
-									<Card.Text className="top-text-body">
-										<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity
-									rate means that testing levels are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to
-									detect any resurgence. In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion
-									of COVID-19 and may miss new chains of transmission in the community. The WHO recommends that the daily positivity rate be below 5%
-									for atleast two weeks before relaxing public health measures. Test Positivity Rate is a better indicator of testing adequacy than
-									Tests Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population.
+								</Card.Text>
+							</Card.Body>
+						</Card>
+					</CardGroup>
+					<div className="for-the-people-heading" style={{padding: "10px", fontSize: fontSizeDynamic}}>Are we testing enough? (Testing indicators)</div>
+					<CardGroup>
+						<Card style={{background: "antiquewhite"}}>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Test Positivity Rate`}</Card.Title>
+								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
+									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity 
+									rate means that testing levels are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to 
+									detect any resurgence. In contrast, a high positivity rate indicates that testing is relatively limited to people with high suspicion 
+									of COVID-19 and may miss new chains of transmission in the community. The WHO recommends that the daily positivity rate be below 5% 
+									for atleast two weeks before relaxing public health measures. Test Positivity Rate is a better indicator of testing adequacy than 
+									Tests Per Million, as testing coverage should be seen relative to the size of the epidemic rather than the size of the population. 
 									We report daily positivity rate (as 7-day moving averages) and cumulative positivity rate (which includes all tests done till date). </div>
-									</Card.Text>
-								</Card.Body>
-							</Card>
-							<span style={{ width: "2%" }}> </span>
-							<Card style={{ background: "antiquewhite" }}>
-								<Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Corrected Case Fatality Rate`}</Card.Title>
-									<Card.Text className="top-text-body">
-										<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be biased in
-										ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting
-										of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the
-										denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of
-									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect
+								</Card.Text>
+							</Card.Body>
+						</Card>
+						<span style={{width: "2%"}}> </span>
+						<Card style={{background: "antiquewhite"}}>	
+							<Card.Body>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Corrected Case Fatality Rate`}</Card.Title>
+								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
+									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be biased in 
+									ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting 
+									of cases due to limitations in testing coverage. The Corrected CFR presented here corrects for the first bias, by adjusting the 
+									denominator to reflect the number of cases where death would have been reported if it had occurred, based on known estimates of 
+									delay from confirmation to death. <span style={{ fontStyle: "italic" }}>The variation in Corrected CFR across states would then reflect 
 									the degree of under-reporting or testing adequacy in a particular state (with certain limitations). </span></div>
 									</Card.Text>
 								</Card.Body>
 							</Card>
 						</CardGroup>
 					</div>
-					<div className="disclaimer">The raw data sources and detailed method of calculation is provided in the
-						<a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page.
-						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
-						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
+					<div className="disclaimer" style={{fontSize: fontSizeDynamic}}>The raw data sources and detailed method of calculation is provided in the 
+						<a className="link-text" onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a>. page. 
+						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other. 
+						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts. 
 						<a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
 					<div className="divider"> </div>
 					<div className="for-the-people">
-						<div className="for-the-people-heading">For The People, By The People</div>
-						<div className="for-the-people-text">COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors,
-						researchers, coders, and public health experts from institutes across India.
-						<a className="link-text" onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to
-						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected.
-						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to
+						<div className="for-the-people-heading" style={{fontSize: fontSizeDynamic}}>For The People, By The People</div>
+						<div className="for-the-people-text" style={{fontSize: fontSizeDynamic}}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors, 
+						researchers, coders, and public health experts from institutes across India. 
+						<a className="link-text" onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to 
+						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected. 
+						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to 
 						the <a className="link-text" onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute page</a> to see how you can pitch in.
 						</div>
 					</div>
