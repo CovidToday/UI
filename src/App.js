@@ -49,9 +49,9 @@ class App extends Component {
 								})
 								if (params.data.rtCurrent > 1) {
 									style = { backgroundColor: '#fdcbdd' };
-								} else if (params.data.rtCurrent < 1 && a === true) {
+								} else if (params.data.rtCurrent <= 1 && a === true) {
 									style = { backgroundColor: '#e1fae9' };
-								} else if (params.data.rtCurrent < 1 && a === false) {
+								} else if (params.data.rtCurrent <= 1 && a === false) {
 									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
@@ -150,7 +150,7 @@ class App extends Component {
 		{
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
-					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+					headerName: "RT", field: "rt", width: 110, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
 					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
@@ -162,9 +162,9 @@ class App extends Component {
 						})
 						if (params.data.rtCurrent > 1) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-						} else if (params.data.rtCurrent < 1 && a === true) {
+						} else if (params.data.rtCurrent <= 1 && a === true) {
 							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-						} else if (params.data.rtCurrent < 1 && a === false) {
+						} else if (params.data.rtCurrent <= 1 && a === false) {
 							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;
@@ -1230,10 +1230,10 @@ class App extends Component {
 
 		const cfrPopover = (
 			<Popover id="cfr-popover">
-				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Corrected Case Fatality Rate (%)</Popover.Title>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content style={{fontSize: popoverFont}}>
-					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage (with certain limitations).
-					This metric is normally high early in the epidemic and does not mean actual increased mortality in that period.
+					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage.
+					Green line at 5%. Red line at 10%.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1242,16 +1242,16 @@ class App extends Component {
 			<Popover id="mobility-popover">
 				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Mobility Index</Popover.Title>
 				<Popover.Content style={{fontSize: popoverFont}}>
-					This indicates the % change in the movement of people at various places compared to that in January 2020.
+					This indicates the % change in the movement of people at various places compared to that before lockdown.
 				</Popover.Content>
 			</Popover>
 		);
 
 		const positivityPopover = (
 			<Popover id="positivity-popover">
-				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Positivity Rate (%)</Popover.Title>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Positivity Rate</Popover.Title>
 				<Popover.Content style={{fontSize: popoverFont}}>
-					Percent of tests done per day that came back positive (7-day moving average). Lower positivity rate means better testing coverage.
+					Percent of tests done per day that came back positive (7-day moving average).Lower positivity rate means better testing coverage.
 					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
@@ -1309,7 +1309,7 @@ class App extends Component {
 							    </Card.Header>
 							    <Accordion.Collapse eventKey="1">
 							      <Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bold" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
+									<Card.Title className="top-text-title" style={{ fontWeight: "bolderer" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
 									<Card.Text className="top-text-body">
 										<div>We do the hard work for you, so you can focus on what the data means. <br />
 											<ul>
@@ -1502,7 +1502,7 @@ class App extends Component {
 					<CardGroup>
 						<Card style={{background: "#e8e8e8"}}>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Effective Reproduction Number (Rt)`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
 									<div><span style={{ fontStyle: "italic" }}>Rt is the average number of people infected by a single case, at a particular time
 									t during the outbreak.</span>  WHO recommends this metric as the key measure to know the rate of spread of the virus. When Rt
@@ -1516,7 +1516,7 @@ class App extends Component {
 						<span style={{width: "2%"}}> </span>
 						<Card style={{background: "#e8e8e8"}}>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Mobility Index`}</Card.Title>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Mobility Index`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
 									<div><span style={{ fontStyle: "italic" }}>This indicates the change in the amount of movement of people at various places
 									compared to that before lockdown</span>  It shows us the effect of lockdown and behavioural change on the movement of people,
@@ -1531,7 +1531,7 @@ class App extends Component {
 					<CardGroup>
 						<Card style={{background: "antiquewhite"}}>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Test Positivity Rate`}</Card.Title>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Test Positivity Rate`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
 									<div><span style={{ fontStyle: "italic" }}>It is the percent of COVID-19 tests done that come back positive.</span> A low positivity
 									rate means that testing levels are sufficient for the scale of the epidemic and surveillance is penetrating the community enough to
@@ -1546,7 +1546,7 @@ class App extends Component {
 						<span style={{width: "2%"}}> </span>
 						<Card style={{background: "antiquewhite"}}>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={{ fontWeight: "bold", fontSize: fontSizeDynamic }}>{`Corrected Case Fatality Rate`}</Card.Title>
+								<Card.Title className="top-text-title" style={{ fontWeight: "bolder", fontSize: fontSizeDynamic }}>{`Corrected Case Fatality Rate`}</Card.Title>
 								<Card.Text className="top-text-body" style={{fontSize: fontSizeDynamic}}>
 									<div>The Crude CFR is equal to the deaths till date divided by the cases till date. This naive estimate of CFR is known to be biased in
 									ongoing outbreaks, primarily due to two factors- the delay between time of case confirmation and time of death, and the under-reporting
