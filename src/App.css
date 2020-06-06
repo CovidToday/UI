@@ -297,6 +297,14 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	padding-bottom: 15px;
 }
 
+.divider {
+	border-style: dotted;
+    border-width: 1px;
+    margin: 0 auto;
+    width: 30%;
+    border-radius: 1px;
+}
+
 .disclaimer {
 	width: 90%;
 	margin: 0 auto;
@@ -344,28 +352,4 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .equation {
 	width: 250px;
-}
-
-.wrapper
-{
-	padding-bottom: 90px;
-}
-
-.divider
-{
-	position: relative;
-	margin-top: 90px;
-	height: 1px;
-}
-
-.div-transparent:before
-{
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 5%;
-	right: 5%;
-	width: 90%;
-	height: 1px;
-	background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
 }
