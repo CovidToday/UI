@@ -1153,11 +1153,14 @@ class App extends Component {
 	}
 
 	render() {
+		
+		const popoverFont = this.state.mobileView ? "smaller" : "1 rem";
+		
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
 			<Popover id="rt-popover">
-				<Popover.Title as="h3">Effective Reproduction Number (Rt)</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Effective Reproduction Number (Rt)</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Rt is the average number of people infected by a single case at a particular time during the outbreak.
 					Green line at Rt=1 below which epidemic is controlled.
 					Dark band and light band show 50% and 95% confidence intervals respectively.
@@ -1167,8 +1170,8 @@ class App extends Component {
 
 		const cfrPopover = (
 			<Popover id="cfr-popover">
-				<Popover.Title as="h3">Corrected Case Fatality Rate (CFR)</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Corrected Case Fatality Rate (CFR)</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage.
 					Green line at 5%. Red line at 10%.
 				</Popover.Content>
@@ -1177,8 +1180,8 @@ class App extends Component {
 
 		const mobilityPopover = (
 			<Popover id="mobility-popover">
-				<Popover.Title as="h3">Mobility Index</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Mobility Index</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					This indicates the % change in the movement of people at various places compared to that before lockdown.
 				</Popover.Content>
 			</Popover>
@@ -1186,8 +1189,8 @@ class App extends Component {
 
 		const positivityPopover = (
 			<Popover id="positivity-popover">
-				<Popover.Title as="h3">Positivity Rate</Popover.Title>
-				<Popover.Content>
+				<Popover.Title as="h3" style={{fontSize: popoverFont}}>Positivity Rate</Popover.Title>
+				<Popover.Content style={{fontSize: popoverFont}}>
 					Percent of tests done per day that came back positive (7-day moving average).Lower positivity rate means better testing coverage.
 					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
@@ -1275,7 +1278,7 @@ class App extends Component {
 									{/* RT Graph */}
 									<Row>
 										<Col>
-										<Card className="plots-card shadow">
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
 											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Effective Reproduction Number
 												<OverlayTrigger placement="left" overlay={rtPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
@@ -1291,7 +1294,7 @@ class App extends Component {
 									{/* Mobility Graph */}
 									<Row>
 										<Col>
-										<Card className="plots-card shadow">
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
 											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Mobility Index (% change from pre-lockdown)
 												<OverlayTrigger placement="left" overlay={mobilityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
@@ -1309,7 +1312,7 @@ class App extends Component {
 									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
-										<Card className="plots-card shadow">
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
 											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Positivity Rate (%)
 												<OverlayTrigger placement="left" overlay={positivityPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
@@ -1379,7 +1382,7 @@ class App extends Component {
 									{/* CFR Graph */}
 									<Row>
 										<Col>
-										<Card className="plots-card shadow">
+										<Card className={mobileView ? "shadow" : "plots-card shadow"}>
 											<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Corrected Case Fatality Rate (%)
 												<OverlayTrigger placement="left" overlay={cfrPopover}>
 													<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
