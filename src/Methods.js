@@ -36,40 +36,40 @@ export default class Methods extends Component {
 								<Card.Title className="top-text-title" style={headingText}>{`Effective Reproduction Number (Rt)`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}><b>Adjusting for the delay from symptom onset to case confirmation:</b><br/>
-									A variable delay occurs from symptom onset to case confirmation (reporting lag) which is attributed to multiple factors including 
-									time taken to seek care (patient dependent) and time taken to detect and test the case (healthcare-system dependent). The daily 
+									A variable delay occurs from symptom onset to case confirmation (reporting lag) which is attributed to multiple factors including
+									time taken to seek care (patient dependent) and time taken to detect and test the case (healthcare-system dependent). The daily
 									raw data gives us the 'incidence by confirmation'. We transform this incidence by confirmation into incidence by symptom onset,
-									 using the delay from symptom onset to confirmation estimated in a study which included 53 symptomatic COVID+ patients in Delhi. 
-									(1) The delay had a mean of 3.40 days (95% CI 2.87-3.96) with SD of 2.09 days (95% CI 1.52-2.56) and a median of 2.68 days 
-									(95% CI 2.00-3.00) with IQR of 2.03 days (95% CI 1.00-3.00). The gamma distribution with shape parameter 3.45 (95% CI 2.42-5.19) 
-									and rate parameter 1.02 (95% CI 0.70-1.60) was the best fit to the distribution. 1000 samples of the delay 
-									distribution parameters (φ<sub>i</sub>) were drawn taking into account the uncertainty in the distribution parameters ie. 
-									shape and scale for the gamma distribution to serve as the posterior distribution of the delay. For each of the 1000 
+									 using the delay from symptom onset to confirmation estimated in a study which included 53 symptomatic COVID+ patients in Delhi.
+									(1) The delay had a mean of 3.40 days (95% CI 2.87-3.96) with SD of 2.09 days (95% CI 1.52-2.56) and a median of 2.68 days
+									(95% CI 2.00-3.00) with IQR of 2.03 days (95% CI 1.00-3.00). The gamma distribution with shape parameter 3.45 (95% CI 2.42-5.19)
+									and rate parameter 1.02 (95% CI 0.70-1.60) was the best fit to the distribution. 1000 samples of the delay
+									distribution parameters (φ<sub>i</sub>) were drawn taking into account the uncertainty in the distribution parameters ie.
+									shape and scale for the gamma distribution to serve as the posterior distribution of the delay. For each of the 1000
 									samples of fitted parameters, the reporting dates (r<sub>i</sub>) were transformed to give the symptom onset date (o<sub>i</sub>) by the formula:<br/>
 									o<sub>i</sub> = r<sub>i</sub> - d<sub>i</sub><br/>
 									where d<sub>i</sub> (delay from onset to confirmation) ~ Gamma(φ<sub>i</sub>) resulting in 1000 lag adjusted datasets. This process was applied to the
 									incidence by confirmation data for the nation and different states.<br/><br/>
 
 									<b>Adjusting for yet unconfirmed cases in order to estimate recent onsets:</b><br/>
-									The above method can only estimate symptom onsets till d<sub>max</sub> days before today, where d<sub>max</sub> is the maximum possible reporting lag. 
-									The onsets that would have already occurred in these recent days have not yet been confirmed. In order to account for this right 
-									truncation of case confirmations, we used a process of binomial upscaling. Consider 't' is the latest date for which the cases 
-									have been adjusted. We model the number of onsets on 'l' days before the latest date, o<sub>(t-l)</sub> with Bernoulli trials with the 
-									probability equal to the proportion of the cases that have been confirmed since onset in the following l days. This probability 
+									The above method can only estimate symptom onsets till d<sub>max</sub> days before today, where d<sub>max</sub> is the maximum possible reporting lag.
+									The onsets that would have already occurred in these recent days have not yet been confirmed. In order to account for this right
+									truncation of case confirmations, we used a process of binomial upscaling. Consider 't' is the latest date for which the cases
+									have been adjusted. We model the number of onsets on 'l' days before the latest date, o<sub>(t-l)</sub> with Bernoulli trials with the
+									probability equal to the proportion of the cases that have been confirmed since onset in the following l days. This probability
 									is given by F( l | f<sub>i</sub>) ie. the CDF (F( x | f<sub>i</sub> )) of the reporting lag distribution at x = l days. Thus, the number of missed
 									onset dates would be given by:<br/>
 									o*<sub>(t-l)</sub> ~ Negbin( n = o<sub>(t-l)</sub> + 1, p = F( l | f<sub>i</sub> ) )<br/>
-									Thus, the total number of onsets on date 'x' is given by o(x)+o*(x). One important point to consider is that this 
-									method is prone to high bias when the probability 'p' approaches low values at dates very close to the latest date. 
+									Thus, the total number of onsets on date 'x' is given by o(x)+o*(x). One important point to consider is that this
+									method is prone to high bias when the probability 'p' approaches low values at dates very close to the latest date.
 									Since we were not able to adjust for this bias, the last few dates were dropped when the variability across trials for
 									estimates started increasing due to the high bias.<br/><br/>
-									
-									<b>Estimating the Effective Reproduction Number at time t</b><br/> 
-									From the daily number of symptom onsets, the time-varying R<sub>t</sub> was calculated using EpiEstim package in R 3.6.3 which uses the Time 
-									Dependent Maximum Likelihood approach.(2,3) Serial interval is the time interval between symptom onsets in a primary and a secondary 
-									case, and is thus appropriate to calculate Rt from symptom onset based incidence data. Due to lack of serial interval estimates from 
-									India, we used the best available estimate from a study including 468 patients in China (4)  as a gamma distributed serial interval 
-									with a mean of 3.96 days (95% CI 3.53-4.39) and a SD of 4.75 days (95% CI 4.46-5.07). which was in agreement with several other 
+
+									<b>Estimating the Effective Reproduction Number at time t</b><br/>
+									From the daily number of symptom onsets, the time-varying R<sub>t</sub> was calculated using EpiEstim package in R 3.6.3 which uses the Time
+									Dependent Maximum Likelihood approach.(2,3) Serial interval is the time interval between symptom onsets in a primary and a secondary
+									case, and is thus appropriate to calculate Rt from symptom onset based incidence data. Due to lack of serial interval estimates from
+									India, we used the best available estimate from a study including 468 patients in China (4)  as a gamma distributed serial interval
+									with a mean of 3.96 days (95% CI 3.53-4.39) and a SD of 4.75 days (95% CI 4.46-5.07). which was in agreement with several other
 									studies.(5-7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by
 									calculating pooled mean and pooled standard deviation and a net estimate for 50% and 95% confidence intervals were calculated.<br/><br/>
 
@@ -215,16 +215,16 @@ export default class Methods extends Component {
 									confirmation to death. The variation in Corrected CFR across states would then reflect the degree of under-reporting
 									or testing adequacy in a particular state (with certain limitations). This approach has been used by Russel et al. (9)
 									<br/><br/>
-									
-									<b>Adjusting for delay from confirmation to death </b><br/> 
-									To adjust for the lag from case confirmation to death in the calculation of CFR, we sampled lags from a log-normal 
-									distribution and shifted each newly confirmed case forward by the sampled lag to estimate the number of cases that have 
-									reached an outcome on any given date CasesClosed(t). By sampling from the distribution of parameters of lag 
-									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for 
+
+									<b>Adjusting for delay from confirmation to death </b><br/>
+									To adjust for the lag from case confirmation to death in the calculation of CFR, we sampled lags from a log-normal
+									distribution and shifted each newly confirmed case forward by the sampled lag to estimate the number of cases that have
+									reached an outcome on any given date CasesClosed(t). By sampling from the distribution of parameters of lag
+									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for
 									CasesClosed(t). (10) For each dataset,<br/>
-									
+
 									<img src={Equation} className={window.innerWidth > '1000' ? "" : "equation"}/>
-									
+
 									<br/><br/>
 
 									<span style={italicBoldText}>Limitations:</span><br/>
@@ -239,7 +239,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Refernces`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`References`}</Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>
