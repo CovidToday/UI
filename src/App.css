@@ -369,3 +369,20 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	height: 1px;
 	background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
 }
+
+.table-info {
+	width: 50%;
+	margin: 0 auto;
+	padding: 10px;
+	text-align: justify;
+	font-family: Titillium Web;
+	
+}
+
+.table-info-mobile {
+	margin: 0 auto;
+	padding: 10px;
+	text-align: justify;
+	font-family: Titillium Web;
+	font-size: smaller;
+}

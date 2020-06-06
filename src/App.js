@@ -1463,6 +1463,39 @@ class App extends Component {
 						<div className="sub-header-row mt-4">
 							<span className="header-bar-text">LATEST STATEWISE DATA</span>
 						</div>
+						<div className={mobileView ? "table-info-mobile" : "table-info"} style={{backgroundColor: "white"}}>
+							<Accordion>
+							  <Card>
+							    <Card.Header style={{textAlign: "center"}}>
+							      <Accordion.Toggle as={Button} variant="link" eventKey="0">
+									<img src={informationIcon} className="ml-1 information-icon" />
+							        {` Click here to know how to use the table`}
+							      </Accordion.Toggle>
+							    </Card.Header>
+							    <Accordion.Collapse eventKey="0">
+							      <Card.Body>
+									<div>
+										<b>How to interact with the table</b><br/>
+										Click on the parameter heading to sort states in order of that parameter. <br/>
+										Click on the state to load data for that state in the graphs above.<br/>
+										Hover on the headings for more info about the parameter.<br/>
+										Hover on the cells to see the date for which parameter is shown.<br/><br/>
+										
+										<b>What do the colours mean</b><br/>
+										Up and Down arrows indicate change in respective parameters as compared to 7 days ago. <br/>
+										{`Rt is Red: >1, Yellow: <1 for less than 2 weeks, Green: < 1 for more than 2 weeks (based on WHO criteria).`} <br/>
+										{`Positivity Rate is Red: >10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`} <br/>
+										{`Corrected CFR is Red: >10%, Yellow: 5-10%, Green: < 5%.`} <br/><br/>
+										
+										Understand what the parameters mean here. (homepage bottom)<br/>
+										Raw data sources and detailed method of calculation here. (methods)
+
+									</div>
+								  </Card.Body>
+							    </Accordion.Collapse>
+							  </Card>
+							</Accordion>
+						</div>
 						<Container>
 							<div
 								id="myTable"
@@ -1482,16 +1515,6 @@ class App extends Component {
 									onSelectionChanged={this.onSelectionChanged.bind(this)} />
 							</div>
 						</Container>
-					</div>
-					<div className={mobileView ? "home-text-footnote-mobile" : "home-text-footnote"}>
-						<span className="top-text-body">
-							<div>Method of calculation and raw data sources at <a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}>Methods </a> page.<br/>
-							Up and Down arrows indicate change in the respective parameter compared to 7 days ago.<br/>
-							Colour coding of cells as follows- <br/>
-							{`Rt is Red: > 1, Yellow: < 1 for less than 2 weeks, Green: < 1 for more than 2 weeks (based on WHO criteria).`} <br/>
-							{`Positivity Rate is Red: > 10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`}<br/>
-							{`Corrected CFR is Red: > 10%, Yellow: 5-10%, Green: < 5%.`}</div>
-						</span>
 					</div>
 					<div className="sub-header-row mt-4">
 						<span className="header-bar-text">Know about the indicators</span>
