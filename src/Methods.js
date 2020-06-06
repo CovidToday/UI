@@ -8,9 +8,10 @@ export default class Methods extends Component {
 	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
 	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
 	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
-	const boldText = window.innerWidth > '1000' ? {fontWeight: "bold"} : {fontWeight: "bold", fontSize: "smaller"};
-	const italicText = window.innerWidth > '1000' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "smaller"};
-	const italicBoldText = window.innerWidth > '1000' ? {fontStyle: "italic", fontWeight: "bold"} : {fontStyle: "italic", fontWeight: "bold", fontSize: "smaller"};
+	const boldText = window.innerWidth > '1000' ? {fontWeight: "bolder"} : {fontWeight: "bolder", fontSize: "smaller"};
+	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "large", textAlign: "center"}
+	const italicText = window.innerWidth > '1000' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "inherit"};
+	const italicBoldText = window.innerWidth > '1000' ? {fontStyle: "italic", fontWeight: "bolder"} : {fontStyle: "italic", fontWeight: "bolder", fontSize: "inherit"};
     return (
       <div>
 		<div className="sub-header-row mt-4">
@@ -19,7 +20,7 @@ export default class Methods extends Component {
 		<div className={layout}>
 							<Card>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Data Sources`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Data Sources`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={citationsText}><b>Raw data for cases and tests</b>- <a href="http://www.covid19india.org">www.covid19india.org</a><br/>
 										 <b>Data for mobility index</b>- <a href="http://www.google.com/covid19/mobility">www.google.com/covid19/mobility</a><br/>
@@ -31,44 +32,44 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Effective Reproduction Number (Rt)`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}><b>Adjusting for the delay from symptom onset to case confirmation:</b><br/>
 									A variable delay occurs from symptom onset to case confirmation (reporting lag) which is attributed to multiple factors including 
 									time taken to seek care (patient dependent) and time taken to detect and test the case (healthcare-system dependent). The daily 
-									raw data gives us the ‘incidence by confirmation’. We transform this incidence by confirmation into incidence by symptom onset,
+									raw data gives us the 'incidence by confirmation'. We transform this incidence by confirmation into incidence by symptom onset,
 									 using the delay from symptom onset to confirmation estimated in a study which included 53 symptomatic COVID+ patients in Delhi. 
-									(1) The delay had a mean of 3·40 days (95% CI 2·87–3·96) with SD of 2·09 days (95% CI 1·52–2·56) and a median of 2·68 days 
-									(95% CI 2·00–3·00) with IQR of 2.03 days (95% CI 1.00-3.00). The gamma distribution with shape parameter 3·45 (95% CI 2·42–5·19) 
-									and rate parameter 1·02 (95% CI 0·70–1·60) was the best fit to the distribution. 1000 samples of the delay 
-									distribution parameters (φi) were drawn taking into account the uncertainty in the distribution parameters ie. 
+									(1) The delay had a mean of 3.40 days (95% CI 2.87-3.96) with SD of 2.09 days (95% CI 1.52-2.56) and a median of 2.68 days 
+									(95% CI 2.00-3.00) with IQR of 2.03 days (95% CI 1.00-3.00). The gamma distribution with shape parameter 3.45 (95% CI 2.42-5.19) 
+									and rate parameter 1.02 (95% CI 0.70-1.60) was the best fit to the distribution. 1000 samples of the delay 
+									distribution parameters (φ<sub>i</sub>) were drawn taking into account the uncertainty in the distribution parameters ie. 
 									shape and scale for the gamma distribution to serve as the posterior distribution of the delay. For each of the 1000 
-									samples of fitted parameters, the reporting dates (ri) were transformed to give the symptom onset date (oi) by the formula:<br/>
-									oi = ri - di<br/>
-									where di (delay from onset to confirmation) ~ Gamma(φi) resulting in 1000 lag adjusted datasets. This process was applied to the 
+									samples of fitted parameters, the reporting dates (r<sub>i</sub>) were transformed to give the symptom onset date (o<sub>i</sub>) by the formula:<br/>
+									o<sub>i</sub> = r<sub>i</sub> - d<sub>i</sub><br/>
+									where d<sub>i</sub> (delay from onset to confirmation) ~ Gamma(φ<sub>i</sub>) resulting in 1000 lag adjusted datasets. This process was applied to the 
 									incidence by confirmation data for the nation and different states.<br/><br/>
 									
 									<b>Adjusting for yet unconfirmed cases in order to estimate recent onsets:</b><br/>
-									The above method can only estimate symptom onsets till dmax days before today, where dmax is the maximum possible reporting lag. 
+									The above method can only estimate symptom onsets till d<sub>max</sub> days before today, where d<sub>max</sub> is the maximum possible reporting lag. 
 									The onsets that would have already occurred in these recent days have not yet been confirmed. In order to account for this right 
 									truncation of case confirmations, we used a process of binomial upscaling. Consider 't' is the latest date for which the cases 
-									have been adjusted. We model the number of onsets on 'l' days before the latest date, o(t-l) with Bernoulli trials with the 
+									have been adjusted. We model the number of onsets on 'l' days before the latest date, o<sub>(t-l)</sub> with Bernoulli trials with the 
 									probability equal to the proportion of the cases that have been confirmed since onset in the following l days. This probability 
-									is given by F( l | f i) ie. the CDF (F( x | fi )) of the reporting lag distribution at x = l days. Thus, the number of missed 
+									is given by F( l | f<sub>i</sub>) ie. the CDF (F( x | f<sub>i</sub> )) of the reporting lag distribution at x = l days. Thus, the number of missed 
 									onset dates would be given by:<br/>
-									o*(t-l) ~ Negbin( n = o(t-l) + 1, p = F( l | fi ) )<br/>
+									o*<sub>(t-l)</sub> ~ Negbin( n = o<sub>(t-l)</sub> + 1, p = F( l | f<sub>i</sub> ) )<br/>
 									Thus, the total number of onsets on date 'x' is given by o(x)+o*(x). One important point to consider is that this 
 									method is prone to high bias when the probability 'p' approaches low values at dates very close to the latest date. 
 									Since we were not able to adjust for this bias, the last few dates were dropped when the variability across trials for 
 									estimates started increasing due to the high bias.<br/><br/>
 									
 									<b>Estimating the Effective Reproduction Number at time t</b><br/> 
-									From the daily number of symptom onsets, the time-varying Rt was calculated using EpiEstim package in R 3·6·3 which uses the Time 
+									From the daily number of symptom onsets, the time-varying R<sub>t</sub> was calculated using EpiEstim package in R 3.6.3 which uses the Time 
 									Dependent Maximum Likelihood approach.(2,3) Serial interval is the time interval between symptom onsets in a primary and a secondary 
 									case, and is thus appropriate to calculate Rt from symptom onset based incidence data. Due to lack of serial interval estimates from 
 									India, we used the best available estimate from a study including 468 patients in China (4)  as a gamma distributed serial interval 
-									with a mean of 3·96 days (95% CI 3·53–4·39) and a SD of 4·75 days (95% CI 4·46–5·07). which was in agreement with several other 
-									studies.(5–7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by 
+									with a mean of 3.96 days (95% CI 3.53-4.39) and a SD of 4.75 days (95% CI 4.46-5.07). which was in agreement with several other 
+									studies.(5-7) We use 7-day sliding windows. The estimates of Rt for each day were combined for the 1000 lag adjusted datasets by 
 									calculating pooled mean and pooled standard deviation and a net estimate for 50% and 95% confidence intervals were calculated.<br/><br/>
 									
 									<span style={italicBoldText}>Acknowledgement</span><br/>
@@ -98,7 +99,7 @@ export default class Methods extends Component {
 							</Card.Body>
 							
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Mobility`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Mobility`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available 
 									<a href="https://support.google.com/covid19-mobility?hl=en#topic=9822927"> here. </a> 
@@ -183,7 +184,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day, 
 									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent 
@@ -194,7 +195,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Cumulative Positivity Rate`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Cumulative Positivity Rate`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied 
 									by 100. This metric shows us the 'overall' picture of testing adequacy since the epidemic started. Since it takes time for 
@@ -204,7 +205,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Corrected CFR`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Corrected CFR`}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors- 
 									the delay between time of case confirmation and time of death, and the under-reporting of cases due to limitations in 
@@ -219,7 +220,7 @@ export default class Methods extends Component {
 									distribution and shifted each newly confirmed case forward by the sampled lag to estimate the number of cases that have 
 									reached an outcome on any given date CasesClosed(t). By sampling from the distribution of parameters of lag 
 									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for 
-									CasesClosed(t). (10) For each dataset, 
+									CasesClosed(t). (10) For each dataset,<br/>
 									<br/><br/>
 									
 									<span style={italicBoldText}>Limitations:</span><br/>
@@ -234,7 +235,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Citations`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Citations`}</Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>

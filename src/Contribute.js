@@ -7,7 +7,7 @@ export default class Contribute extends Component {
 	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
 	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
 	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
-	const boldText = window.innerWidth > '1000' ? {fontWeight: "bold"} : {fontWeight: "bold", fontSize: "smaller"};
+	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "large", textAlign: "center"}
     return (
       <div>
 		<div className="sub-header-row mt-4">
@@ -16,9 +16,8 @@ export default class Contribute extends Component {
 		<div className={layout}>
 		<Card>
 			<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Your Feedback is Valuable. Suggest an Improvement or Addition. 
-									Or Pitch In and Become an Active Contributor. 
-									`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{<div>Your Feedback is Valuable. Suggest an Improvement or Addition.<br/> 
+									Or Pitch In and Become an Active Contributor. </div>}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>Report a bug, suggest an improvement, ask a question, or join as an active contributor- 
 									<a href="https://forms.gle/HDCDVYApfRi319k58">here</a>. All contributors will be recognised as part of the Active Contributor 
@@ -30,7 +29,7 @@ export default class Contribute extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={boldText}>{`Planned updates. Suggestions and contributions welcome.`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Planned updates. Suggestions and contributions welcome.`}</Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>
