@@ -49,9 +49,9 @@ class App extends Component {
 								})
 								if (params.data.rtCurrent > 1) {
 									style = { backgroundColor: '#fdcbdd' };
-								} else if (params.data.rtCurrent < 1 && a === true) {
+								} else if (params.data.rtCurrent <= 1 && a === true) {
 									style = { backgroundColor: '#e1fae9' };
-								} else if (params.data.rtCurrent < 1 && a === false) {
+								} else if (params.data.rtCurrent <= 1 && a === false) {
 									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
@@ -150,7 +150,7 @@ class App extends Component {
 		{
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
-					headerName: "RT", field: "rt", width: 100, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+					headerName: "RT", field: "rt", width: 110, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
 					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
@@ -162,9 +162,9 @@ class App extends Component {
 						})
 						if (params.data.rtCurrent > 1) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-						} else if (params.data.rtCurrent < 1 && a === true) {
+						} else if (params.data.rtCurrent <= 1 && a === true) {
 							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-						} else if (params.data.rtCurrent < 1 && a === false) {
+						} else if (params.data.rtCurrent <= 1 && a === false) {
 							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;

@@ -349,3 +349,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .small-text {
 	font-size: smaller;
 }
+
+.equation {
+	width: 250px;
+}

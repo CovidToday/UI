@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Table } from 'react-bootstrap';
+import Equation from "./images/equation.jpeg"
 
 export default class Methods extends Component {
 
@@ -221,6 +222,9 @@ export default class Methods extends Component {
 									reached an outcome on any given date CasesClosed(t). By sampling from the distribution of parameters of lag 
 									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for 
 									CasesClosed(t). (10) For each dataset,<br/>
+									
+									<img src={Equation} className={window.innerWidth > '1000' ? "" : "equation"}/>
+									
 									<br/><br/>
 
 									<span style={italicBoldText}>Limitations:</span><br/>
@@ -235,7 +239,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Citations`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}>{`Refernces`}</Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>
