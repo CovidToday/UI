@@ -21,12 +21,15 @@ import TPMRenderer from './TPMRenderer.jsx';
 import Methods from "./Methods.js";
 import Contribute from "./Contribute.js";
 import About from "./About.js";
+import graphIcon from "./images/graphIcon.png";
+import tableIcon from "./images/tableIcon.png";
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.textDivRef = React.createRef();
 		this.plotsRef = React.createRef();
+		this.tableRef = React.createRef();
 
 		this.state = {
 			columnDefs: [
@@ -953,23 +956,26 @@ class App extends Component {
 
 	DropdownRenderer = () => {
 		return <div className="sub-header-row sticky-top">
-			<span className="header-bar-text"> </span>
-			{!this.state.mobileView && <span className="header-bar-text">HOW FAST IS THE SPREAD?</span>}
+			{!this.state.mobileView && <span className="header-bar-text"> </span>}
+			<span className="header-bar-text">COVID TODAY</span>
 			<span className="header-bar-dropdown">
 				<Dropdown>
 					<Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-state">
 						{this.state.selectedState}
 					</Dropdown.Toggle>
 
-					<Dropdown.Menu>
+					<Dropdown.Menu className="dropdown-state-list">
 						{Object.entries(this.state.rtDataFromApi).map((item) => {
 							return <Dropdown.Item onSelect={() => this.onStateSelect(item[0])}>{this.getName(item[0])}</Dropdown.Item>
 						})}
 					</Dropdown.Menu>
 				</Dropdown>
 			</span>
-			{!this.state.mobileView && <span className="header-bar-text">ARE WE TESTING ENOUGH?</span>}
-			<span className="header-bar-text"> </span>
+			<span className="header-bar-text">
+				<img src={graphIcon} className="quicklink-icon" onClick={() => this.scrollToPlots()}/>
+				<span style={{marginRight: "15px"}}> </span> 
+				<img src={tableIcon} className="quicklink-icon" onClick={() => this.scrollToTable()}/></span>
+				{!this.state.mobileView && <span className="header-bar-text"> </span>}
 		</div>
 	}
 
@@ -1210,6 +1216,16 @@ class App extends Component {
 			})
 		}
 	}
+	
+	scrollToTable = (event) => {
+		if (this.tableRef.current) {
+			this.tableRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest"
+			})
+		}
+	}
+
 
 	render() {
 
@@ -1332,12 +1348,19 @@ class App extends Component {
 						</div>
 
 						<this.DropdownRenderer />
-
-
-						<Container >
-							<Row ref={this.plotsRef}>
+						<div ref={this.plotsRef}></div>
+						{!mobileView && <div className="plot-headers">
+							<span className="span-plot-title"><hr class="hr-text" data-content="How fast is the spread?" /></span>
+							<span className="span-plot-title"><hr class="hr-text" data-content="Are we testing enough?" /></span>
+						</div>}
+						
+						<Container>
+							<Row>
 								<Col lg="6">
 									{/* RT Graph */}
+									{mobileView && <div className="plot-headers">
+										<span className="span-plot-title-mobile"><hr class="hr-text" data-content="How fast is the spread?" /></span>
+									</div>}
 									<Row>
 										<Col>
 											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
@@ -1372,6 +1395,9 @@ class App extends Component {
 								<Col>
 									<div className="mt-2"></div>
 									{/* Pos Rate Graph */}
+									{mobileView && <div className="plot-headers">
+										<span className="span-plot-title-mobile"><hr class="hr-text" data-content="Are we testing enough?" /></span>
+									</div>}
 									<Row>
 										<Col>
 											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
@@ -1507,7 +1533,7 @@ class App extends Component {
 							</Accordion>
 						</div>
 						<Container>
-							<div
+							<div ref={this.tableRef}
 								id="myTable"
 								className="ag-theme-balham"
 								style={!this.state.mobileView ? {
