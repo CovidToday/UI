@@ -449,3 +449,9 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	width: 30px;
 	cursor: pointer;
 }
+
+.dropdown-state-list {
+	height: 500px;
+	width: 130px;
+	overflow-y: scroll;
+}

@@ -982,7 +982,7 @@ class App extends Component {
 						{this.state.selectedState}
 					</Dropdown.Toggle>
 
-					<Dropdown.Menu>
+					<Dropdown.Menu className="dropdown-state-list">
 						{Object.entries(this.state.rtDataFromApi).map((item) => {
 							return <Dropdown.Item onSelect={() => this.onStateSelect(item[0])}>{this.getName(item[0])}</Dropdown.Item>
 						})}
