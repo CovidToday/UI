@@ -1275,6 +1275,8 @@ class App extends Component {
 			</Popover>
 		);
 		const fontSizeDynamic = mobileView ? "smaller" : "larger";
+		const fontSizeDynamicSH = mobileView ? "small" : "larger";
+		const fontSizeDynamicHeading = mobileView ? "smaller" : "x-large";
 
 		return (
 			<div>
@@ -1310,17 +1312,19 @@ class App extends Component {
 					<div className="App">
 
 						<div className="home-text">
+							<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicHeading }}>Tracking India's Progress Through The Coronavirus Pandemic, Today</div>
+								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>Understanding Your State's Response Through Live Outbreak Indicators'</div>
+								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>How fast is the virus spreading in my state? How has the movement of people varied? 
+								Is my state testing enough people? How good is the healthcare response of my state? Knowledge is power, and these are some questions we want to help answer
+								for you. This dashboard calculates outbreak indicators from raw data (number of daily cases, number of tests done etc.), and update it daily for all states.
+								Understanding and tracking these indicators is particularly important as we move towards reopening our economy. </div><br/>
 							<Accordion>
 							  <Card>
 							    <Card.Header>
-								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>Tracking India's Progress Through The Coronavirus Pandemic</div>
-								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards
-								are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak
-								indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding
-								and tracking these numbers is particularly important as we move towards reopening our economy. </div><br/>
-								<div className="top-text-title" style={{ fontSize: fontSizeDynamic, textAlign: "center", fontWeight: "bolder" }}>
+								
+								<div className="top-text-title" style={{ fontSize: fontSizeDynamicHeading, textAlign: "center", fontWeight: "bolder" }}>
 								Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens</div>
-								<span className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>We do the hard work for you, so you can focus on what the data means.</span>
+								<span className="disclaimer-top" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>We do the hard work for you, so you can focus on what the data means.</span>
 							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
 							        <span style={{ fontSize: fontSizeDynamic }}>Know more</span>
 							      </Accordion.Toggle>

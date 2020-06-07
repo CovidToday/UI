@@ -42,8 +42,9 @@ export default class About extends Component {
 										<b>Pratik Mandlecha, B.Tech CSE, IIIT Hyderabad. Data & Applied Scientist at Microsoft.</b> <br/>
 										Interests: Machine Learning , Deep Learning, Data Applications and  Analytics<br/><br/>
 										
-										<b>Aditya Garg</b><br/>
-										<br/><br/>
+										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays</b><br/>
+										Interests: Content Creation, Web and Game Development, Playing Music<br/><br/>
+										
 										<b>Apurva</b> <br/>
 										<br/><br/>
 										<b>Siddharth Jain, Integrated B.Tech-MBA, IIIT Gwalior.</b><br/>
