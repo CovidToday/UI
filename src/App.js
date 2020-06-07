@@ -566,7 +566,9 @@ class App extends Component {
 				});
 			});
 			data.sort(function (a, b) {
-				return (a.rt > b.rt) ? 1 : -1
+				const aNum = parseInt(a.cumCases);
+				const bNum = parseInt(b.cumCases);
+				return (aNum < bNum) ? 1 : -1
 			});
 			this.setState({ rowData: data })
 		}
