@@ -394,3 +394,58 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	font-family: Titillium Web;
 	font-size: smaller;
 }
+
+.plot-headers {
+	max-width: 90%;  
+  	margin: 10px auto;
+}
+
+.hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: black;
+  text-align: center;
+  height: 1.5em;
+  opacity: .5;
+}
+.hr-text:before {
+    content: '';
+    background: linear-gradient(to right, transparent, black, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px; 
+	font-weight: bolder;
+	font-family: Montserrat;
+}
+.hr-text:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: black;
+
+    padding: 0 .5em;
+    line-height: 1.5em;
+    color: black;
+    background-color: #fcfcfa;
+	font-weight: bolder;
+	font-family: Montserrat;
+}
+
+.span-plot-title {
+	display: inline-block;
+	width: 50%;
+}
+
+.span-plot-title-mobile {
+	display: inline-block;
+	font-size: smaller;
+}
+
+.quicklink-icon {
+	width: 30px;
+	cursor: pointer;
+}
