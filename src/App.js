@@ -968,7 +968,7 @@ class App extends Component {
 	}
 
 	DropdownRenderer = () => {
-		return <div className="sub-header-row">
+		return <div className="sub-header-row sticky-top">
 			<span className="header-bar-text"> </span>
 			{!this.state.mobileView && <span className="header-bar-text">HOW FAST IS THE SPREAD?</span>}
 			<span className="header-bar-dropdown">
@@ -1311,7 +1311,7 @@ class App extends Component {
 							      <Card.Body>
 									
 									<Card.Text className="top-text-body">
-										<div>
+										<div style={{ fontSize: fontSizeDynamic }}>
 											<ul>
 												<li>Cleaning and integrating data from multiple sources </li>
 												<li>Analysing the data using robust statistical methods </li>
