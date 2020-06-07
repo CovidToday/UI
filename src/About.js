@@ -44,7 +44,8 @@ export default class About extends Component {
 										
 										<b>Aditya Garg</b><br/>
 										<br/><br/>
-										<b>Apurva</b> <br/>
+										<b>Apurva Thakker, B.Tech CSE, BFCET Bathinda</b> <br/>
+										Interests: Solving Problems through technology, Creating & Designing Music.
 										<br/><br/>
 										<b>Siddharth Jain, Integrated B.Tech-MBA, IIIT Gwalior.</b><br/>
 										Interests: Data Analysis, Machine Learning<br/>
