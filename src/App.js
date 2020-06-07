@@ -552,7 +552,7 @@ class App extends Component {
 						const countTpm = data[1].test_per_million.length - 1;
 						const tpmIndex = indexTpm >= 0 ? countTpm - indexTpm : indexTpm;
 						const tpmFloat = (data[1].test_per_million[tpmIndex]);
-						tpm = tpmFloat && tpmFloat !== "" ? (tpmFloat).toFixed(2) : "NA";
+						tpm = tpmFloat && tpmFloat !== "" ? Math.floor(tpmFloat) : "-";
 						tpmDate = data[1].dates[tpmIndex];
 					}
 				});
@@ -1299,19 +1299,19 @@ class App extends Component {
 								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>The number of confirmed cases, recoveries, deaths and tests which are routinely reported in dashboards
 								are useful, but can tell us a lot more about the progress of the epidemic if analysed and converted into scientific outbreak
 								indicators for each state in real-time. These indicators give us information that raw data simply can not, and understanding
-								and tracking these numbers is particularly important as we move towards reopening our economy. <br/>
-								Before diving in
+								and tracking these numbers is particularly important as we move towards reopening our economy. </div><br/>
+								<div className="top-text-title" style={{ fontSize: fontSizeDynamic, textAlign: "center", fontWeight: "bolder" }}>
+								Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens</div>
+								<span className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>We do the hard work for you, so you can focus on what the data means.</span>
 							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
-							        Know more about us
-							      </Accordion.Toggle>{`or `}
-								  <span className="scroll-button" onClick={this.handleDivScroll}>Know more about the indicators</span>
-								</div>
+							        <span style={{ fontSize: fontSizeDynamic }}>Know more</span>
+							      </Accordion.Toggle>
 							    </Card.Header>
 							    <Accordion.Collapse eventKey="1">
 							      <Card.Body>
-									<Card.Title className="top-text-title" style={{ fontWeight: "bolderer" }}>{`Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens`}</Card.Title>
+									
 									<Card.Text className="top-text-body">
-										<div>We do the hard work for you, so you can focus on what the data means. <br />
+										<div>
 											<ul>
 												<li>Cleaning and integrating data from multiple sources </li>
 												<li>Analysing the data using robust statistical methods </li>
@@ -1326,6 +1326,9 @@ class App extends Component {
 								</Card.Body>
 							    </Accordion.Collapse>
 							  </Card>
+								<div style={{paddingTop: "5px"}}>
+								<Button variant="outline-primary" className={mobileView ? "scroll-button-mobile" : "scroll-button"} onClick={this.handleDivScroll}>
+								<span style={{ fontSize: fontSizeDynamic }}>Know more about the indicators</span></Button></div>
 							</Accordion>
 						</div>
 
@@ -1487,9 +1490,10 @@ class App extends Component {
 										{`Positivity Rate is Red: >10%, Yellow: 5-10%, Green: < 5% (based on WHO criteria).`} <br/>
 										{`Corrected CFR is Red: >10%, Yellow: 5-10%, Green: < 5%.`} <br/><br/>
 										
-										Understand what the parameters mean here. (homepage bottom)<br/>
-										Raw data sources and detailed method of calculation here. (methods)
-
+										Understand what the parameters mean 
+										<a className="link-text" style={{color: "blue"}} onClick={this.handleDivScroll}> here</a>.<br/>
+										Raw data sources and detailed method of calculation 
+										<a className="link-text" style={{color: "blue"}} onClick={() => this.setState({ selectedView: "Methods" })}> here</a>.
 									</div>
 								  </Card.Body>
 							    </Accordion.Collapse>

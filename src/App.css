@@ -221,17 +221,20 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 
 
-.scroll-button.btn-outline-primary{
+.scroll-button.btn-outline-primary, .scroll-button-mobile.btn-outline-primary{
 	color: #004065;
 	border-color: #004065;
 }
 
-.scroll-button.btn-outline-primary.focus, .scroll-button.btn-outline-primary:focus{
+.scroll-button.btn-outline-primary.focus, .scroll-button.btn-outline-primary:focus, 
+.scroll-button-mobile.btn-outline-primary.focus, .scroll-button-mobile.btn-outline-primary:focus{
 	box-shadow: 0 0 0 0.2rem rgb(128, 128, 255);
 }
 
 .scroll-button.btn-outline-primary:hover, .scroll-button.btn-outline-primary:not(:disabled):not(.disabled).active, 
-.scroll-button.btn-outline-primary:not(:disabled):not(.disabled):active, .scroll-button.show>.btn-outline-primary.dropdown-toggle {
+.scroll-button.btn-outline-primary:not(:disabled):not(.disabled):active, .scroll-button.show>.btn-outline-primary.dropdown-toggle,
+.scroll-button-mobile.btn-outline-primary:hover, .scroll-button-mobile.btn-outline-primary:not(:disabled):not(.disabled).active, 
+.scroll-button-mobile.btn-outline-primary:not(:disabled):not(.disabled):active, .scroll-button-mobile.show>.btn-outline-primary.dropdown-toggle {
 	background-color: #004065;
 	border-color: black;
 	color: white;
@@ -318,8 +321,13 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 
 .scroll-button {
 	color: #004056;
-	cursor: pointer;
-	text-decoration: underline;
+	width: 40%;
+	margin: 0 auto;
+}
+
+.scroll-button-mobile {
+	color: #004056;
+	margin: 0 auto;
 }
 
 .accordion-button {
