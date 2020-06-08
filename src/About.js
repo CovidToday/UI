@@ -33,7 +33,7 @@ export default class About extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`The Covid Today Team at iCART`}</Card.Title>
 								<Card.Text>
-									<div style={normalAlignedText}><b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br/>
+									<div style={normalText}><b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br/>
 										<i>Interests: Technology and Data-driven Solutions in Healthcare</i><br/><br/>
 
 										<b>Saptarshi Mohanta (Rishi), BS-MS, IISER Pune.</b><br/>
@@ -42,7 +42,7 @@ export default class About extends Component {
 										<b>Pratik Mandlecha, B.Tech CSE, IIIT Hyderabad. Data & Applied Scientist at Microsoft.</b> <br/>
 										<i>Interests: Machine Learning , Deep Learning, Data Applications and  Analytics</i><br/><br/>
 
-										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays</b><br/>
+										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays.</b><br/>
 										<i>Interests: Content Creation, Web and Game Development, Playing Music</i><br/><br/>
 
                     <b>Technical Consulting and IT Support: <br/>
@@ -60,7 +60,7 @@ export default class About extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}>{`Active contributors at Covid Today`}</Card.Title>
 								<Card.Text>
-									<div style={normalAlignedText}><b>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a></b><br/>
+									<div style={normalText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
 									</div>
 								</Card.Text>
 							</Card.Body>
