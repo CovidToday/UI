@@ -45,8 +45,8 @@ export default class About extends Component {
 										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays</b><br/>
 										<i>Interests: Content Creation, Web and Game Development, Playing Music</i><br/><br/>
 
-                    <b>Technical Consulting: <br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abhinav Gupta and Team </b><br/>
+                    <b>Technical Consulting and IT Support: <br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abhinav Gupta, CA Inter, B.Com</b><br/>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Interests: Simplifying Complex Structures with Technology to Make Robust and Cost Effective Systems</i><br/><br/>
 
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Apurva Thakker, B.Tech CSE, BFCET Bathinda</b> <br/>
