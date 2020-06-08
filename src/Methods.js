@@ -9,8 +9,7 @@ export default class Methods extends Component {
 	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
 	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
 	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
-	const boldText = window.innerWidth > '1000' ? {fontWeight: "bolder"} : {fontWeight: "bolder", fontSize: "smaller"};
-	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "large", textAlign: "center"}
+	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "medium", textAlign: "center"}
 	const italicText = window.innerWidth > '1000' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "inherit"};
 	const italicBoldText = window.innerWidth > '1000' ? {fontStyle: "italic", fontWeight: "bolder"} : {fontStyle: "italic", fontWeight: "bolder", fontSize: "inherit"};
     return (
@@ -21,7 +20,7 @@ export default class Methods extends Component {
 		<div className={layout}>
 							<Card>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Data Sources`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Data Sources</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={citationsText}><b>Raw data for cases and tests</b>- <a href="http://www.covid19india.org">www.covid19india.org</a><br/>
 										 <b>Data for mobility index</b>- <a href="http://www.google.com/covid19/mobility">www.google.com/covid19/mobility</a><br/>
@@ -33,7 +32,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Effective Reproduction Number (Rt)`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Effective Reproduction Number (Rt)</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}><b>Adjusting for the delay from symptom onset to case confirmation:</b><br/>
 									A variable delay occurs from symptom onset to case confirmation (reporting lag) which is attributed to multiple factors including
@@ -100,7 +99,7 @@ export default class Methods extends Component {
 							</Card.Body>
 
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Mobility`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Mobility</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>The data for mobility is sourced from Google Community mobility Reports. Detailed documentation is available
 									<a href="https://support.google.com/covid19-mobility?hl=en#topic=9822927"> here. </a>
@@ -185,7 +184,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Positivity Rate (7-day moving average of daily positivity rate)`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Positivity Rate (7-day moving average of daily positivity rate)</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day,
 									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent
@@ -196,7 +195,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Cumulative Positivity Rate`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Cumulative Positivity Rate</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>It is calculated as the total number of COVID+ till date divided by the total number of tests done till date, multiplied
 									by 100. This metric shows us the 'overall' picture of testing adequacy since the epidemic started. Since it takes time for
@@ -206,7 +205,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Corrected CFR`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Corrected CFR</strong></Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>This naive estimate of CFR (Crude CFR) is known to be biased in ongoing outbreaks, primarily due to two factors-
 									the delay between time of case confirmation and time of death, and the under-reporting of cases due to limitations in
@@ -239,7 +238,7 @@ export default class Methods extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`References`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>References</strong></Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>

@@ -7,7 +7,7 @@ export default class Contribute extends Component {
 	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
 	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
 	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
-	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "large", textAlign: "center"}
+	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "medium", textAlign: "center"}
     return (
       <div>
 		<div className="sub-header-row mt-4">
@@ -16,7 +16,7 @@ export default class Contribute extends Component {
 		<div className={layout}>
 		<Card>
 			<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{<div>Your Feedback is Valuable. Suggest an Improvement or Addition.<br/> 
+								<Card.Title className="top-text-title" style={headingText}>{<div><strong>Your Feedback is Valuable. Suggest an Improvement or Addition.</strong><br/> 
 									Or Pitch In and Become an Active Contributor. </div>}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>Report a bug, suggest an improvement, ask a question, or join as an active contributor-
@@ -29,7 +29,7 @@ export default class Contribute extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Planned updates. Suggestions and contributions welcome.`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Planned updates. Suggestions and contributions welcome.</strong></Card.Title>
 								<Card.Text>
 									<div style={citationsText}>
 									<ol>

@@ -7,7 +7,7 @@ export default class About extends Component {
 		const layout = window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
 		const normalText = window.innerWidth > '1000' ? {} : { fontSize: "smaller" };
 		const normalAlignedText = window.innerWidth > '1000' ? { textAlign: "left" } : { textAlign: "left", fontSize: "smaller" };
-		const headingText = window.innerWidth > '1000' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "large", textAlign: "center" };
+		const headingText = window.innerWidth > '1000' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "medium", textAlign: "center" };
 		return (
 			<div>
 				<div className="sub-header-row mt-4">
@@ -16,7 +16,7 @@ export default class About extends Component {
 				<div className={layout}>
 					<Card>
 						<Card.Body>
-							<Card.Title className="top-text-title" style={headingText}><div>About iCART</div></Card.Title>
+							<Card.Title className="top-text-title" style={headingText}><div><strong>About iCART</strong></div></Card.Title>
 							<Card.Text className="top-text-body">
 								<div style={normalText}>India COVID Apex Research Team (iCART) is a volunteer research and development group which comprises
 								professionals and students from multiple fields. We started as a small group from AIIMS Delhi, and have since grown into a
@@ -31,7 +31,7 @@ export default class About extends Component {
 							</Card.Text>
 						</Card.Body>
 						<Card.Body>
-							<Card.Title className="top-text-title" style={headingText}>{`The Covid Today Team at iCART`}</Card.Title>
+							<Card.Title className="top-text-title" style={headingText}><strong>The Covid Today Team at iCART</strong></Card.Title>
 							<Card.Text>
 								<div style={normalAlignedText}><b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br />
 									<i>Interests: Technology and Data-driven Solutions in Healthcare</i><br /><br />
@@ -58,7 +58,7 @@ export default class About extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}>{`Active contributors at Covid Today`}</Card.Title>
+								<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
 								<Card.Text>
 									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
 									</div>

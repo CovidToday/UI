@@ -1272,7 +1272,7 @@ class App extends Component {
 		);
 		const fontSizeDynamic = mobileView ? "smaller" : "larger";
 		const fontSizeDynamicSH = mobileView ? "small" : "larger";
-		const fontSizeDynamicHeading = mobileView ? "smaller" : "x-large";
+		const fontSizeDynamicHeading = mobileView ? "medium" : "x-large";
 
 		return (
 			<div>
