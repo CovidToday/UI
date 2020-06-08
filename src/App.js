@@ -454,7 +454,6 @@ class App extends Component {
 				name = "Puducherry";
 				break;
 		}
-
 		return name;
 	}
 
