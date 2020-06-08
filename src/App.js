@@ -510,7 +510,7 @@ class App extends Component {
 						const countCum = data[1].positivity_rate_cumulative.length - 1;
 						const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
 						const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
-						cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat : "NA";
+						cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat.toFixed(2) : "NA";
 						cumPRateDate = data[1].dates[cumPosRateIndex];
 					}
 				});
@@ -538,9 +538,9 @@ class App extends Component {
 						const countPosRateMa = data[1].daily_positivity_rate_ma.length - 1;
 						const posRateMaIndex = indexPosRateMa >= 0 ? countPosRateMa - indexPosRateMa : indexPosRateMa;
 						const maPosRateFloat = (data[1].daily_positivity_rate_ma[posRateMaIndex]);
-						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat * 100).toFixed(2) : "NA";
+						maPosRate = maPosRateFloat && maPosRateFloat !== "" ? (maPosRateFloat).toFixed(2) : "NA";
 						const maPosRateFloatOld = (data[1].daily_positivity_rate_ma[posRateMaIndex - 7]);
-						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld * 100).toFixed(2) : "NA";
+						maPosRateOld = maPosRateFloatOld && maPosRateFloatOld !== "" ? (maPosRateFloatOld).toFixed(2) : "NA";
 						posRateDate = data[1].dates[posRateMaIndex];
 					}
 				});
@@ -600,14 +600,14 @@ class App extends Component {
 		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
 		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
-		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd] * 100).toFixed(2);
+		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd]).toFixed(2);
 		const cumPRDateInd = posRateArrInd.dates[posRateIndexInd];
 
 		const indexIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
 		const countIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.length - 1;
 		const posRateMaIndexInd = indexIndPosRateMa >= 0 ? countIndPosRateMa - indexIndPosRateMa : indexIndPosRateMa;
-		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd] * 100).toFixed(2);
-		const PosRateMaIndOld = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd - 7] * 100).toFixed(2);
+		const PosRateMaInd = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd]).toFixed(2);
+		const PosRateMaIndOld = (posRateArrInd.daily_positivity_rate_ma[posRateMaIndexInd - 7]).toFixed(2);
 		const posRateDateInd = posRateArrInd.dates[posRateMaIndexInd];
 
 		const indexIndcasesMa = posRateArrInd.daily_positive_cases_ma.slice().reverse().findIndex(i => i !== "");
