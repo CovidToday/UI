@@ -42,31 +42,31 @@ export default class About extends Component {
 									<b>Pratik Mandlecha, B.Tech CSE, IIIT Hyderabad. Data & Applied Scientist at Microsoft.</b> <br />
 									<i>Interests: Machine Learning , Deep Learning, Data Applications and  Analytics</i><br /><br />
 
-									<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays</b><br />
-									<i>Interests: Content Creation, Web and Game Development, Playing Music</i><br /><br />
+										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays.</b><br/>
+										<i>Interests: Content Creation, Web and Game Development, Playing Music</i><br/><br/>
 
-									<b>Technical Consulting & IT Support: <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abhinav Gupta </b><br />
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Interests: Simplifying Complex Structures with Technology to Make Robust and Cost Effective Systems</i><br /><br />
+                    <b>Technical Consulting and IT Support: <br/>
+                    &nbsp;&nbsp;&nbsp;Abhinav Gupta, CA Inter, B.Com</b><br/>
+										&nbsp;&nbsp;&nbsp;<i>Interests: Simplifying Complex Structures with Technology to Make Robust and Cost Effective Systems</i><br/><br/>
 
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Apurva Thakker, B.Tech CSE, BFCET Bathinda</b> <br />
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Interests: Solving Problems through Technology, Creating & Designing Music</i><br /><br />
+										&nbsp;&nbsp;&nbsp;<b>Apurva Thakker, B.Tech CSE, BFCET Bathinda</b> <br/>
+										&nbsp;&nbsp;&nbsp;<i>Interests: Solving Problems through Technology, Creating & Designing Music</i><br/><br/>
 
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Siddharth Jain, Integrated B.Tech-MBA, IIIT Gwalior.</b><br />
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Interests: Data Analysis, Machine Learning</i><br />
-								</div>
-							</Card.Text>
-						</Card.Body>
-						<Card.Body>
-							<Card.Title className="top-text-title" style={headingText}>{`Active contributors at Covid Today`}</Card.Title>
-							<Card.Text>
-								<div style={normalAlignedText}><b>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a></b><br />
-								</div>
-							</Card.Text>
-						</Card.Body>
-					</Card>
-				</div>
-			</div>
+										&nbsp;&nbsp;&nbsp;<b>Siddharth Jain, Integrated B.Tech-MBA, IIIT Gwalior.</b><br/>
+										&nbsp;&nbsp;&nbsp;<i>Interests: Data Analysis, Machine Learning</i><br/>
+									</div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
+								<Card.Title className="top-text-title" style={headingText}>{`Active contributors at Covid Today`}</Card.Title>
+								<Card.Text>
+									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
+									</div>
+								</Card.Text>
+							</Card.Body>
+							</Card>
+							</div>
+						  </div>
 
 		);
 	}

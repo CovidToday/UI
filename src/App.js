@@ -973,7 +973,7 @@ class App extends Component {
 			</span>
 			<span className="header-bar-text">
 				<img src={graphIcon} className="quicklink-icon" onClick={() => this.scrollToPlots()}/>
-				<span style={{marginRight: "15px"}}> </span> 
+				<span style={{marginRight: "15px"}}> </span>
 				<img src={tableIcon} className="quicklink-icon" onClick={() => this.scrollToTable()}/></span>
 				{!this.state.mobileView && <span className="header-bar-text"> </span>}
 		</div>
@@ -1216,7 +1216,7 @@ class App extends Component {
 			})
 		}
 	}
-	
+
 	scrollToTable = (event) => {
 		if (this.tableRef.current) {
 			this.tableRef.current.scrollIntoView({
@@ -1236,8 +1236,8 @@ class App extends Component {
 			<Popover id="rt-popover">
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Effective Reproduction Number (Rt)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Rt is the average number of people infected by a single case at a particular time during the outbreak.
-					Green line at Rt=1 below which epidemic is controlled.
+					Rt is the average number of people infected by a single case at a particular time during the outbreak.<br/>
+					Green line at Rt=1 below which epidemic is controlled.<br/>
 					Dark band and light band show 50% and 95% confidence intervals respectively.
 				</Popover.Content>
 			</Popover>
@@ -1247,8 +1247,8 @@ class App extends Component {
 			<Popover id="cfr-popover">
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing coverage.
-					Green line at 5%. Red line at 10%.
+					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing in general.
+					<br/>The corrected CFR is naturally high early in the epidemic and indicates low testing at that time. <br/>Interpret with caution where healthcare capacity is overwhelmed.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1257,7 +1257,7 @@ class App extends Component {
 			<Popover id="mobility-popover">
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Mobility Index</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					This indicates the % change in the movement of people at various places compared to that before lockdown.
+					This indicates the % change in the movement of people at various places compared to January 2020.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1266,7 +1266,7 @@ class App extends Component {
 			<Popover id="positivity-popover">
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Positivity Rate</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Percent of tests done per day that came back positive (7-day moving average).Lower positivity rate means better testing coverage.
+					Percent of tests done per day that came back positive (7-day moving average). Lower positivity rate means better testing.
 					Positivity rate below green line (less than 5%) indicates good testing, between green and red line (5-10%) indicates need for improvement, and above red line (>10%) indicates poor testing.
 				</Popover.Content>
 			</Popover>
@@ -1310,11 +1310,11 @@ class App extends Component {
 
 						<div className="home-text">
 							<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicHeading }}>Tracking India's Progress Through The Coronavirus Pandemic, Today</div>
-								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>Understanding Your State's Response Through Live Outbreak Indicators'</div>
-								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>How fast is the virus spreading in my state? How has the movement of people varied? 
-								Is my state testing enough people? How good is the healthcare response of my state? Knowledge is power, and these are some questions we want to help answer
-								for you. This dashboard calculates outbreak indicators from raw data (number of daily cases, number of tests done etc.), and update it daily for all states.
-								Understanding and tracking these indicators is particularly important as we move towards reopening our economy. </div><br/>
+								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>Understanding Your State's Response Through Live Outbreak Indicators</div>
+								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>How fast is the virus spreading in my state? How is the movement of people changing with lifting of restrictions?
+								Is my state testing enough people to reopen safely? How good is the healthcare response of my state? Knowledge is power, and these are some questions we want to help answer
+								for you. This dashboard streamlines and analyses raw data (number of daily cases, number of tests done etc) to calculate and visualise outbreak indicators
+								for each state in realtime. Lockdown lifting should ideally be based on monitoring these indicators and adapting accordingly.</div><br/>
 							<Accordion>
 							  <Card>
 							    <Card.Header>
@@ -1322,22 +1322,22 @@ class App extends Component {
 								Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens</div>
 								<span className="disclaimer-top" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>We do the hard work for you, so you can focus on what the data means.</span>
 							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
-							        <span style={{ fontSize: fontSizeDynamic }}>Know more</span>
+							        <span style={{ fontSize: fontSizeDynamic }}>How?</span>
 							      </Accordion.Toggle>
 							    </Card.Header>
 							    <Accordion.Collapse eventKey="1">
 							      <Card.Body>
-									
+
 									<Card.Text className="top-text-body">
 										<div style={{ fontSize: fontSizeDynamic }}>
 											<ul>
+											<li>All data made available for running your own analyses </li>
 												<li>Cleaning and integrating data from multiple sources </li>
 												<li>Analysing the data using robust statistical methods </li>
 												<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
 												<li>Using latest scientific evidence and advisories to guide interpretation </li>
 												<li>Updated daily for all states of India (where data is available) </li>
 												<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
-												<li>All data made available for running your own analyses </li>
 											</ul></div>
 									</Card.Text>
 										</Card.Body>
@@ -1345,7 +1345,7 @@ class App extends Component {
 								</Card>
 								<div style={{ paddingTop: "5px" }}>
 									<Button variant="outline-primary" className={mobileView ? "scroll-button-mobile" : "scroll-button"} onClick={this.handleDivScroll}>
-										<span style={{ fontSize: fontSizeDynamic }}>Know more about the indicators</span></Button></div>
+										<span style={{ fontSize: fontSizeDynamic }}>Know about the indicators</span></Button></div>
 							</Accordion>
 						</div>
 
@@ -1355,7 +1355,7 @@ class App extends Component {
 							<span className="span-plot-title"><hr class="hr-text" data-content="How fast is the spread?" /></span>
 							<span className="span-plot-title"><hr class="hr-text" data-content="Are we testing enough?" /></span>
 						</div>}
-						
+
 						<Container>
 							<Row>
 								<Col lg="6">
