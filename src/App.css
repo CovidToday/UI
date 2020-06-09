@@ -455,3 +455,7 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	width: 130px;
 	overflow-y: scroll;
 }
+
+.titillium {
+	font-family: Titillium Web;
+}

@@ -5,13 +5,13 @@ import Equation from "./images/equation.jpeg"
 export default class Methods extends Component {
 
   render() {
-	const tableClass = window.innerWidth > '1058' ? "methods-table" : "methods-table-mobile";
-	const layout =  window.innerWidth > '1058' ? "home-text" : "text-pages-layout";
-	const normalText = window.innerWidth > '1058' ? {} : {fontSize: "smaller"};
-	const citationsText = window.innerWidth > '1058' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
-	const headingText = window.innerWidth > '1058' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "medium", textAlign: "center"}
-	const italicText = window.innerWidth > '1058' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "inherit"};
-	const italicBoldText = window.innerWidth > '1058' ? {fontStyle: "italic", fontWeight: "bolder"} : {fontStyle: "italic", fontWeight: "bolder", fontSize: "inherit"};
+	const tableClass = window.innerWidth > '1000' ? "methods-table" : "methods-table-mobile";
+	const layout =  window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
+	const normalText = window.innerWidth > '1000' ? {} : {fontSize: "smaller"};
+	const citationsText = window.innerWidth > '1000' ? {textAlign: "left"} : {textAlign: "left", fontSize: "smaller"};
+	const headingText = window.innerWidth > '1000' ? {fontWeight: "bolder", textAlign: "center"} : {fontWeight: "bolder", fontSize: "medium", textAlign: "center"}
+	const italicText = window.innerWidth > '1000' ? {fontStyle: "italic"} : {fontStyle: "italic", fontSize: "inherit"};
+	const italicBoldText = window.innerWidth > '1000' ? {fontStyle: "italic", fontWeight: "bolder"} : {fontStyle: "italic", fontWeight: "bolder", fontSize: "inherit"};
     return (
       <div>
 		<div className="sub-header-row mt-4">
@@ -222,7 +222,7 @@ export default class Methods extends Component {
 									[Mean 13.0 days (95% CI 8.7-20.9) and SD 12.7 days (95% CI 6.4-26.0)], 100 bootstrapped datasets were produced for
 									CasesClosed(t). (10) For each dataset,<br/>
 
-									<img src={Equation} className={window.innerWidth > '1058' ? "" : "equation"}/>
+									<img src={Equation} className={window.innerWidth > '1000' ? "" : "equation"}/>
 
 									<br/><br/>
 

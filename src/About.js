@@ -4,10 +4,10 @@ import { Card } from 'react-bootstrap';
 export default class About extends Component {
 
 	render() {
-		const layout = window.innerWidth > '1058' ? "home-text" : "text-pages-layout";
-		const normalText = window.innerWidth > '1058' ? {} : { fontSize: "smaller" };
-		const normalAlignedText = window.innerWidth > '1058' ? { textAlign: "left" } : { textAlign: "left", fontSize: "smaller" };
-		const headingText = window.innerWidth > '1058' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "medium", textAlign: "center" };
+		const layout = window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
+		const normalText = window.innerWidth > '1000' ? {} : { fontSize: "smaller" };
+		const normalAlignedText = window.innerWidth > '1000' ? { textAlign: "left" } : { textAlign: "left", fontSize: "smaller" };
+		const headingText = window.innerWidth > '1000' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "medium", textAlign: "center" };
 		return (
 			<div>
 				<div className="sub-header-row mt-4">
@@ -32,7 +32,7 @@ export default class About extends Component {
 						</Card.Body>
 						<Card.Body>
 							<Card.Title className="top-text-title" style={headingText}><strong>The Covid Today Team at iCART</strong></Card.Title>
-							<Card.Text>
+							<Card.Text className="titillium">
 								<div style={normalAlignedText}><b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br />
 									<i>Interests: Technology and Data-driven Solutions in Healthcare</i><br /><br />
 
@@ -59,7 +59,7 @@ export default class About extends Component {
 							</Card.Body>
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
-								<Card.Text>
+								<Card.Text className="titillium">
 									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
 									</div>
 								</Card.Text>

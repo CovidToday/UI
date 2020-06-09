@@ -229,7 +229,7 @@ class App extends Component {
 		this.setData();
 		ReactGA.initialize('UA-168412971-1');
 		ReactGA.pageview('covidToday');
-		if (window.innerWidth <= '1058') {
+		if (window.innerWidth <= '1000') {
 			this.setState({ columnDefs: this.columnDefMobile });
 			this.setState({ mobileView: true });
 
@@ -1271,6 +1271,8 @@ class App extends Component {
 		const fontSizeDynamic = mobileView ? "smaller" : "larger";
 		const fontSizeDynamicSH = mobileView ? "small" : "larger";
 		const fontSizeDynamicHeading = mobileView ? "medium" : "x-large";
+		const tabFontSize = window.innerWidth > '1058' ? "larger" : window.innerWidth > '1028' ? "large" : window.innerWidth > '1000' ? "medium" : 
+			window.innerWidth > '500' ? "large" : "small";
 
 		return (
 			<div>
@@ -1280,19 +1282,19 @@ class App extends Component {
 					</span>
 					<span className={mobileView ? "nav-button-group-mobile" : "nav-button-group"}>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: tabFontSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Home" }, this.handleDashboardScroll)}>Dashboard</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: tabFontSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Methods" })}>Methods</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: tabFontSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute</Button>
 						</span>
 						<span className={mobileView ? "nav-bar-mobile" : "nav-bar"}>
-							<Button variant="outline-primary" style={{ fontSize: fontSizeDynamic }} className="nav-button"
+							<Button variant="outline-primary" style={{ fontSize: tabFontSize }} className="nav-button"
 								onClick={() => this.setState({ selectedView: "Team" })}>About Us</Button>
 						</span>
 					</span>
