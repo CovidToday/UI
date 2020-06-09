@@ -20,11 +20,11 @@ export default class Contribute extends Component {
 									Or Pitch In and Become an Active Contributor. </div>}</Card.Title>
 								<Card.Text className="top-text-body">
 									<div style={normalText}>Report a bug, suggest an improvement, ask a question, or join as an active contributor-
-									<a href="https://forms.gle/HDCDVYApfRi319k58">here</a>. <br/> All contributors will be recognised as part of the Active Contributor
+									<a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">here</a>. <br/> All contributors will be recognised as part of the Active Contributor
 									Team on the About Us page.<br/><br/> 
 										You can also contact us at<br/>
 										Email: covidtodayindia@gmail.com<br/>
-										Twitter: <a href="https://twitter.com/icart_india">@icart_india</a><br/>
+										Twitter: <a href="https://twitter.com/icart_india" target="_blank">@icart_india</a><br/>
 									</div>
 								</Card.Text>
 							</Card.Body>
