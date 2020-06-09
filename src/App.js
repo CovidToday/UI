@@ -1347,7 +1347,7 @@ class App extends Component {
 						</div>
 
 						<this.DropdownRenderer />
-						<div ref={this.plotsRef}></div>
+						<div ref={this.plotsRef} style={{textDecorationColor: "white", height: "5px"}}>.</div>
 						{!mobileView && <div className="plot-headers">
 							<span className="span-plot-title"><hr class="hr-text" data-content="How fast is the spread?" /></span>
 							<span className="span-plot-title"><hr class="hr-text" data-content="Are we testing enough?" /></span>
