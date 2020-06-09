@@ -1533,7 +1533,7 @@ class App extends Component {
 										Understand what the parameters mean
 										<a className="link-text" style={{ color: "blue" }} onClick={this.handleDivScroll}> here</a>.<br />
 										Raw data sources and detailed method of calculation
-										<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" })}> here</a>.
+										<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0,0))}> here</a>.
 									</div>
 										</Card.Body>
 									</Accordion.Collapse>
@@ -1630,7 +1630,7 @@ class App extends Component {
 						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0,0))}> Methods</a> page.
 						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
 						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0,0))}> Report an error.</a></div>
 						
 						<div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
 							<a className="titillium" href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
@@ -1644,10 +1644,10 @@ class App extends Component {
 						<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>For The People, By The People</div>
 						<div className="for-the-people-text" style={{ fontSize: fontSizeDynamic }}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors,
 						researchers, coders, and public health experts from institutes across India.
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Team" })}> Learn more about the team</a>. This pandemic demands everyone to
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0,0))}> Learn more about the team</a>. This pandemic demands everyone to
 						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected.
 						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to
-						the <a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" })}>Contribute </a>page to see how you can pitch in.
+						the <a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0,0))}>Contribute </a>page to see how you can pitch in.
 						</div>
 					</div>
 				</>}
@@ -1655,7 +1655,7 @@ class App extends Component {
 				{selectedView === "Contribute" && <div className="App"><Contribute /></div>}
 				{selectedView === "Team" && <div className="App"><About /></div>}
 				<div className="footer-pic-container">
-					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" })}/>
+					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0,0))}/>
 				</div>
 				<div style={{marginTop: "30px", display: "inline-block", textAlign: "end", width: "100%", fontSize: licenceFont}}>
 					<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style={{borderWidth :0, width: licenceWidth}} src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
