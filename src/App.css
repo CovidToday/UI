@@ -459,3 +459,15 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 .titillium {
 	font-family: Titillium Web;
 }
+
+.social-buttons {
+	width: 340px;
+    margin: 0 auto;
+    background-color: #004056;
+    border-radius: 10px;
+    align-items: center;
+    display: inline-flex;
+    height: 60px;
+    justify-content: center;
+    margin: 5px;
+}

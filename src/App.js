@@ -7,7 +7,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Line, Chart } from 'react-chartjs-2';
-import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger, CardGroup, Accordion } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger, CardGroup, Accordion, ButtonToolbar } from 'react-bootstrap';
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
 import informationIcon from "./images/information_icon.png";
@@ -23,6 +23,10 @@ import Contribute from "./Contribute.js";
 import About from "./About.js";
 import graphIcon from "./images/graphIcon.png";
 import tableIcon from "./images/tableIcon.png";
+import gitIcon from "./images/github.png";
+import twitterIcon from "./images/twitter.png";
+import mailIcon from "./images/mail.png";
+import feedbackIcon from "./images/feedback.png";
 
 class App extends Component {
 	constructor(props) {
@@ -1273,6 +1277,8 @@ class App extends Component {
 		const fontSizeDynamicHeading = mobileView ? "medium" : "x-large";
 		const tabFontSize = window.innerWidth > '1058' ? "larger" : window.innerWidth > '1028' ? "large" : window.innerWidth > '1000' ? "medium" : 
 			window.innerWidth > '500' ? "large" : "small";
+		const licenceWidth = mobileView ? "45px" : "90px";
+		const licenceFont = mobileView ? "x-small" : "small";
 
 		return (
 			<div>
@@ -1641,7 +1647,19 @@ class App extends Component {
 				{selectedView === "Contribute" && <div className="App"><Contribute /></div>}
 				{selectedView === "Team" && <div className="App"><About /></div>}
 				<div className="footer-pic-container">
-					<img src={Footer} className="footer-pic" />
+					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" })}/>
+				</div>
+				{selectedView === "Home" && <div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
+					<a href="https://github.com/CovidToday/indicator-dataset">Get the dataset (csv and json)</a><br/>
+					
+					<a href="https://twitter.com/icart_india">Follow us on twitter</a><br/>
+					
+					<a href="https://forms.gle/HDCDVYApfRi319k58">Contribute or give us feedback</a><br/>
+					
+					<a href=" covidtodayindia@gmail.com">Get in touch with us</a>
+				</div>}
+				<div style={{marginTop: "30px", display: "inline-block", textAlign: "end", width: "100%", fontSize: licenceFont}}>
+					<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style={{borderWidth :0, width: licenceWidth}} src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
 				</div>
 			</div>
 		);
