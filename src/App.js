@@ -42,7 +42,7 @@ class App extends Component {
 					headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 						{
 							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
-							cellRenderer: 'rtRenderer', comparator: this.numberSort,  minWidth: 110, cellStyle: function (params) {
+							cellRenderer: 'rtRenderer', comparator: this.numberSort,  minWidth: 120, cellStyle: function (params) {
 								let style;
 								let a = true;
 								params.data.rtOld.forEach(rt => {
@@ -152,7 +152,7 @@ class App extends Component {
 		{
 			headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 				{
-					headerName: "RT", field: "rt", width: 110, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
+					headerName: "RT", field: "rt", width: 120, sortable: true, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
 					cellRenderer: 'rtRenderer', comparator: this.numberSort,
 					cellStyle: function (params) {
 						let style;
@@ -244,31 +244,31 @@ class App extends Component {
 
 
 	async setData() {
-		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/rt.json?token=AK6PV6IG4ZVYXSB3BVP3QUK6Z5F5Q')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/reproduction-number-rt/rt.json')
 			.then(response => {
 				this.setState({ rtDataFromApi: response.data });
 				this.getRtPointGraphData(this.state.rtDataFromApi.IN);
 			});
 
-		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/cfr.json?token=AK6PV6JRLNUDIQKW5T2SMWS6Z5E2Y')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/testing-and-cfr/cfr.json')
 			.then(response => {
 				this.setState({ cfrDataFromApi: response.data });
 				this.getCfrGraphData(this.state.cfrDataFromApi.India);
 			});
 
-		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/india_mobility_indented.json?token=AK6PV6JES2TFKDHBAVRXFA26Z5E6G')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/mobility-index/india_mobility_indented.json')
 			.then(response => {
 				this.setState({ mobilityDataFromApi: response.data });
 				this.getMobilityGraphData(this.state.mobilityDataFromApi.India);
 			});
 
-		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/positivity_Rate.json')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/testing-and-cfr/positivity_Rate.json')
 			.then(response => {
 				this.setState({ positivityRateDataFromApi: response.data });
 				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
 			});
 
-		await axios.get('https://raw.githubusercontent.com/CovidToday/CovidToday_Website/master/backend/jsonfiles/national.json')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/reproduction-number-rt/national.json')
 			.then(response => {
 				this.setState({ nationalDataFromApi: response.data });
 			});
