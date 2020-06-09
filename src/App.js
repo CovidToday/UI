@@ -1392,7 +1392,7 @@ class App extends Component {
 									</Row>
 								</Col>
 								<Col>
-									<div className="mt-2"></div>
+									{mobileView && <div className="mt-2"></div>}
 									{/* Pos Rate Graph */}
 									{mobileView && <div className="plot-headers">
 										<span className="span-plot-title-mobile"><hr class="hr-text" data-content="Are we testing enough?" /></span>
@@ -1474,6 +1474,7 @@ class App extends Component {
 											</Card>
 										</Col>
 									</Row>
+									<div className="mt-2"></div>
 									{/* CFR Graph */}
 									<Row>
 										<Col>
