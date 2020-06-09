@@ -1631,7 +1631,15 @@ class App extends Component {
 						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
 						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
 						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
-					<div class="wrapper"><div class="divider div-transparent"></div></div>
+						
+						<div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
+							<a href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
+							<a href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br/>
+							<a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br/>
+							<a href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
+						</div>
+						
+					<div class="wrapper"><div class="divider div-transparent" style={{marginTop: "10px"}}></div></div>
 					<div className="for-the-people">
 						<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>For The People, By The People</div>
 						<div className="for-the-people-text" style={{ fontSize: fontSizeDynamic }}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors,
@@ -1649,15 +1657,6 @@ class App extends Component {
 				<div className="footer-pic-container">
 					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" })}/>
 				</div>
-				{selectedView === "Home" && <div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
-					<a href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
-					
-					<a href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br/>
-					
-					<a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br/>
-					
-					<a href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
-				</div>}
 				<div style={{marginTop: "30px", display: "inline-block", textAlign: "end", width: "100%", fontSize: licenceFont}}>
 					<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style={{borderWidth :0, width: licenceWidth}} src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
 				</div>
