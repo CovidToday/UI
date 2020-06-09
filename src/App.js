@@ -909,9 +909,7 @@ class App extends Component {
 				radius: 0,
 				hoverRadius: 0,
 			});
-			const positivityRateDataSet = dataFromApi.daily_positivity_rate_ma.map(d => {
-				return d * 100;
-			});
+			const positivityRateDataSet = dataFromApi.daily_positivity_rate_ma.slice();
 
 			// Main data
 			let mainData = [{
