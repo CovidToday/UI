@@ -1627,7 +1627,7 @@ class App extends Component {
 						</CardGroup>
 					</div>
 					<div className="disclaimer" style={{ fontSize: fontSizeDynamic }}>The raw data sources and detailed method of calculation is provided in the
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" })}> Methods</a> page.
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0,0))}> Methods</a> page.
 						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
 						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
 						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
