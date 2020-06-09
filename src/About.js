@@ -4,10 +4,10 @@ import { Card } from 'react-bootstrap';
 export default class About extends Component {
 
 	render() {
-		const layout = window.innerWidth > '1000' ? "home-text" : "text-pages-layout";
-		const normalText = window.innerWidth > '1000' ? {} : { fontSize: "smaller" };
-		const normalAlignedText = window.innerWidth > '1000' ? { textAlign: "left" } : { textAlign: "left", fontSize: "smaller" };
-		const headingText = window.innerWidth > '1000' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "medium", textAlign: "center" };
+		const layout = window.innerWidth > '1058' ? "home-text" : "text-pages-layout";
+		const normalText = window.innerWidth > '1058' ? {} : { fontSize: "smaller" };
+		const normalAlignedText = window.innerWidth > '1058' ? { textAlign: "left" } : { textAlign: "left", fontSize: "smaller" };
+		const headingText = window.innerWidth > '1058' ? { fontWeight: "bolder", textAlign: "center" } : { fontWeight: "bolder", fontSize: "medium", textAlign: "center" };
 		return (
 			<div>
 				<div className="sub-header-row mt-4">

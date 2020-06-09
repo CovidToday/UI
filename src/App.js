@@ -42,7 +42,7 @@ class App extends Component {
 					headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 						{
 							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
-							cellRenderer: 'rtRenderer', comparator: this.numberSort, cellStyle: function (params) {
+							cellRenderer: 'rtRenderer', comparator: this.numberSort,  minWidth: 110, cellStyle: function (params) {
 								let style;
 								let a = true;
 								params.data.rtOld.forEach(rt => {
@@ -229,7 +229,7 @@ class App extends Component {
 		this.setData();
 		ReactGA.initialize('UA-168412971-1');
 		ReactGA.pageview('covidToday');
-		if (window.innerWidth <= '1000') {
+		if (window.innerWidth <= '1058') {
 			this.setState({ columnDefs: this.columnDefMobile });
 			this.setState({ mobileView: true });
 
