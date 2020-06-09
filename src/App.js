@@ -1633,10 +1633,10 @@ class App extends Component {
 						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" })}> Report an error.</a></div>
 						
 						<div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
-							<a href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
-							<a href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br/>
-							<a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br/>
-							<a href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
+							<a className="titillium" href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
+							<a className="titillium" href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br/>
+							<a className="titillium" href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br/>
+							<a className="titillium" href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
 						</div>
 						
 					<div class="wrapper"><div class="divider div-transparent" style={{marginTop: "10px"}}></div></div>
