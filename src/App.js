@@ -959,13 +959,9 @@ class App extends Component {
 		this.getCfrGraphData(this.state.cfrDataFromApi[stateName]);
 	}
 
-	DropdownItems(props) {
-		const name = this.getName(props.key);
-		return <Dropdown.Item onSelect={() => this.onStateSelect(props.key)}>{name}</Dropdown.Item>
-	}
-
 	DropdownRenderer = () => {
-		const fontSize = this.state.mobileView ? "x-small" : "inherit"
+		const fontSize = this.state.mobileView ? "x-small" : "inherit";
+		
 		return <div className="sub-header-row sticky-top">
 			{!this.state.mobileView && <span className="header-bar-text"> </span>}
 			<span className="header-bar-text" style={{fontSize: fontSize}}>Last Updated -{this.state.mobileView && <br/>} {this.state.lastUpdatedTime}</span>
@@ -976,8 +972,9 @@ class App extends Component {
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu className="dropdown-state-list">
-						{Object.entries(this.state.rtDataFromApi).map((item) => {
-							return <Dropdown.Item onSelect={() => this.onStateSelect(item[0])}>{this.getName(item[0])}</Dropdown.Item>
+						<Dropdown.Item onSelect={() => this.onStateSelect("IN")}>India</Dropdown.Item>
+						{this.state.rowData && this.state.rowData.map((item) => {
+							return <Dropdown.Item onSelect={() => this.onStateSelect(item.key)}>{this.getName(item.key)}</Dropdown.Item>
 						})}
 					</Dropdown.Menu>
 				</Dropdown>
