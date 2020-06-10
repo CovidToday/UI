@@ -144,6 +144,7 @@ class App extends Component {
 				cumCasesRenderer: CumCasesRenderer,
 				TPMRenderer: TPMRenderer
 			},
+			lastUpdatedTime: ""
 		}
 	}
 
@@ -271,6 +272,10 @@ class App extends Component {
 				this.setState({ positivityRateDataFromApi: response.data });
 				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
 			});
+			
+		const lastUpdated = this.state.positivityRateDataFromApi.datetime;
+		const timestamp = lastUpdated ? lastUpdated.split(":", 2).join(":") : "NA";
+		this.setState({lastUpdatedTime: timestamp});
 
 		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/testing-and-cfr/national.json')
 			.then(response => {
@@ -633,7 +638,7 @@ class App extends Component {
 		pinnedData.push({
 			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
 			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd, rtDate: rtDate, cfrDate: cfrDate, cfrOld: cfrPointOld, dailyCasesOld: casesMaIndOld,
-			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPRDate: cumPRDateInd,
+			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPateRDate: cumPRDateInd,
 			testsPerMil: tpmInd, tpmDate: tpmIndDate
 		})
 		this.setState({ pinnedTopRowData: pinnedData })
@@ -960,9 +965,10 @@ class App extends Component {
 	}
 
 	DropdownRenderer = () => {
+		const fontSize = this.state.mobileView ? "x-small" : "inherit"
 		return <div className="sub-header-row sticky-top">
 			{!this.state.mobileView && <span className="header-bar-text"> </span>}
-			<span className="header-bar-text">COVID TODAY</span>
+			<span className="header-bar-text" style={{fontSize: fontSize}}>Last Updated -{this.state.mobileView && <br/>} {this.state.lastUpdatedTime}</span>
 			<span className="header-bar-dropdown">
 				<Dropdown>
 					<Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-state">

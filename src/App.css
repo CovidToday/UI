@@ -89,7 +89,6 @@ ag-header-cell ag-header-cell-sortable ag-column-hover {
 	color: white;
 	display: table-cell;
 	text-align: center;
-	font-weight: bolder;
 	font-family: Titillium Web;
 	vertical-align: middle;
 }
