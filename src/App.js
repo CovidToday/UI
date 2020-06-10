@@ -272,7 +272,7 @@ class App extends Component {
 				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
 			});
 
-		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/reproduction-number-rt/national.json')
+		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/testing-and-cfr/national.json')
 			.then(response => {
 				this.setState({ nationalDataFromApi: response.data });
 			});
@@ -493,26 +493,28 @@ class App extends Component {
 				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex - 7] * 100).toFixed(2) : "NA";
 				const cfrDate = cfrIndex > 0 ? this.state.cfrDataFromApi[name].dates[cfrIndex] : "-";
 
-				//national
-				let confirmedCases;
-				let cumCasesDate;
-				this.state.nationalDataFromApi.statewise.forEach(item => {
-					if (item.state === name) {
-						confirmedCases = item.confirmed;
-						cumCasesDate = item.lastupdatedtime;
-					}
-				});
-
 				//posRate
 				const posRateArr = Object.entries(this.state.positivityRateDataFromApi);
+				let cumCases;
+				let cumCasesDate;
+				posRateArr.forEach(data => {
+					if (data[0] === name) {
+						const indexCases = data[1].cum_positive_cases.slice().reverse().findIndex(i => i !== "");
+						const countCases = data[1].cum_positive_cases.length - 1;
+						const cumCasesIndex = indexCases >= 0 ? countCases - indexCases : indexCases;
+						const cumulativeCasesFloat = data[1].cum_positive_cases[cumCasesIndex];
+						cumCases = cumulativeCasesFloat && cumulativeCasesFloat !== "" ? cumulativeCasesFloat : "-";
+						cumCasesDate = data[1].dates[cumCasesIndex];
+					}
+				});
 				let cumulativePosRate;
 				let cumPRateDate;
 				posRateArr.forEach(data => {
 					if (data[0] === name) {
-						const indexCum = data[1].positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
-						const countCum = data[1].positivity_rate_cumulative.length - 1;
+						const indexCum = data[1].cum_positivity_rate.slice().reverse().findIndex(i => i !== "");
+						const countCum = data[1].cum_positivity_rate.length - 1;
 						const cumPosRateIndex = indexCum >= 0 ? countCum - indexCum : indexCum;
-						const cumulativePosRateFloat = data[1].positivity_rate_cumulative[cumPosRateIndex];
+						const cumulativePosRateFloat = data[1].cum_positivity_rate[cumPosRateIndex];
 						cumulativePosRate = cumulativePosRateFloat && cumulativePosRateFloat !== "" ? cumulativePosRateFloat.toFixed(2) : "NA";
 						cumPRateDate = data[1].dates[cumPosRateIndex];
 					}
@@ -562,7 +564,7 @@ class App extends Component {
 
 
 				data.push({
-					key: s, state: name, rt: rtData, cumCases: confirmedCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
+					key: s, state: name, rt: rtData, cumCases: cumCases, dailyCases: maCases, posRate: maPosRate, cumPosRate: cumulativePosRate,
 					ccfr: cfrPoint, rtCurrent: rtPoint, rtOld: rtToCompare, dailyCasesOld: maCasesOld, posRateOld: maPosRateOld, cfrOld: cfrPointOld,
 					rtDate: rtDate, cumCasesDate: cumCasesDate, maCasesDate: maCasesDate, posRateDate: posRateDate, cumPRateDate: cumPRateDate, cfrDate: cfrDate,
 					testsPerMil: tpm, tpmDate: tpmDate
@@ -594,16 +596,18 @@ class App extends Component {
 		const cfrDate = cfrIndexInd > 0 ? this.state.cfrDataFromApi["India"].dates[cfrIndexInd] : "-";
 		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd - 7] * 100).toFixed(2) : "NA";
 
-		const cumConfirmedIndIndex = this.state.nationalDataFromApi.cases_time_series.length - 1;
-		const cumCasesInd = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].totalconfirmed;
-		const cumCasesIndDate = this.state.nationalDataFromApi.cases_time_series[cumConfirmedIndIndex].date;
-
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
+		
+		const cumConfirmedIndIndex = posRateArrInd.cum_positive_cases.slice().reverse().findIndex(i => i !== "");
+		const cumConfirmedIndCount = posRateArrInd.cum_positive_cases.length - 1;
+		const resultIndex = cumConfirmedIndIndex >= 0 ? cumConfirmedIndCount - cumConfirmedIndIndex : cumConfirmedIndIndex;
+		const cumCasesInd = (posRateArrInd.cum_positive_cases[resultIndex]);
+		const cumCasesIndDate = posRateArrInd.dates[resultIndex];
 
-		const indexInd = posRateArrInd.positivity_rate_cumulative.slice().reverse().findIndex(i => i !== "");
-		const countInd = posRateArrInd.positivity_rate_cumulative.length - 1;
+		const indexInd = posRateArrInd.cum_positivity_rate.slice().reverse().findIndex(i => i !== "");
+		const countInd = posRateArrInd.cum_positivity_rate.length - 1;
 		const posRateIndexInd = indexInd >= 0 ? countInd - indexInd : indexInd;
-		const cumulativePosRateInd = (posRateArrInd.positivity_rate_cumulative[posRateIndexInd]).toFixed(2);
+		const cumulativePosRateInd = (posRateArrInd.cum_positivity_rate[posRateIndexInd]).toFixed(2);
 		const cumPRDateInd = posRateArrInd.dates[posRateIndexInd];
 
 		const indexIndPosRateMa = posRateArrInd.daily_positivity_rate_ma.slice().reverse().findIndex(i => i !== "");
