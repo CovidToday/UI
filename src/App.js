@@ -494,8 +494,8 @@ class App extends Component {
 
 				//cfr
 				const cfrIndex = this.state.cfrDataFromApi[name] ? this.state.cfrDataFromApi[name].cfr3_point.length - 1 : -1;
-				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex] * 100).toFixed(2) : "NA";
-				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex - 7] * 100).toFixed(2) : "NA";
+				const cfrPoint = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex]).toFixed(2) : "NA";
+				const cfrPointOld = cfrIndex > 0 ? (this.state.cfrDataFromApi[name].cfr3_point[cfrIndex - 7]).toFixed(2) : "NA";
 				const cfrDate = cfrIndex > 0 ? this.state.cfrDataFromApi[name].dates[cfrIndex] : "-";
 
 				//posRate
@@ -597,9 +597,9 @@ class App extends Component {
 		const rtDataInd = `${rtPointInd} (${rtl95Ind}-${rtu95Ind})`
 
 		const cfrIndexInd = this.state.cfrDataFromApi["India"].cfr3_point.length - 1;
-		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd] * 100).toFixed(2) : "NA";
+		const cfrPointInd = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd]).toFixed(2) : "NA";
 		const cfrDate = cfrIndexInd > 0 ? this.state.cfrDataFromApi["India"].dates[cfrIndexInd] : "-";
-		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd - 7] * 100).toFixed(2) : "NA";
+		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd - 7]).toFixed(2) : "NA";
 
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
 		
@@ -786,7 +786,7 @@ class App extends Component {
 				hoverRadius: 0,
 			});
 			const cfrDataSet = dataFromApi.cfr3_point.map(d => {
-				return d * 100;
+				return d;
 			});
 
 			// Main data
