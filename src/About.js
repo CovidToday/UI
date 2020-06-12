@@ -67,19 +67,24 @@ export default class About extends Component {
 									as a catalyst for a science driven response to the COVID-19 pandemic. Our team is engaged in clinical and epidemiological
 									research at some of the best hospitals in the country. In addition, we have developed a comprehensive digital COVID-19 platform
 									spanning across communities, hospitals and laboratories, which is under pilot-testing. You may follow us on <a href="https://twitter.com/icart_india">Twitter</a>
-									where we try to engage in meaningful discussions regarding the COVID-19 epidemic with fellow citizens, experts and journalists. <br/>
+									where we try to engage in meaningful discussions regarding the COVID-19 epidemic with fellow citizens, experts and journalists.<br/><br/>
 
-Dr Giridara Gopal, PhD Scholar, MD Community Medicine, AIIMS Delhi
-Dr Mohak Gupta, Intern Doctor, MBBS, AIIMS Delhi
-Aditi Rao, MBBS student, AIIMS Delhi
-Dev Balaji, M.Tech Bioengineering and Medical Nanotechnology, Former researcher at Harvard Medical School and IISc Bangalore
-Archisman Mazumder, MBBS student, AIIMS Delhi
-Saptarshi Mohanta, BS-MS, IISER Pune
-Dr Ayush Lohiya, Assistant Professor, Public Health, Super Specialty Cancer Institute & Hospital, Lucknow
-Dr Priyamadhaba Behera, Assistant Professor , Department of Community Medicine and Family Medicine, AIIMS Bhubaneswar<br/>
+Dr Giridara Gopal, PhD Scholar, MD Community Medicine, AIIMS Delhi<br/>
+Dr Mohak Gupta, Intern Doctor, MBBS, AIIMS Delhi<br/>
+Aditi Rao, MBBS student, AIIMS Delhi<br/>
+Dev Balaji, M.Tech Bioengineering and Medical Nanotechnology, Former researcher at Harvard Medical School and IISc Bangalore<br/>
+Archisman Mazumder, MBBS student, AIIMS Delhi<br/>
+Saptarshi Mohanta, BS-MS, IISER Pune<br/>
+Dr Ayush Lohiya, Assistant Professor, Public Health, Super Specialty Cancer Institute & Hospital, Lucknow<br/>
+Dr Priyamadhaba Behera, Assistant Professor , Department of Community Medicine and Family Medicine, AIIMS Bhubaneswar<br/><br/>
 
-<i>All iCART collaborators participate in the team’s activities on a purely volunteer basis and in an individual capacity. 
-	Their views and opinions under iCART represent their personal views and not that of their institute or employer.</i>
+<i>All iCART collaborators participate in the team’s activities on a purely volunteer basis and in an individual capacity.
+	Their views and opinions under iCART represent their personal views and not that of their institute or employer.</i><br/><br/>
+
+<b>COVID-19 research from iCART:</b>
+<a href="https://pubmed.ncbi.nlm.nih.gov/32528664/?from_single_result=SARS-CoV-2+epidemic+in+India%3A+epidemiological+features+and+in+silico+analysis+of+the+effect+of+interventions
+">SARS-CoV-2 Epidemic in India: Epidemiological Features and in silico Analysis of the Effect of Interventions</a><br/>
+<a href="ttps://doi.org/10.1101/2020.05.13.20096826">Transmission dynamics of the COVID-19 epidemic in India and modelling optimal lockdown exit strategies</a>
 
 								</div>
 							</Card.Text>
