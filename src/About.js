@@ -16,37 +16,28 @@ export default class About extends Component {
 				<div className={layout}>
 					<Card>
 						<Card.Body>
-							<Card.Title className="top-text-title" style={headingText}><div><strong>About iCART</strong></div></Card.Title>
-							<Card.Text className="top-text-body">
-								<div style={normalText}>India COVID Apex Research Team (iCART) is a volunteer research and development group which comprises
-								professionals and students from multiple fields. We started as a small group from AIIMS Delhi, and have since grown into a
-								multi-disciplinary team of doctors, biomedical researchers, epidemiologists, tech developers and data scientists with the
-								primary focus to act as a catalyst for a science driven response to the COVID-19 pandemic. Our team is engaged in clinical
-								and epidemiological research at some of the best hospitals in the country. In addition, we have developed a comprehensive
-								digital COVID-19 platform spanning across communities, hospitals and laboratories, which is under pilot-testing. The Covid
-								Today Dashboard was planned to fill the gap between reporting raw case numbers and what that data actually means. We intend
-								to provide a one-stop dashboard where outbreak indicators are calculated with reliable scientific methods, and are updated
-									and visualised daily to track each state's progress in the epidemic. <br />
-								</div>
-							</Card.Text>
-						</Card.Body>
-						<Card.Body>
 							<Card.Title className="top-text-title" style={headingText}><strong>The Covid Today Team at iCART</strong></Card.Title>
 							<Card.Text className="titillium">
-								<div style={normalAlignedText}><b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br />
+								<div style={normalAlignedText}>The Covid Today Dashboard was envisaged to fill the gap between reporting raw case numbers
+									and what that data actually means. The purpose is to analyse and present the data in a meaningful way that enables citizens,
+									leaders, researchers and journalists to have a more insightful grasp of the local situation and respond accordingly. We intend
+									to provide a one-stop dashboard where outbreak indicators are calculated with reliable scientific methods, and are updated and
+									visualised daily to track each state’s progress in the epidemic.<br/><br/>
+
+									<b>Dr Mohak Gupta, MBBS, AIIMS Delhi.</b><br />
 									<i>Interests: Technology and Data-driven Solutions in Healthcare</i><br /><br />
 
 									<b>Saptarshi Mohanta (Rishi), BS-MS, IISER Pune.</b><br />
-									<i>Interests: Computational Modelling of Biological Systems, Statistics and Data Science</i><br /><br />
+									<i>Interests: Computational Modelling of Biological Systems, Statistics and Data Science</i><br/><br/>
 
-									<b>Pratik Mandlecha, B.Tech CSE, IIIT Hyderabad. Data & Applied Scientist at Microsoft.</b> <br />
-									<i>Interests: Machine Learning , Deep Learning, Data Applications and  Analytics</i><br /><br />
+									<b>Pratik Mandlecha, B.Tech CSE, IIIT Hyderabad. Data & Applied Scientist at Microsoft.</b> <br/>
+									<i>Interests: Machine Learning , Deep Learning, Data Applications and  Analytics</i><br/><br/>
 
 										<b>Aditya Garg, B.Tech CSE, VIT Vellore. Software Developer at Barclays.</b><br/>
 										<i>Interests: Content Creation, Web and Game Development, Playing Music</i><br/><br/>
 
-                    <b>Technical Consulting and IT Support: <br/>
-                    &nbsp;&nbsp;&nbsp;Abhinav Gupta, CA Inter, B.Com</b><br/>
+										<b>Technical Consulting and IT Support: <br/>
+										&nbsp;&nbsp;&nbsp;Abhinav Gupta, CA Inter, B.Com</b><br/>
 										&nbsp;&nbsp;&nbsp;<i>Interests: Simplifying Complex Structures with Technology to Make Robust and Cost Effective Systems</i><br/><br/>
 
 										&nbsp;&nbsp;&nbsp;<b>Apurva Thakker, B.Tech CSE, BFCET Bathinda</b> <br/>
@@ -57,13 +48,43 @@ export default class About extends Component {
 									</div>
 								</Card.Text>
 							</Card.Body>
-							<Card.Body>
-								<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
-								<Card.Text className="titillium">
-									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
-									</div>
-								</Card.Text>
-							</Card.Body>
+
+									<Card.Body>
+										<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
+										<Card.Text className="titillium">
+											<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
+											</div>
+										</Card.Text>
+									</Card.Body>
+
+						<Card.Body>
+							<Card.Title className="top-text-title" style={headingText}><div><strong>About iCART</strong></div></Card.Title>
+							<Card.Text className="top-text-body">
+								<div style={normalText}>India COVID Apex Research Team (iCART) is a volunteer research and development group which comprises
+									professionals and students from multiple fields. iCART is open to collaboration with any individual or organisation that
+									shares our interests and vision. We started as a small group from AIIMS Delhi, and have since grown into a multi-disciplinary
+									team of doctors, biomedical researchers, epidemiologists, tech developers and data scientists with the primary focus to act
+									as a catalyst for a science driven response to the COVID-19 pandemic. Our team is engaged in clinical and epidemiological
+									research at some of the best hospitals in the country. In addition, we have developed a comprehensive digital COVID-19 platform
+									spanning across communities, hospitals and laboratories, which is under pilot-testing. You may follow us on <a href="https://twitter.com/icart_india">Twitter</a>
+									where we try to engage in meaningful discussions regarding the COVID-19 epidemic with fellow citizens, experts and journalists. <br/>
+
+Dr Giridara Gopal, PhD Scholar, MD Community Medicine, AIIMS Delhi
+Dr Mohak Gupta, Intern Doctor, MBBS, AIIMS Delhi
+Aditi Rao, MBBS student, AIIMS Delhi
+Dev Balaji, M.Tech Bioengineering and Medical Nanotechnology, Former researcher at Harvard Medical School and IISc Bangalore
+Archisman Mazumder, MBBS student, AIIMS Delhi
+Saptarshi Mohanta, BS-MS, IISER Pune
+Dr Ayush Lohiya, Assistant Professor, Public Health, Super Specialty Cancer Institute & Hospital, Lucknow
+Dr Priyamadhaba Behera, Assistant Professor , Department of Community Medicine and Family Medicine, AIIMS Bhubaneswar<br/>
+
+<i>All iCART collaborators participate in the team’s activities on a purely volunteer basis and in an individual capacity. 
+	Their views and opinions under iCART represent their personal views and not that of their institute or employer.</i>
+
+								</div>
+							</Card.Text>
+						</Card.Body>
+
 							</Card>
 							</div>
 						  </div>
