@@ -83,9 +83,9 @@ class App extends Component {
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
 									style = { backgroundColor: '#fdcbdd' };
-								} else if (posRateNumber < 5) {
+								} else if (posRateNumber <= 5) {
 									style = { backgroundColor: '#e1fae9' };
-								} else if (posRateNumber < 10 && posRateNumber > 5) {
+								} else if (posRateNumber <= 10 && posRateNumber > 5) {
 									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
@@ -101,9 +101,9 @@ class App extends Component {
 								let style;
 								if (params.data.ccfr > 10) {
 									style = { backgroundColor: '#fdcbdd' };
-								} else if (params.data.ccfr < 5) {
+								} else if (params.data.ccfr <= 5) {
 									style = { backgroundColor: '#e1fae9' };
-								} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
+								} else if (params.data.ccfr <= 10 && params.data.ccfr > 5) {
 									style = { backgroundColor: '#fafae1' };
 								}
 								return style;
@@ -196,9 +196,9 @@ class App extends Component {
 						const posRateNumber = parseFloat(params.data.posRate);
 						if (posRateNumber > 10) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-						} else if (posRateNumber < 5) {
+						} else if (posRateNumber <= 5) {
 							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-						} else if (posRateNumber < 10 && posRateNumber > 5) {
+						} else if (posRateNumber <= 10 && posRateNumber > 5) {
 							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;
@@ -214,9 +214,9 @@ class App extends Component {
 						let style;
 						if (params.data.ccfr > 10) {
 							style = { backgroundColor: '#fdcbdd', fontSize: "x-small" };
-						} else if (params.data.ccfr < 5) {
+						} else if (params.data.ccfr <= 5) {
 							style = { backgroundColor: '#e1fae9', fontSize: "x-small" };
-						} else if (params.data.ccfr < 10 && params.data.ccfr > 5) {
+						} else if (params.data.ccfr <= 10 && params.data.ccfr > 5) {
 							style = { backgroundColor: '#fafae1', fontSize: "x-small" };
 						}
 						return style;
