@@ -84,7 +84,7 @@ Dr Priyamadhaba Behera, Assistant Professor , Department of Community Medicine a
 <b>COVID-19 research from iCART:</b><br/>
 <a href="https://pubmed.ncbi.nlm.nih.gov/32528664/?from_single_result=SARS-CoV-2+epidemic+in+India%3A+epidemiological+features+and+in+silico+analysis+of+the+effect+of+interventions
 ">SARS-CoV-2 Epidemic in India: Epidemiological Features and in silico Analysis of the Effect of Interventions</a><br/>
-<a href="ttps://doi.org/10.1101/2020.05.13.20096826">Transmission dynamics of the COVID-19 epidemic in India and modelling optimal lockdown exit strategies</a>
+<a href="https://doi.org/10.1101/2020.05.13.20096826">Transmission dynamics of the COVID-19 epidemic in India and modelling optimal lockdown exit strategies</a>
 
 								</div>
 							</Card.Text>
