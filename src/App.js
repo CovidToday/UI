@@ -1271,7 +1271,7 @@ class App extends Component {
 		);
 
 		const positivityPopover = (
-			<Popover id="positivity-popover">
+			<Popover id="positivity-popover" style={{maxWidth: this.state.mobileView ? "200px":"276px"}}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Positivity Rate</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Percent of tests done per day that came back positive (7-day moving average). Lower positivity rate means better testing.
