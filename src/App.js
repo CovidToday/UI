@@ -1238,10 +1238,11 @@ class App extends Component {
 	render() {
 
 		const popoverFont = this.state.mobileView ? "smaller" : "1 rem";
+		const popoverMaxWidth = this.state.mobileView ? "216px" : "276px";
 
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
 		const rtPopover = (
-			<Popover id="rt-popover">
+			<Popover id="rt-popover" style={{maxWidth: popoverMaxWidth}}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Effective Reproduction Number (Rt)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Rt is the average number of people infected by a single case at a particular time during the outbreak.<br/>
@@ -1252,7 +1253,7 @@ class App extends Component {
 		);
 
 		const cfrPopover = (
-			<Popover id="cfr-popover">
+			<Popover id="cfr-popover" style={{maxWidth: popoverMaxWidth}}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing in general.
@@ -1262,7 +1263,7 @@ class App extends Component {
 		);
 
 		const mobilityPopover = (
-			<Popover id="mobility-popover">
+			<Popover id="mobility-popover" style={{maxWidth: popoverMaxWidth}}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Mobility Index</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					This indicates the % change in the movement of people at various places compared to January 2020.
@@ -1271,7 +1272,7 @@ class App extends Component {
 		);
 
 		const positivityPopover = (
-			<Popover id="positivity-popover" style={{maxWidth: this.state.mobileView ? "200px":"276px"}}>
+			<Popover id="positivity-popover" style={{maxWidth: popoverMaxWidth}}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Positivity Rate</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Percent of tests done per day that came back positive (7-day moving average). Lower positivity rate means better testing.
