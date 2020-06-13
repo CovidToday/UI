@@ -29,6 +29,34 @@ export default class Contribute extends Component {
 								</Card.Text>
 							</Card.Body>
 							<Card.Body>
+								<Card.Title className="top-text-title" style={headingText}><strong>Collaboration opportunities</strong></Card.Title>
+								<Card.Text className="top-text-body titillium">
+									<div style={normalText}><b>Anyone! Help us gather essential data from the ground-up. Contribute if you can collect any of the 
+									following data from your state:</b><br/>
+									Andaman and Nicobar: Daily cases and testing numbers<br/>
+									Telangana: Daily testing numbers<br/>
+									All states: Number of COVID Care Centres, Dedicated COVID Health Centres and Dedicated COVID Hospitals 
+									(hospital beds, ICU beds, ventilators- total and occupied)
+									<br/><br/>
+
+									<b>Public health experts, Epidemiologists, Journalists, Medicos! Help us write short periodical analyses of the numbers we present</b>
+									, exploring and breaking down the trends that lie within and what they mean for the COVID-19 response. Curate insightful analyses on 
+									our twitter handle or write on your own platform. <br/><br/>
+
+									<b>Software engineers, Data scientists! Build and fine-tune the technological backbone. </b>
+									The backend is open sourced on github. Find new issues or have your pick of the existing ones, and help build the code that 
+									crunches the numbers and oils the pipeline. We are planning on open sourcing the UI too, get in touch if you want to pitch in. 
+									<br/><br/>
+
+									<b>Public health experts, Data analysts, Epidemiologists, ML experts, all others! Build on the concept. </b>
+									Public health experts, Data analysts, Epidemiologists, ML experts, all others! Build on the concept.
+									<br/><br/>
+									
+									<b>Not on this list? Tell us how you can contribute. </b><br/><br/>
+									</div>
+								</Card.Text>
+							</Card.Body>
+							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Planned updates. Suggestions and contributions welcome.</strong></Card.Title>
 								<Card.Text className="titillium">
 									<div style={citationsText}>
@@ -37,6 +65,7 @@ export default class Contribute extends Component {
 									<li>Adding a third domain (Healthcare system): We are looking for statewise data sources for the number of total and
 									occupied hospital beds, ICU beds and ventilators. If your state is releasing this data, contact us and join the data
 									curation essential for monitoring the health care capacity and response of each state.</li>
+									<li>Making it easier for everyone to understand the indicators we present. </li>
 									<li>Expanding the dashboard for hot-spot districts (eg: Mumbai, Thane, Pune, Chennai, Ahmedabad, Indore, etc) and
 									metropolitan districts providing reliable data.</li>
 									<li>Improving upon current calculation methodology.</li>
