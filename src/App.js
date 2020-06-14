@@ -6,7 +6,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import { Line, Chart } from 'react-chartjs-2';
+import { Line, Chart, Bar } from 'react-chartjs-2';
 import { Container, Row, Col, Dropdown, Card, Button, Popover, OverlayTrigger, CardGroup, Accordion, ButtonToolbar } from 'react-bootstrap';
 import Header from "./images/header.png"
 import Footer from "./images/footer.jpg"
@@ -46,7 +46,7 @@ class App extends Component {
 					headerName: 'TRANSMISSION', headerTooltip: "These numbers indicate the rate and scale of spread of COVID19 in a state", children: [
 						{
 							headerName: "RT", field: "rt", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "One infectious person is further infecting this many people on average",
-							cellRenderer: 'rtRenderer', comparator: this.numberSort,  minWidth: 120, cellStyle: function (params) {
+							cellRenderer: 'rtRenderer', comparator: this.numberSort, minWidth: 120, cellStyle: function (params) {
 								let style;
 								let a = true;
 								params.data.rtOld.forEach(rt => {
@@ -125,6 +125,7 @@ class App extends Component {
 			nationalDataFromApi: [],
 			minRtDataPoint: 0,
 			maxRtDataPoint: 0,
+			maxCFRPoint: 0,
 			lockdownDates: ["25 March", "15 April", "04 May", "18 May", "08 June"],
 			lockdownChartText: ['Lockdown 1', 'Lockdown 2', 'Lockdown 3', 'Lockdown 4', 'Unlock 1'],
 			graphStartDate: '22 March',
@@ -132,6 +133,8 @@ class App extends Component {
 			cfrGraphData: { datasets: [{ data: [] }], labels: [] },
 			mobilityGraphData: { datasets: [{ data: [] }], lables: [] },
 			positivityRateGraphData: { datasets: [{ data: [] }], lables: [] },
+			dailyCasesGraphData: { datasets: [{ data: [] }], lables: [] },
+			dailyTestsGraphData: { datasets: [{ data: [] }], lables: [] },
 			selectedState: 'India',
 			selectedView: 'Home',
 			mobileView: false,
@@ -271,11 +274,13 @@ class App extends Component {
 			.then(response => {
 				this.setState({ positivityRateDataFromApi: response.data });
 				this.getPositivityRateGraphData(this.state.positivityRateDataFromApi.India);
+				this.getDailyCasesGraphData(this.state.positivityRateDataFromApi.India);
+				this.getDailyTestsGraphData(this.state.positivityRateDataFromApi.India);
 			});
-			
+
 		const lastUpdated = this.state.positivityRateDataFromApi.datetime;
 		const timestamp = lastUpdated ? lastUpdated.split(":", 2).join(":") : "NA";
-		this.setState({lastUpdatedTime: timestamp});
+		this.setState({ lastUpdatedTime: timestamp });
 
 		await axios.get('https://raw.githubusercontent.com/CovidToday/backend/master/testing-and-cfr/national.json')
 			.then(response => {
@@ -602,7 +607,7 @@ class App extends Component {
 		const cfrPointOld = cfrIndexInd > 0 ? (this.state.cfrDataFromApi["India"].cfr3_point[cfrIndexInd - 7]).toFixed(2) : "NA";
 
 		const posRateArrInd = this.state.positivityRateDataFromApi.India;
-		
+
 		const cumConfirmedIndIndex = posRateArrInd.cum_positive_cases.slice().reverse().findIndex(i => i !== "");
 		const cumConfirmedIndCount = posRateArrInd.cum_positive_cases.length - 1;
 		const resultIndex = cumConfirmedIndIndex >= 0 ? cumConfirmedIndCount - cumConfirmedIndIndex : cumConfirmedIndIndex;
@@ -644,6 +649,64 @@ class App extends Component {
 		this.setState({ pinnedTopRowData: pinnedData })
 	}
 
+	getDailyCasesGraphData = (dataFromApi) => {
+		if (dataFromApi) {
+			let data = {
+				datasets: [],
+				labels: []
+			};
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
+
+
+
+			// Main data
+			let mainData = [{
+				label: 'Daily Cases',
+				data: dataFromApi.daily_positive_cases.slice(dateIndex, dataFromApi.dates.length),
+				borderColor: '#004065',
+				radius: 1,
+			}, {
+				type: 'line',
+				label: 'Daily Cases Moving Average',
+				data: dataFromApi.daily_positive_cases_ma.slice(dateIndex, dataFromApi.dates.length),
+				borderColor: '#004065',
+				radius: 1,
+				fill: false
+			}];
+			data.datasets.push(...mainData);
+			this.setState({
+				dailyCasesGraphData: data,
+			});
+		}
+	}
+	getDailyTestsGraphData = (dataFromApi) => {
+		if (dataFromApi) {
+			let data = {
+				datasets: [],
+				labels: []
+			};
+			let dateIndex = dataFromApi.dates.indexOf(this.state.graphStartDate);
+			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
+			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
+
+
+
+			// Main data
+			let mainData = [{
+				label: 'Daily Tests',
+				data: dataFromApi.daily_tests.slice(dateIndex, dataFromApi.dates.length),
+				borderColor: '#004065',
+				radius: 1,
+				fill: false,
+			},];
+			data.datasets.push(...mainData);
+			this.setState({
+				dailyTestsGraphData: data,
+			});
+		}
+	}
 
 	getRtPointGraphData = (dataFromApi) => {
 		if (dataFromApi) {
@@ -658,7 +721,7 @@ class App extends Component {
 			// let maxRtDataPoint = Math.ceil(Math.max(...dataFromApi.rt_u95.slice(dateIndex, dataFromApi.dates.length)));
 			// maxRtDataPoint = Math.min(maxRtDataPoint,2.5);
 			let minRtDataPoint = Math.floor(Math.min(...dataFromApi.rt_l95.slice(dateIndex, dataFromApi.dates.length)));
-			minRtDataPoint = Math.min(minRtDataPoint,0.5);
+			minRtDataPoint = Math.min(minRtDataPoint, 0.5);
 
 			//Horizontal line
 			let horizontalLineData = [];
@@ -758,6 +821,10 @@ class App extends Component {
 			dateIndex = (dateIndex == -1) ? 0 : dateIndex;
 			data.labels = dataFromApi.dates.slice(dateIndex, dataFromApi.dates.length);
 
+			let maxCFRPoint = Math.ceil(Math.max(...dataFromApi.cfr3_point.slice(dateIndex, dataFromApi.dates.length)));
+			maxCFRPoint = Math.max(maxCFRPoint, 10);
+			maxCFRPoint = Math.min(maxCFRPoint, 20);
+
 			// Horizontal line
 			let horizontalLineData = [];
 			for (let i = 0; i < data.labels.length; i++) {
@@ -785,9 +852,7 @@ class App extends Component {
 				radius: 0,
 				hoverRadius: 0,
 			});
-			const cfrDataSet = dataFromApi.cfr3_point.map(d => {
-				return d;
-			});
+			const cfrDataSet = dataFromApi.cfr3_point.slice();
 
 			// Main data
 			let mainData = [{
@@ -800,6 +865,7 @@ class App extends Component {
 			data.datasets.push(...mainData);
 			this.setState({
 				cfrGraphData: data,
+				maxCFRPoint: maxCFRPoint
 			});
 		}
 	}
@@ -947,6 +1013,8 @@ class App extends Component {
 		this.getCfrGraphData(this.state.cfrDataFromApi[state]);
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[state]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[state]);
+		this.getDailyCasesGraphData(this.state.positivityRateDataFromApi[state]);
+		this.getDailyTestsGraphData(this.state.positivityRateDataFromApi[state]);
 		this.setState({ selectedState: state });
 	}
 
@@ -957,14 +1025,16 @@ class App extends Component {
 		this.getMobilityGraphData(this.state.mobilityDataFromApi[stateName]);
 		this.getPositivityRateGraphData(this.state.positivityRateDataFromApi[stateName]);
 		this.getCfrGraphData(this.state.cfrDataFromApi[stateName]);
+		this.getDailyCasesGraphData(this.state.positivityRateDataFromApi[stateName]);
+		this.getDailyTestsGraphData(this.state.positivityRateDataFromApi[stateName]);
 	}
 
 	DropdownRenderer = () => {
 		const fontSize = this.state.mobileView ? "x-small" : "inherit";
-		
+
 		return <div className="sub-header-row sticky-top">
 			{!this.state.mobileView && <span className="header-bar-text"> </span>}
-			<span className="header-bar-text" style={{fontSize: fontSize}}>Last Updated -{this.state.mobileView && <br/>} {this.state.lastUpdatedTime}</span>
+			<span className="header-bar-text" style={{ fontSize: fontSize }}>Last Updated -{this.state.mobileView && <br />} {this.state.lastUpdatedTime}</span>
 			<span className="header-bar-dropdown">
 				<Dropdown>
 					<Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-state">
@@ -980,11 +1050,139 @@ class App extends Component {
 				</Dropdown>
 			</span>
 			<span className="header-bar-text">
-				<img src={graphIcon} className="quicklink-icon" onClick={() => this.scrollToPlots()}/>
-				<span style={{marginRight: "15px"}}> </span>
-				<img src={tableIcon} className="quicklink-icon" onClick={() => this.scrollToTable()}/></span>
-				{!this.state.mobileView && <span className="header-bar-text"> </span>}
+				<img src={graphIcon} className="quicklink-icon" onClick={() => this.scrollToPlots()} />
+				<span style={{ marginRight: "15px" }}> </span>
+				<img src={tableIcon} className="quicklink-icon" onClick={() => this.scrollToTable()} /></span>
+			{!this.state.mobileView && <span className="header-bar-text"> </span>}
 		</div>
+	}
+
+	DailyCasesChartRender = () => {
+		const { dailyCasesGraphData, lockdownDates, lockdownChartText } = this.state;
+		return <Bar
+			data={dailyCasesGraphData}
+			height={300}
+			plugins={{
+				verticalLineAtIndex: lockdownDates,
+				lockdownChartText: lockdownChartText,
+			}}
+			options={{
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+					labels: {
+						boxWidth: 20,
+						fontFamily: 'Titillium Web',
+						// filter: function (item, chart) {
+						// 	if (item.text) {
+						// 		return !item.text.includes('fixed');
+						// 	}
+						// },
+					},
+					position: 'bottom',
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'index',
+					intersect: false,
+					animationDuration: 200,
+					onHover: function (event, chart) {
+					},
+				},
+				layout: {
+					padding: {
+						top: 21,
+					}
+				},
+				title: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+						},
+						ticks: {
+							type: 'time',
+							maxTicksLimit: 6,
+							autoSkip: true,
+							minRotation: 0,
+							maxRotation: 0.
+						},
+					}],
+				},
+			}}
+		/>
+	}
+
+	DailyTestsChartRender = () => {
+		const { dailyTestsGraphData, lockdownDates, lockdownChartText } = this.state;
+		return <Line
+			data={dailyTestsGraphData}
+			height={300}
+			plugins={{
+				verticalLineAtIndex: lockdownDates,
+				lockdownChartText: lockdownChartText,
+			}}
+			options={{
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+					labels: {
+						boxWidth: 20,
+						fontFamily: 'Titillium Web',
+						// filter: function (item, chart) {
+						// 	if (item.text) {
+						// 		return !item.text.includes('fixed');
+						// 	}
+						// },
+					},
+					position: 'bottom',
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'index',
+					intersect: false,
+					animationDuration: 200,
+					onHover: function (event, chart) {
+					},
+				},
+				layout: {
+					padding: {
+						top: 21,
+					}
+				},
+				title: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+						},
+						ticks: {
+							type: 'time',
+							maxTicksLimit: 6,
+							autoSkip: true,
+							minRotation: 0,
+							maxRotation: 0.
+						},
+					}],
+				},
+			}}
+		/>
 	}
 
 	RtChartRender = () => {
@@ -1067,7 +1265,7 @@ class App extends Component {
 	}
 
 	CfrChartRender = () => {
-		const { cfrGraphData, lockdownDates, lockdownChartText } = this.state;
+		const { cfrGraphData, lockdownDates, lockdownChartText, maxCFRPoint } = this.state;
 		return <Line
 			data={cfrGraphData}
 			height={300}
@@ -1116,6 +1314,9 @@ class App extends Component {
 				scales: {
 					yAxes: [{
 						display: true,
+						ticks: {
+							max: maxCFRPoint,
+						},
 					}],
 					xAxes: [{
 						gridLines: {
@@ -1241,29 +1442,47 @@ class App extends Component {
 		const popoverMaxWidth = this.state.mobileView ? "216px" : "276px";
 
 		const { positivityRateGraphData, selectedView, mobileView } = this.state;
+		const dailyCasesPopover = (
+			<Popover id="dailycases-popover" style={{ maxWidth: popoverMaxWidth }}>
+				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Daily Positive Cases</Popover.Title>
+				<Popover.Content style={{ fontSize: popoverFont }}>
+					Daily Positive cases
+				</Popover.Content>
+			</Popover>
+		);
+
+		const dailyTestsPopover = (
+			<Popover id="dailytests-popover" style={{ maxWidth: popoverMaxWidth }}>
+				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Daily Tests</Popover.Title>
+				<Popover.Content style={{ fontSize: popoverFont }}>
+					Daily Tests
+				</Popover.Content>
+			</Popover>
+		);
+
 		const rtPopover = (
-			<Popover id="rt-popover" style={{maxWidth: popoverMaxWidth}}>
+			<Popover id="rt-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Effective Reproduction Number (Rt)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Rt is the average number of people infected by a single case at a particular time during the outbreak.<br/>
-					Green line at Rt=1 below which epidemic is controlled.<br/>
+					Rt is the average number of people infected by a single case at a particular time during the outbreak.<br />
+					Green line at Rt=1 below which epidemic is controlled.<br />
 					Dark band and light band show 50% and 95% confidence intervals respectively.
 				</Popover.Content>
 			</Popover>
 		);
 
 		const cfrPopover = (
-			<Popover id="cfr-popover" style={{maxWidth: popoverMaxWidth}}>
+			<Popover id="cfr-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Corrected Case Fatality Rate (CFR)</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away. Lower corrected CFR means better testing in general.
-					<br/>The corrected CFR is naturally high early in the epidemic and indicates low testing at that time. <br/>Interpret with caution where healthcare capacity is overwhelmed.
+					<br />The corrected CFR is naturally high early in the epidemic and indicates low testing at that time. <br />Interpret with caution where healthcare capacity is overwhelmed.
 				</Popover.Content>
 			</Popover>
 		);
 
 		const mobilityPopover = (
-			<Popover id="mobility-popover" style={{maxWidth: popoverMaxWidth}}>
+			<Popover id="mobility-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Mobility Index</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					This indicates the % change in the movement of people at various places compared to January 2020.
@@ -1272,7 +1491,7 @@ class App extends Component {
 		);
 
 		const positivityPopover = (
-			<Popover id="positivity-popover" style={{maxWidth: popoverMaxWidth}}>
+			<Popover id="positivity-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Positivity Rate</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
 					Percent of tests done per day that came back positive (7-day moving average). Lower positivity rate means better testing.
@@ -1283,7 +1502,7 @@ class App extends Component {
 		const fontSizeDynamic = mobileView ? "smaller" : "larger";
 		const fontSizeDynamicSH = mobileView ? "small" : "larger";
 		const fontSizeDynamicHeading = mobileView ? "medium" : "x-large";
-		const tabFontSize = window.innerWidth > '1058' ? "larger" : window.innerWidth > '1028' ? "large" : window.innerWidth > '1000' ? "medium" : 
+		const tabFontSize = window.innerWidth > '1058' ? "larger" : window.innerWidth > '1028' ? "large" : window.innerWidth > '1000' ? "medium" :
 			window.innerWidth > '500' ? "large" : "small";
 		const licenceWidth = mobileView ? "45px" : "90px";
 		const licenceFont = mobileView ? "x-small" : "small";
@@ -1323,36 +1542,36 @@ class App extends Component {
 
 						<div className="home-text">
 							<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicHeading }}>Tracking India's Progress Through The Coronavirus Pandemic, Today</div>
-								<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>Understanding Your State's Response Through Live Outbreak Indicators</div>
-								<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>How fast is the virus spreading in my state? How is the movement of people changing with lifting of restrictions?
-								Is my state testing enough people to reopen safely? How good is the healthcare response of my state? Knowledge is power, and these are some questions we want to help answer
-								for you. This dashboard streamlines and analyses raw data (number of daily cases, number of tests done etc) to calculate and visualise outbreak indicators
-								for each state in realtime. Lockdown lifting should ideally be based on monitoring these indicators and adapting accordingly.</div><br/>
+							<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>Understanding Your State's Response Through Live Outbreak Indicators</div>
+							<div className="disclaimer-top" style={{ fontSize: fontSizeDynamic }}>How fast is the virus spreading in my state? How is the movement of people changing with lifting of restrictions?
+							Is my state testing enough people to reopen safely? How good is the healthcare response of my state? Knowledge is power, and these are some questions we want to help answer
+							for you. This dashboard streamlines and analyses raw data (number of daily cases, number of tests done etc) to calculate and visualise outbreak indicators
+								for each state in realtime. Lockdown lifting should ideally be based on monitoring these indicators and adapting accordingly.</div><br />
 							<Accordion>
-							  <Card>
-							    <Card.Header>
-								<div className="top-text-title" style={{ fontSize: fontSizeDynamicHeading, textAlign: "center", fontWeight: "bolder" }}>
-								Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens</div>
-								<span className="disclaimer-top" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>We do the hard work for you, so you can focus on what the data means.</span>
-							      <Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
-							        <span style={{ fontSize: fontSizeDynamic }}>How?</span>
-							      </Accordion.Toggle>
-							    </Card.Header>
-							    <Accordion.Collapse eventKey="1">
-							      <Card.Body>
+								<Card>
+									<Card.Header>
+										<div className="top-text-title" style={{ fontSize: fontSizeDynamicHeading, textAlign: "center", fontWeight: "bolder" }}>
+											Reliable Scientific Data for Policymakers, Researchers, Journalists and Citizens</div>
+										<span className="disclaimer-top" style={{ fontSize: fontSizeDynamicSH, fontWeight: "bolder" }}>We do the hard work for you, so you can focus on what the data means.</span>
+										<Accordion.Toggle className="accordion-button" variant="link" eventKey="1">
+											<span style={{ fontSize: fontSizeDynamic }}>How?</span>
+										</Accordion.Toggle>
+									</Card.Header>
+									<Accordion.Collapse eventKey="1">
+										<Card.Body>
 
-									<Card.Text className="top-text-body">
-										<div style={{ fontSize: fontSizeDynamic }}>
-											<ul>
-											<li>All data made available for running your own analyses </li>
-												<li>Cleaning and integrating data from multiple sources </li>
-												<li>Analysing the data using robust statistical methods </li>
-												<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
-												<li>Using latest scientific evidence and advisories to guide interpretation </li>
-												<li>Updated daily for all states of India (where data is available) </li>
-												<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
-											</ul></div>
-									</Card.Text>
+											<Card.Text className="top-text-body">
+												<div style={{ fontSize: fontSizeDynamic }}>
+													<ul>
+														<li>All data made available for running your own analyses </li>
+														<li>Cleaning and integrating data from multiple sources </li>
+														<li>Analysing the data using robust statistical methods </li>
+														<li>Correcting for known biases in estimation to give a truer picture the outbreak </li>
+														<li>Using latest scientific evidence and advisories to guide interpretation </li>
+														<li>Updated daily for all states of India (where data is available) </li>
+														<li>Enabling understanding of outbreak indicators through easy explanation and data visualisation</li>
+													</ul></div>
+											</Card.Text>
 										</Card.Body>
 									</Accordion.Collapse>
 								</Card>
@@ -1363,7 +1582,7 @@ class App extends Component {
 						</div>
 
 						<this.DropdownRenderer />
-						<div ref={this.plotsRef} style={{textDecorationColor: "white", height: "5px"}}>.</div>
+						<div ref={this.plotsRef} style={{ textDecorationColor: "white", height: "5px" }}>.</div>
 						{!mobileView && <div className="plot-headers">
 							<span className="span-plot-title"><hr class="hr-text" data-content="How fast is the spread?" /></span>
 							<span className="span-plot-title"><hr class="hr-text" data-content="Are we testing enough?" /></span>
@@ -1372,10 +1591,26 @@ class App extends Component {
 						<Container>
 							<Row>
 								<Col lg="6">
-									{/* RT Graph */}
 									{mobileView && <div className="plot-headers">
 										<span className="span-plot-title-mobile"><hr class="hr-text" data-content="How fast is the spread?" /></span>
 									</div>}
+									{/* Daily Cases Graph */}
+									<Row>
+										<Col>
+											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+												<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Daily Positive Cases
+												<OverlayTrigger placement="left" overlay={dailyCasesPopover}>
+														<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+													</OverlayTrigger>
+												</h5>
+												<div className="rtgraph">
+													<this.DailyCasesChartRender />
+												</div>
+											</Card>
+										</Col>
+									</Row>
+									<div className="mt-2"></div>
+									{/* RT Graph */}
 									<Row>
 										<Col>
 											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
@@ -1409,10 +1644,26 @@ class App extends Component {
 								</Col>
 								<Col>
 									{mobileView && <div className="mt-2"></div>}
-									{/* Pos Rate Graph */}
 									{mobileView && <div className="plot-headers">
 										<span className="span-plot-title-mobile"><hr class="hr-text" data-content="Are we testing enough?" /></span>
 									</div>}
+									{/* Daily Tests */}
+									<Row>
+										<Col>
+											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
+												<h5 className="mb-0 mt-2 plot-heading font-weight-bold" style={{ fontSize: fontSizeDynamic }}>Daily Tests
+												<OverlayTrigger placement="left" overlay={dailyTestsPopover}>
+														<img src={informationIcon} className="ml-1 information-icon" alt="information png" />
+													</OverlayTrigger>
+												</h5>
+												<div className="rtgraph">
+													<this.DailyTestsChartRender />
+												</div>
+											</Card>
+										</Col>
+									</Row>
+									<div className="mt-2"></div>
+									{/* Pos Rate Graph */}
 									<Row>
 										<Col>
 											<Card className={mobileView ? "shadow" : "plots-card shadow"}>
@@ -1541,7 +1792,7 @@ class App extends Component {
 										Understand what the parameters mean
 										<a className="link-text" style={{ color: "blue" }} onClick={this.handleDivScroll}> here</a>.<br />
 										Raw data sources and detailed method of calculation
-										<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0,0))}> here</a>.
+										<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0, 0))}> here</a>.
 									</div>
 										</Card.Body>
 									</Accordion.Collapse>
@@ -1635,27 +1886,27 @@ class App extends Component {
 						</CardGroup>
 					</div>
 					<div className="disclaimer" style={{ fontSize: fontSizeDynamic }}>The raw data sources and detailed method of calculation is provided in the
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0,0))}> Methods</a> page.
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Methods" }, window.scrollTo(0, 0))}> Methods</a> page.
 						Caution should be used in interpretation as the transmission and testing indicators are not entirely independent, and one may affect the other.
 						We use best practices in all calculations, however some inadvertent errors may creep in despite our efforts.
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0,0))}> Report an error.</a></div>
-						
-						<div className="for-the-people" style={{textAlign: "center", fontSize: fontSizeDynamic}}>
-							<a className="titillium" href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br/>
-							<a className="titillium" href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br/>
-							<a className="titillium" href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br/>
-							<a className="titillium" href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
-						</div>
-						
-					<div class="wrapper"><div class="divider div-transparent" style={{marginTop: "10px"}}></div></div>
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0, 0))}> Report an error.</a></div>
+
+					<div className="for-the-people" style={{ textAlign: "center", fontSize: fontSizeDynamic }}>
+						<a className="titillium" href="https://github.com/CovidToday/indicator-dataset" target="_blank">Get the dataset (csv and json)</a><br />
+						<a className="titillium" href="https://twitter.com/icart_india" target="_blank">Follow us on twitter</a><br />
+						<a className="titillium" href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">Contribute or give us feedback</a><br />
+						<a className="titillium" href=" covidtodayindia@gmail.com" target="_blank">Get in touch with us</a>
+					</div>
+
+					<div class="wrapper"><div class="divider div-transparent" style={{ marginTop: "10px" }}></div></div>
 					<div className="for-the-people">
 						<div className="for-the-people-heading" style={{ fontSize: fontSizeDynamic }}>For The People, By The People</div>
 						<div className="for-the-people-text" style={{ fontSize: fontSizeDynamic }}>COVID TODAY is an initiative by iCART, a multidisciplinary volunteer team of passionate doctors,
 						researchers, coders, and public health experts from institutes across India.
-						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0,0))}> Learn more about the team</a>. This pandemic demands everyone to
+						<a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0, 0))}> Learn more about the team</a>. This pandemic demands everyone to
 						come together so that we can gradually move towards a new normal in the coming months while ensuring those who are vulnerable are protected.
 						We envisage this platform to grow with your contribution and we welcome anyone who can contribute meaningfully to the project. Head over to
-						the <a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0,0))}>Contribute </a>page to see how you can pitch in.
+						the <a className="link-text" style={{ color: "blue" }} onClick={() => this.setState({ selectedView: "Contribute" }, window.scrollTo(0, 0))}>Contribute </a>page to see how you can pitch in.
 						</div>
 					</div>
 				</>}
@@ -1663,10 +1914,10 @@ class App extends Component {
 				{selectedView === "Contribute" && <div className="App"><Contribute /></div>}
 				{selectedView === "Team" && <div className="App"><About /></div>}
 				<div className="footer-pic-container">
-					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0,0))}/>
+					<img src={Footer} className="footer-pic" onClick={() => this.setState({ selectedView: "Team" }, window.scrollTo(0, 0))} />
 				</div>
-				<div style={{marginTop: "30px", display: "inline-block", textAlign: "end", width: "100%", fontSize: licenceFont}}>
-					<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style={{borderWidth :0, width: licenceWidth}} src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
+				<div style={{ marginTop: "30px", display: "inline-block", textAlign: "end", width: "100%", fontSize: licenceFont }}>
+					<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style={{ borderWidth: 0, width: licenceWidth }} src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
 				</div>
 			</div>
 		);
