@@ -697,7 +697,8 @@ class App extends Component {
 			let mainData = [{
 				label: 'Daily Tests',
 				data: dataFromApi.daily_tests.slice(dateIndex, dataFromApi.dates.length),
-				borderColor: '#004065',
+				// borderColor: '#004065',
+				backgroundColor: '#ffaa52',
 				radius: 1,
 				fill: false,
 			},];
@@ -1084,6 +1085,17 @@ class App extends Component {
 				tooltips: {
 					mode: 'index',
 					intersect: false,
+					callbacks: {
+						label: function (tooltipItem, data) {
+							var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+							if (label) {
+								label += ': ';
+							}
+							label += Math.trunc(tooltipItem.yLabel);
+							return label;
+						}
+					}
 				},
 				hover: {
 					mode: 'index',
@@ -1123,7 +1135,7 @@ class App extends Component {
 
 	DailyTestsChartRender = () => {
 		const { dailyTestsGraphData, lockdownDates, lockdownChartText } = this.state;
-		return <Line
+		return <Bar
 			data={dailyTestsGraphData}
 			height={300}
 			plugins={{
