@@ -698,7 +698,7 @@ class App extends Component {
 				label: 'Daily Tests',
 				data: dataFromApi.daily_tests.slice(dateIndex, dataFromApi.dates.length),
 				// borderColor: '#004065',
-				backgroundColor: '#ffaa52',
+				backgroundColor: 'rgba(225, 105, 126,0.4)',
 				radius: 1,
 				fill: false,
 			},];
