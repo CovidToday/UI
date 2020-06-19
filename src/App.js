@@ -1458,7 +1458,7 @@ class App extends Component {
 			<Popover id="dailycases-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Daily Positive Cases</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Daily Positive cases
+					The solid line represents the 7-day moving average of daily new COVID cases.
 				</Popover.Content>
 			</Popover>
 		);
@@ -1467,7 +1467,7 @@ class App extends Component {
 			<Popover id="dailytests-popover" style={{ maxWidth: popoverMaxWidth }}>
 				<Popover.Title as="h3" style={{ fontSize: popoverFont }}>Daily Tests</Popover.Title>
 				<Popover.Content style={{ fontSize: popoverFont }}>
-					Daily Tests
+					The number of tests done daily.
 				</Popover.Content>
 			</Popover>
 		);
