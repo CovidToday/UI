@@ -186,11 +186,10 @@ export default class Methods extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Positivity Rate (7-day moving average of daily positivity rate)</strong></Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in a day divided by the number of tests done on that day,
-									multiplied by 100. We then take the 7-day moving average of this number for our results. This metric shows us the recent
-									trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with
+									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in the last 7 days divided by the number of tests done during those 7 days,
+									multiplied by 100. This metric shows us the recent trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with
 									the Cumulative Positivity Rate tells us how the state is doing at testing recently as compared to its baseline performance
-									since the epidemic started.
+									since the epidemic started. It is generally accepted that a region with good testing levels will have a daily positivity rate of less than 5% for atleast 14 days (according to WHO).  
 									</div><br/>
 								</Card.Text>
 							</Card.Body>
