@@ -1,6 +1,6 @@
 {
   "homepage": "http://covidtoday.github.io/master",
-  "name": "dashboard",
+  "name": "covitoday",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
