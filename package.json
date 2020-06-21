@@ -1,6 +1,6 @@
 {
   "homepage": "http://covidtoday.in",
-  "name": "covitoday",
+  "name": "dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
