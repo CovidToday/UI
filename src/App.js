@@ -39,7 +39,7 @@ class App extends Component {
 			columnDefs: [
 				{
 					headerName: '', children: [
-						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true, maxWidth: "170" }
+						{ headerName: "STATES", field: "state", sortable: true, flex: 2, suppressMovable: true, maxWidth: "170", filter: 'agTextColumnFilter' }
 					]
 				},
 				{
@@ -66,11 +66,11 @@ class App extends Component {
 						},
 						{
 							headerName: "CUMULATIVE CASES", field: "cumCases", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
-							cellRenderer: 'cumCasesRenderer', headerTooltip: "Total number of COVID+ cases detected till date"
+							cellRenderer: 'cumCasesRenderer', filter: 'agNumberColumnFilter', headerTooltip: "Total number of COVID+ cases detected till date"
 						},
 						{
 							headerName: "DAILY CASES", field: "dailyCases", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
-							cellRenderer: 'casesRenderer', comparator: this.numberSort
+							cellRenderer: 'casesRenderer', filter: 'agNumberColumnFilter', comparator: this.numberSort
 						}
 					]
 				},
@@ -78,7 +78,7 @@ class App extends Component {
 					headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 						{
 							headerName: "POSITIVITY RATE(%)", field: "posRate", sortable: true, flex: 1, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
-							cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
+							cellRenderer: 'posRateRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: function (params) {
 								let style;
 								const posRateNumber = parseFloat(params.data.posRate);
 								if (posRateNumber > 10) {
@@ -93,10 +93,10 @@ class App extends Component {
 						},
 						{
 							headerName: "CUMULATIVE POSITIVITY RATE(%)", field: "cumPosRate", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
-							cellRenderer: 'cumPosRateRenderer', headerTooltip: "Percent of tests done till date that came back positive"
+							cellRenderer: 'cumPosRateRenderer', filter: 'agNumberColumnFilter', headerTooltip: "Percent of tests done till date that came back positive"
 						},
 						{
-							headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, comparator: this.numberSort,
+							headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", sortable: true, flex: 1, suppressMovable: true, filter: 'agNumberColumnFilter', comparator: this.numberSort,
 							cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 								let style;
 								if (params.data.ccfr > 10) {
@@ -110,7 +110,7 @@ class App extends Component {
 							}
 						},
 						{
-							headerName: "TESTS PER MILLION", field: "testsPerMil", sortable: true, flex: 1, suppressMovable: true,
+							headerName: "TESTS PER MILLION", field: "testsPerMil", filter: 'agNumberColumnFilter', sortable: true, flex: 1, suppressMovable: true,
 							cellRenderer: 'TPMRenderer', comparator: this.numberSort, headerTooltip: "Number of people tested out of every 1 million people in the state"
 						}
 					]
@@ -154,7 +154,7 @@ class App extends Component {
 	columnDefMobile = [
 		{
 			headerName: '', children: [
-				{ headerName: "STATES", field: "state", sortable: true, suppressMovable: true }
+				{ headerName: "STATES", field: "state", sortable: true, suppressMovable: true, filter: 'agTextColumnFilter' }
 			]
 		},
 		{
@@ -182,11 +182,11 @@ class App extends Component {
 				},
 				{
 					headerName: "CUMULATIVE CASES", field: "cumCases", width: 100, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
-					cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
 				},
 				{
 					headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
-					cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'casesRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
 				}
 			]
 		},
@@ -194,7 +194,7 @@ class App extends Component {
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 				{
 					headerName: "POSITIVITY RATE(%)", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
-					cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
+					cellRenderer: 'posRateRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: function (params) {
 						let style;
 						const posRateNumber = parseFloat(params.data.posRate);
 						if (posRateNumber > 10) {
@@ -209,10 +209,10 @@ class App extends Component {
 				},
 				{
 					headerName: "CUMULATIVE POSITIVITY RATE(%)", field: "cumPosRate", width: 100, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
-					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, filter: 'agNumberColumnFilter', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				},
 				{
-					headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", width: 100, sortable: true, suppressMovable: true, comparator: this.numberSort,
+					headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", width: 100, sortable: true, suppressMovable: true, filter: 'agNumberColumnFilter', comparator: this.numberSort,
 					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
@@ -227,7 +227,7 @@ class App extends Component {
 				},
 				{
 					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
-					cellRenderer: 'TPMRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'TPMRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
 				}
 			]
 		}
