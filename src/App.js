@@ -154,7 +154,7 @@ class App extends Component {
 	columnDefMobile = [
 		{
 			headerName: '', children: [
-				{ headerName: "STATES", field: "state", sortable: true, suppressMovable: true, filter: 'agTextColumnFilter' }
+				{ headerName: "STATES", field: "state", sortable: true, suppressMovable: true }
 			]
 		},
 		{
@@ -182,11 +182,11 @@ class App extends Component {
 				},
 				{
 					headerName: "CUMULATIVE CASES", field: "cumCases", width: 100, sortable: true, suppressMovable: true, headerTooltip: "Total number of COVID+ cases detected till date",
-					cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'cumCasesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				},
 				{
 					headerName: "DAILY CASES", field: "dailyCases", width: 80, sortable: true, suppressMovable: true, headerTooltip: "Number of COVID+ cases detected per day(averaged over last 7 days)",
-					cellRenderer: 'casesRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'casesRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				}
 			]
 		},
@@ -194,7 +194,7 @@ class App extends Component {
 			headerName: 'TESTING', headerTooltip: "These numbers indicate the amount of testing being done in a state", children: [
 				{
 					headerName: "POSITIVITY RATE(%)", field: "posRate", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Percent of tests done per day that came back positive (averaged over last 7 days). Indicates RECENT trend",
-					cellRenderer: 'posRateRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: function (params) {
+					cellRenderer: 'posRateRenderer', comparator: this.numberSort, cellStyle: function (params) {
 						let style;
 						const posRateNumber = parseFloat(params.data.posRate);
 						if (posRateNumber > 10) {
@@ -209,10 +209,10 @@ class App extends Component {
 				},
 				{
 					headerName: "CUMULATIVE POSITIVITY RATE(%)", field: "cumPosRate", width: 100, sortable: true, headerTooltip: "Percent of tests done till date that came back positive",
-					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, filter: 'agNumberColumnFilter', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'cumPosRateRenderer', suppressMovable: true, comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				},
 				{
-					headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", width: 100, sortable: true, suppressMovable: true, filter: 'agNumberColumnFilter', comparator: this.numberSort,
+					headerName: "CORRECTED CASE FATALITY RATE(%)", field: "ccfr", width: 100, sortable: true, suppressMovable: true, comparator: this.numberSort,
 					cellRenderer: 'cfrRenderer', headerTooltip: "Out of every 100 COVID+ cases whose outcome is expected to be known, this many have passed away", cellStyle: function (params) {
 						let style;
 						if (params.data.ccfr > 10) {
@@ -227,7 +227,7 @@ class App extends Component {
 				},
 				{
 					headerName: "TESTS PER MILLION", field: "testsPerMil", width: 90, sortable: true, suppressMovable: true, headerTooltip: "Number of people tested out of every 1 million people in the state",
-					cellRenderer: 'TPMRenderer', comparator: this.numberSort, filter: 'agNumberColumnFilter', cellStyle: { fontSize: "x-small" }
+					cellRenderer: 'TPMRenderer', comparator: this.numberSort, cellStyle: { fontSize: "x-small" }
 				}
 			]
 		}
@@ -643,7 +643,7 @@ class App extends Component {
 		pinnedData.push({
 			key: "IN", state: "India", rt: rtDataInd, cumCases: cumCasesInd, dailyCases: casesMaInd, posRate: PosRateMaInd, cumPosRate: cumulativePosRateInd,
 			ccfr: cfrPointInd, rtCurrent: rtPointInd, rtOld: rtToCompareInd, rtDate: rtDate, cfrDate: cfrDate, cfrOld: cfrPointOld, dailyCasesOld: casesMaIndOld,
-			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPateRDate: cumPRDateInd,
+			posRateOld: PosRateMaIndOld, cumCasesDate: cumCasesIndDate, maCasesDate: maCasesIndDate, posRateDate: posRateDateInd, cumPRateDate: cumPRDateInd,
 			testsPerMil: tpmInd, tpmDate: tpmIndDate
 		})
 		this.setState({ pinnedTopRowData: pinnedData })
