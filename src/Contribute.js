@@ -19,9 +19,10 @@ export default class Contribute extends Component {
 								<Card.Title className="top-text-title" style={headingText}>{<div><strong>Your Feedback is Valuable. Suggest an Improvement or Addition.</strong><br/>
 									Or Pitch In and Become an Active Contributor. </div>}</Card.Title>
 								<Card.Text className="top-text-body">
-									<div style={normalText}>Report a bug, suggest an improvement, ask a question, or join as an active contributor-
-									<a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">here</a>. <br/> All contributors will be recognised as part of the Active Contributor
-									Team on the About Us page.<br/><br/>
+									<div style={normalText}>To report a bug, suggest an improvement, ask a question, or join as an active contributor- <a href="https://forms.gle/HDCDVYApfRi319k58" target="_blank">fill this form.</a>.
+                  <br/>If you are looking to contribute on GitHub- visit the open source Covid Today project <a href="https://github.com/CovidToday/backend">here.</a>
+                  <br/>All contributors will be recognised as part of the Active Contributor Team on the About Us page.
+                  <br/><br/>
 										You can also contact us at<br/>
 										Email: covidtodayindia@gmail.com<br/>
 										Twitter: <a href="https://twitter.com/icart_india" target="_blank">@icart_india</a><br/>
@@ -33,10 +34,8 @@ export default class Contribute extends Component {
 								<Card.Text className="top-text-body titillium">
 									<div style={normalText}><b>Anyone! Help us gather essential data from the ground-up. Contribute if you can collect any of the
 									following data from your state:</b><br/>
-									Andaman and Nicobar: Daily cases and testing numbers<br/>
-									Telangana: Daily testing numbers<br/>
 									All states: Number of COVID Care Centres, Dedicated COVID Health Centres and Dedicated COVID Hospitals
-									(hospital beds, ICU beds, ventilators- total and occupied)
+									(hospital beds, ICU beds, ventilators- total and occupied), Number of quarantined
 									<br/><br/>
 
 									<b>Public health experts, Epidemiologists, Journalists, Medicos! Help us write short periodical analyses of the numbers we present</b>
@@ -60,7 +59,7 @@ export default class Contribute extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Planned updates. Suggestions and contributions welcome.</strong></Card.Title>
 								<Card.Text className="titillium">
-									<div style={citationsText}>
+									<div style={citationsText}>All issues listed in the Github repo <a href="https://github.com/CovidToday/backend/issues" target="_blank">here.</a><br/>
 									<ol>
 									<li>Adding more indicators for Transmission and Testing domains. </li>
 									<li>Adding a third domain (Healthcare system): We are looking for statewise data sources for the number of total and

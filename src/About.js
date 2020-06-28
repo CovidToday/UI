@@ -49,10 +49,48 @@ export default class About extends Component {
 								</Card.Text>
 							</Card.Body>
 
+							<Card.Body>
+								<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
+								<Card.Text className="titillium">
+									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
+									</div>
+								</Card.Text>
+							</Card.Body>
+
+				<Card.Body>
+					<Card.Title className="top-text-title" style={headingText}><div><strong>Public Health Expert Panel</strong></div></Card.Title>
+					<Card.Text className="top-text-body">
+						<div style={normalText}>
+							<b>Dr Habib Hasan Farooqui
+							<br/>Faculty at Indian Institute of Public Health Delhi, Public Health Foundation of India (PHFI)</b>
+							<br/>He is currently serving as member of Vaccine Centre at London School of Hygiene and Tropical Medicine,
+							BactiVac Network at University of Birmingham, Surveillance and Epidemiology of Drug Resistant
+							Infections (SEDRIC) Consortium at Wellcome Trust, and is the lead faculty on Pharmaceutical
+							Economics and Infectious Disease Epidemiology at Indian Institute of Public Health – Delhi.
+							He has received training as Post Doctoral Fellow (Economic Evaluation) at the London School
+							of Hygiene and Tropical Medicine.<a href="www.phfi.org/member/habib-hasan-farooqui/"> Know more.</a>
+							<br/><br/>
+							<b>Dr Archisman Mohapatra
+							<br/>Executive Director at GRID Council (Generating Research Insights for Development)</b>
+							<br/>An epidemiologist and social scientist, Dr Mohapatra, is currently coordinating a Pan-India network
+							of 85 public health experts (GRID COVID-19 Study Group). Dr Mohapatra has been intensely involved in
+							several research projects that have translated into national policy (e.g., RBSK, PSBI guidelines,
+							National Research Priority Setting Exercise).<a href="https://www.linkedin.com/in/archisman-mohapatra-40a45529/"> Know more.</a>
+							<br/><br/>
+							<b>Dr Hemant Deepak Shewade
+							<br/>Senior Operational Research Fellow, Center for Operational Research, International Union Against Tuberculosis and Lung Disease (The Union)</b>
+							<br/>A community physician by training, his current work focuses on conducting and building capacity for
+							operational research in low and middle income countries. He is involved as a senior mentor in the
+							Structured Operational Research Training IniTiative (SORT IT).<a href="https://www.researchgate.net/profile/Hemant_Shewade2"> Know more.</a>
+						</div>
+					</Card.Text>
+				</Card.Body>
+
 									<Card.Body>
 										<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
 										<Card.Text className="titillium">
-											<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
+											<div style={normalAlignedText}>Join hands with us in this effort. Join as an active contributor <a href="https://forms.gle/HDCDVYApfRi319k58">here.</a><br/>
+												You can also visit the project's <a href="https://github.com/CovidToday/backend">GitHub</a> (open-sourced) and start contributing right away.
 											</div>
 										</Card.Text>
 									</Card.Body>
@@ -74,6 +112,8 @@ Dr Mohak Gupta, Intern Doctor, MBBS, AIIMS Delhi<br/>
 Aditi Rao, MBBS student, AIIMS Delhi<br/>
 Dev Balaji, M.Tech Bioengineering and Medical Nanotechnology, Former researcher at Harvard Medical School and IISc Bangalore<br/>
 Archisman Mazumder, MBBS student, AIIMS Delhi<br/>
+Mehak Arora, MBBS student, AIIMS Delhi<br/>
+Manraj Singh Sra, MBBS student, AIIMS Delhi<br/>
 Saptarshi Mohanta, BS-MS, IISER Pune<br/>
 Dr Ayush Lohiya, Assistant Professor, Public Health, Super Specialty Cancer Institute & Hospital, Lucknow<br/>
 Dr Priyamadhaba Behera, Assistant Professor , Department of Community Medicine and Family Medicine, AIIMS Bhubaneswar<br/><br/>
