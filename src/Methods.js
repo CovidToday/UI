@@ -19,6 +19,17 @@ export default class Methods extends Component {
 		</div>
 		<div className={layout}>
 							<Card>
+              <Card.Body>
+                <Card.Title className="top-text-title" style={headingText}><strong>The Code That Powers Covid Today</strong></Card.Title>
+                <Card.Text className="top-text-body">
+                  <div style={citationsText}>
+                  Our code extracts, cleans and analyses the data to calculate outbreak indicators for all states and
+                  creates clean and reliable datasets for your use. The code is open sourced on Github: <a href="https://github.com/CovidToday/backend" target="_blank">Covid Today/Backend repository</a>
+                  and is open to contribution.
+                  </div>
+                </Card.Text>
+              </Card.Body>
+
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Data Sources</strong></Card.Title>
 								<Card.Text className="top-text-body">
@@ -189,7 +200,7 @@ export default class Methods extends Component {
 									<div style={normalText}>It is calculated as the number of new COVID+ cases detected in the last 7 days divided by the number of tests done during those 7 days,
 									multiplied by 100. This metric shows us the recent trend (last 1 week) of testing adequacy with respect to the local size of epidemic. Further, comparing this metric with
 									the Cumulative Positivity Rate tells us how the state is doing at testing recently as compared to its baseline performance
-									since the epidemic started. It is generally accepted that a region with good testing levels will have a daily positivity rate of less than 5% for atleast 14 days (according to WHO).  
+									since the epidemic started. It is generally accepted that a region with good testing levels will have a daily positivity rate of less than 5% for atleast 14 days (according to WHO).
 									</div><br/>
 								</Card.Text>
 							</Card.Body>
