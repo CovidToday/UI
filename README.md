@@ -52,32 +52,20 @@ Number of COVID Care Centres, Dedicated COVID Health Centres and Dedicated COVID
 
 **Not on this list? Tell us how you can contribute.**
 
+## Setup
+``` x```
+
 ## How do I start contributing?
 
 **Collaborate on the tech work on Github-** Work on an existing  issue or create a new issue in the repository. <br/>
-Do read [CONTRIBUTING.md](CONTRIBUTING.md) to know how to collaborate on Github. <br/>
-[Backend repo](https://github.com/CovidToday/backend/issues)- the code which imports, cleans and analyses the data to output various indicators. <br/>
-[UI repo](https://github.com/CovidToday/UI/issues)- the code for the website interface and data visualisations<br/>
+Do read [CONTRIBUTING.md](CONTRIBUTING.md) to know about the project's Github workflow and how to contribute.<br/>
+1. [Backend repo](https://github.com/CovidToday/backend/issues)- the code which imports, cleans and analyses the data to output various indicators. <br/>
+2. [UI repo](https://github.com/CovidToday/UI/issues)- the code for the website interface and data visualisations<br/>
 <br/>
+
 **If you want to collaborate on other stuff-** Fill a short form [here](https://forms.gle/HDCDVYApfRi319k58) (You can report a bug, suggest an improvement, ask a question, or join as a collaborator). You can also get in touch at covidindiatoday@gmail.com
 <br/><br/>
 Please follow the Code of Conduct this project abides to: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
-
-
-## Raw data sources 
-
-Raw data for cases and tests- www.covid19india.org (A brilliant crowdsourced platform which gathers this data from official state bulletins and dashboards)
-<br/>Data for mobility index- www.google.com/covid19/mobility
-<br/>Population data- www.uidai.gov.in/images/state-wise-aadhaar-saturation.pdf
-
-
-## About how we calculate the indicators
-
-Visit the Methods page on www.covidtoday.in
-
-Limitations of the method are listed under each indicator. If you have an idea to improve upon them, start an issue in this repo. 
-
-
 
 
 ## Project Admins
