@@ -52,7 +52,8 @@ export default class About extends Component {
 							<Card.Body>
 								<Card.Title className="top-text-title" style={headingText}><strong>Active contributors at Covid Today</strong></Card.Title>
 								<Card.Text className="titillium">
-									<div style={normalAlignedText}>Join hands with us in this effort. Start contributing <a href="https://forms.gle/HDCDVYApfRi319k58">here</a><br/>
+									<div style={normalAlignedText}>Join hands with us in this effort. Join as an active contributor <a href="https://forms.gle/HDCDVYApfRi319k58">here.</a><br/>
+										You can also visit the project's <a href="https://github.com/CovidToday/backend">GitHub</a> (open-sourced) and start contributing right away.
 									</div>
 								</Card.Text>
 							</Card.Body>
